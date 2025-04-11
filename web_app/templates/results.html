@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %}测评结果 - 儿童视觉训练方案生成系统{% endblock %}
+
+{% block content %}
+<div class="card visual-assessment-card">
+    <div class="card-header">测评结果</div>
+    <div class="card-body">
+        <h2>{{ results.name }} 的测评结果</h2>
+        
+        <div class="result-item">
+            <span class="result-label">年龄:</span>
+            <span class="result-value">{{ results.age }} 岁</span>
+        </div>
+        
+        <div class="result-item">
+            <span class="result-label">测评日期:</span>
+            <span class="result-value">{{ results.test_date }}</span>
+        </div>
+        
+        <div class="result-item">
+            <span class="result-label">训练中心:</span>
+            <span class="result-value">{{ results.training_center }}</span>
+        </div>
+        
+        <div class="result-item">
+            <span class="result-label">测评师:</span>
+            <span class="result-value">{{ results.assessor }}</span>
+        </div>
+        
+        <h3>视觉能力测评结果</h3>
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>测评项目</th>
+                    <th>测评分数</th>
+                    <th>当前评级</th>
+                    <th>目标分数</th>
+                    <th>目标评级</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>视觉广度</td>
+                    <td>{{ results.vb }} 秒</td>
+                    <td>{{ results.vb_current }}</td>
+                    <td>{{ results.vb_target }} 秒</td>
+                    <td>{{ results.vb_target_eval }}</td>
+                </tr>
+                <tr>
+                    <td>视觉辨别</td>
+                    <td>{{ results.vd }} 个</td>
+                    <td>{{ results.vd_current }}</td>
+                    <td>{{ results.vd_target }} 个</td>
+                    <td>{{ results.vd_target_eval }}</td>
+                </tr>
+                <tr>
+                    <td>视动统合</td>
+                    <td>{{ results.vm }} 分</td>
+                    <td>{{ results.vm_current }}</td>
+                    <td>{{ results.vm_target }} 分</td>
+                    <td>{{ results.vm_target_eval }}</td>
+                </tr>
+                <tr>
+                    <td>视觉记忆</td>
+                    <td>{{ results.vm2 }} 分</td>
+                    <td>{{ results.vm2_current }}</td>
+                    <td>{{ results.vm2_target }} 分</td>
+                    <td>{{ results.vm2_target_eval }}</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="alert alert-success">
+            <p>训练方案和测评报告已成功生成！</p>
+            <p>训练方案已保存至: <strong>{{ results.name }}—12节课视觉训练</strong> 文件夹</p>
+            <p>测评报告已保存至: <strong>{{ results.name }}测评记录</strong> 文件夹</p>
+        </div>
+    </div>
+</div>
+
+<div class="btn-group">
+    <a href="{{ url_for('index') }}" class="btn btn-primary">返回首页</a>
+</div>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    
+    .table th, .table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .table th {
+        background-color: var(--primary-color);
+        color: white;
+        font-weight: bold;
+    }
+    
+    .table tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+    
+    .table tr:hover {
+        background-color: #e9ecef;
+    }
+</style>
+{% endblock %} 

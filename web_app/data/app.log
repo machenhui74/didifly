@@ -1,0 +1,462 @@
+ 2025-03-27 01:28:56,361 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\ÑµÁ··½°¸Éú³ÉÆ÷\\report_generator.py', reloading
+2025-03-27 01:28:56,362 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\ÑµÁ··½°¸Éú³ÉÆ÷\\main.py', reloading
+2025-03-27 01:28:56,362 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\ÑµÁ··½°¸Éú³ÉÆ÷\\input_interface.py', reloading
+2025-03-27 01:28:56,362 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\cpbg\\target_calculator.py', reloading
+2025-03-27 01:28:56,365 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\cpbg\\plan_generator.py', reloading
+2025-03-27 01:28:56,368 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\cpbg\\gui.py', reloading
+2025-03-27 01:28:56,369 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\web_app\\users.py', reloading
+2025-03-27 01:28:56,369 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\cpbg\\baogao4.py', reloading
+2025-03-27 01:28:56,369 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\combined_watermark_renamer.py', reloading
+2025-03-27 01:28:56,371 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\ceping.py', reloading
+2025-03-27 01:28:56,372 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\web_app\\config.py', reloading
+2025-03-27 01:28:56,372 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\web_app\\auth.py', reloading
+2025-03-27 01:28:56,373 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\web_app\\app.py', reloading
+2025-03-27 01:28:56,374 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\doc2txt\\doc2txt_gui.py', reloading
+2025-03-27 01:28:56,375 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\doc2txt\\doc2txt.py', reloading
+2025-03-27 01:28:57,930 - werkzeug - WARNING -  * Debugger is active!
+2025-03-27 01:28:57,932 - werkzeug - INFO -  * Debugger PIN: 144-346-817
+2025-03-27 06:14:07,866 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\ÑµÁ··½°¸Éú³ÉÆ÷\\report_generator.py', reloading
+2025-03-27 06:14:07,875 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\ÑµÁ··½°¸Éú³ÉÆ÷\\main.py', reloading
+2025-03-27 06:14:07,875 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\ÑµÁ··½°¸Éú³ÉÆ÷\\input_interface.py', reloading
+2025-03-27 06:14:07,876 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\web_app\\users.py', reloading
+2025-03-27 06:14:07,879 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\doc2txt\\doc2txt_gui.py', reloading
+2025-03-27 06:14:07,881 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\web_app\\config.py', reloading
+2025-03-27 06:14:07,882 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\web_app\\auth.py', reloading
+2025-03-27 06:14:07,882 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\doc2txt\\doc2txt.py', reloading
+2025-03-27 06:14:07,883 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\web_app\\app.py', reloading
+2025-03-27 06:14:07,883 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\combined_watermark_renamer.py', reloading
+2025-03-27 06:14:07,884 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\ceping.py', reloading
+2025-03-27 06:14:07,885 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\cpbg\\gui.py', reloading
+2025-03-27 06:14:07,886 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\cpbg\\baogao4.py', reloading
+2025-03-27 06:14:07,886 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\cpbg\\target_calculator.py', reloading
+2025-03-27 06:14:07,886 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\cpbg\\plan_generator.py', reloading
+2025-03-27 06:14:11,238 - werkzeug - WARNING -  * Debugger is active!
+2025-03-27 06:14:11,242 - werkzeug - INFO -  * Debugger PIN: 144-346-817
+2025-03-27 18:39:14,627 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-03-27 18:39:14,629 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-03-27 18:39:14,643 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-03-27 18:39:15,145 - werkzeug - WARNING -  * Debugger is active!
+2025-03-27 18:39:15,154 - werkzeug - INFO -  * Debugger PIN: 144-346-817
+2025-03-27 18:39:23,983 - werkzeug - INFO - 127.0.0.1 - - [27/Mar/2025 18:39:23] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-03-27 18:39:24,022 - werkzeug - INFO - 127.0.0.1 - - [27/Mar/2025 18:39:24] "GET /login HTTP/1.1" 200 -
+2025-03-27 18:39:24,141 - werkzeug - INFO - 127.0.0.1 - - [27/Mar/2025 18:39:24] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-03-27 18:39:40,295 - werkzeug - INFO - 127.0.0.1 - - [27/Mar/2025 18:39:40] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-03-27 18:39:40,317 - werkzeug - INFO - 127.0.0.1 - - [27/Mar/2025 18:39:40] "GET /index HTTP/1.1" 200 -
+2025-03-27 18:39:40,351 - werkzeug - INFO - 127.0.0.1 - - [27/Mar/2025 18:39:40] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-03-27 18:42:17,548 - werkzeug - INFO - 127.0.0.1 - - [27/Mar/2025 18:42:17] "[32mPOST /submit HTTP/1.1[0m" 302 -
+2025-03-27 18:42:17,565 - werkzeug - INFO - 127.0.0.1 - - [27/Mar/2025 18:42:17] "GET /results HTTP/1.1" 200 -
+2025-03-27 18:42:17,588 - werkzeug - INFO - 127.0.0.1 - - [27/Mar/2025 18:42:17] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-03-27 19:04:16,741 - werkzeug - INFO - 127.0.0.1 - - [27/Mar/2025 19:04:16] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-03-27 19:04:16,769 - werkzeug - INFO - 127.0.0.1 - - [27/Mar/2025 19:04:16] "GET /login HTTP/1.1" 200 -
+2025-03-27 19:04:16,806 - werkzeug - INFO - 127.0.0.1 - - [27/Mar/2025 19:04:16] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-03-27 19:06:24,337 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\cv2\\config.py', reloading
+2025-03-27 19:06:24,338 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\cv2\\config-3.py', reloading
+2025-03-27 19:06:24,848 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-03-27 19:06:25,448 - werkzeug - WARNING -  * Debugger is active!
+2025-03-27 19:06:25,451 - werkzeug - INFO -  * Debugger PIN: 144-346-817
+2025-03-27 19:07:53,740 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\tkinter\\__init__.py', reloading
+2025-03-27 19:07:53,910 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-03-27 19:07:54,842 - werkzeug - WARNING -  * Debugger is active!
+2025-03-27 19:07:54,846 - werkzeug - INFO -  * Debugger PIN: 144-346-817
+2025-03-27 19:09:23,156 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\tkinter\\constants.py', reloading
+2025-03-27 19:09:23,497 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-03-27 19:09:24,186 - werkzeug - WARNING -  * Debugger is active!
+2025-03-27 19:09:24,189 - werkzeug - INFO -  * Debugger PIN: 144-346-817
+2025-03-27 19:09:34,823 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\Ë®Ó¡ÅúÁ¿Ïû³ý\\watermark_remover.py', reloading
+2025-03-27 19:09:34,824 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\Ë®Ó¡ÅúÁ¿Ïû³ý\\watermark_remover.py', reloading
+2025-03-27 19:09:35,375 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-03-27 19:09:35,944 - werkzeug - WARNING -  * Debugger is active!
+2025-03-27 19:09:35,948 - werkzeug - INFO -  * Debugger PIN: 144-346-817
+2025-03-27 19:10:06,972 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\Ë®Ó¡ÅúÁ¿Ïû³ý\\watermark_remover.py', reloading
+2025-03-27 19:10:06,978 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\Ë®Ó¡ÅúÁ¿Ïû³ý\\watermark_remover.py', reloading
+2025-03-27 19:10:07,256 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-03-27 19:10:08,017 - werkzeug - WARNING -  * Debugger is active!
+2025-03-27 19:10:08,020 - werkzeug - INFO -  * Debugger PIN: 144-346-817
+2025-03-27 19:10:25,840 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\Ë®Ó¡ÅúÁ¿Ïû³ý\\watermark_remover.py', reloading
+2025-03-27 19:10:25,841 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\Ë®Ó¡ÅúÁ¿Ïû³ý\\watermark_remover.py', reloading
+2025-03-27 19:10:25,843 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\Ë®Ó¡ÅúÁ¿Ïû³ý\\watermark_remover.py', reloading
+2025-03-27 19:10:26,286 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-03-27 19:10:26,929 - werkzeug - WARNING -  * Debugger is active!
+2025-03-27 19:10:26,932 - werkzeug - INFO -  * Debugger PIN: 144-346-817
+2025-03-27 19:11:14,461 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\Ë®Ó¡ÅúÁ¿Ïû³ý\\watermark_remover.py', reloading
+2025-03-27 19:11:14,467 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\Ë®Ó¡ÅúÁ¿Ïû³ý\\watermark_remover.py', reloading
+2025-03-27 19:11:14,468 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\Ë®Ó¡ÅúÁ¿Ïû³ý\\watermark_remover.py', reloading
+2025-03-27 19:11:14,469 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\Ë®Ó¡ÅúÁ¿Ïû³ý\\watermark_remover.py', reloading
+2025-03-27 19:11:15,394 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-03-27 19:11:15,957 - werkzeug - WARNING -  * Debugger is active!
+2025-03-27 19:11:15,959 - werkzeug - INFO -  * Debugger PIN: 144-346-817
+2025-03-27 19:12:42,199 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\watermark_processor.py', reloading
+2025-03-27 19:12:42,201 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\watermark_processor.py', reloading
+2025-03-27 19:12:42,564 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-03-27 19:12:44,028 - werkzeug - WARNING -  * Debugger is active!
+2025-03-27 19:12:44,037 - werkzeug - INFO -  * Debugger PIN: 144-346-817
+2025-03-27 19:12:46,591 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\watermark_processor.py', reloading
+2025-03-27 19:12:46,592 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\watermark_processor.py', reloading
+2025-03-27 19:12:46,599 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\watermark_processor.py', reloading
+2025-03-27 19:12:47,173 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-03-27 19:12:48,372 - werkzeug - WARNING -  * Debugger is active!
+2025-03-27 19:12:48,376 - werkzeug - INFO -  * Debugger PIN: 144-346-817
+2025-03-29 11:21:20,490 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-03-29 11:21:20,491 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-03-29 11:21:20,509 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-03-29 11:21:21,203 - werkzeug - WARNING -  * Debugger is active!
+2025-03-29 11:21:21,208 - werkzeug - INFO -  * Debugger PIN: 144-346-817
+2025-03-29 11:21:32,934 - werkzeug - INFO - 127.0.0.1 - - [29/Mar/2025 11:21:32] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-03-29 11:21:32,951 - werkzeug - INFO - 127.0.0.1 - - [29/Mar/2025 11:21:32] "GET /index HTTP/1.1" 200 -
+2025-03-29 11:21:33,032 - werkzeug - INFO - 127.0.0.1 - - [29/Mar/2025 11:21:33] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-03-29 11:21:51,345 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\web_app\\app.py', reloading
+2025-03-29 11:21:51,347 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\web_app\\config.py', reloading
+2025-03-29 11:21:51,347 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\web_app\\auth.py', reloading
+2025-03-29 11:21:51,349 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\web_app\\users.py', reloading
+2025-03-29 11:21:51,349 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\cpbg\\plan_generator.py', reloading
+2025-03-29 11:21:51,350 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\cpbg\\baogao4.py', reloading
+2025-03-29 11:21:51,350 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\cpbg\\target_calculator.py', reloading
+2025-03-29 11:21:52,449 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-03-29 11:21:53,088 - werkzeug - WARNING -  * Debugger is active!
+2025-03-29 11:21:53,090 - werkzeug - INFO -  * Debugger PIN: 144-346-817
+2025-03-29 11:22:37,263 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\doc2txt\\doc2txt_gui.py', reloading
+2025-03-29 11:22:37,264 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\doc2txt\\doc2txt.py', reloading
+2025-03-29 11:22:37,265 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\doc2jpg\\doc2jpg.py', reloading
+2025-03-29 11:22:37,265 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\doc2jpg\\batch_convert.py', reloading
+2025-03-29 11:22:37,266 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\cpbg\\gui.py', reloading
+2025-03-29 11:22:37,267 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\combined_watermark_renamer.py', reloading
+2025-03-29 11:22:37,275 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\ceping.py', reloading
+2025-03-29 11:22:37,277 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\ÑµÁ··½°¸Éú³ÉÆ÷\\report_generator.py', reloading
+2025-03-29 11:22:37,280 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\ÑµÁ··½°¸Éú³ÉÆ÷\\main.py', reloading
+2025-03-29 11:22:37,280 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\ÑµÁ··½°¸Éú³ÉÆ÷\\input_interface.py', reloading
+2025-03-29 11:22:37,281 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\syxc\\watermark_ui.py', reloading
+2025-03-29 11:22:37,282 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\syxc\\watermark_remover.py', reloading
+2025-03-29 11:22:37,282 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\syxc\\watermark_processor.py', reloading
+2025-03-29 11:22:38,306 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-03-29 11:22:40,087 - werkzeug - WARNING -  * Debugger is active!
+2025-03-29 11:22:40,090 - werkzeug - INFO -  * Debugger PIN: 144-346-817
+2025-04-03 07:41:52,348 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-03 07:41:52,349 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-04-03 07:41:52,354 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-04-03 07:41:52,649 - werkzeug - WARNING -  * Debugger is active!
+2025-04-03 07:41:52,653 - werkzeug - INFO -  * Debugger PIN: 144-346-817
+2025-04-03 07:42:01,234 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:42:01] "[32mGET / HTTP/1.1[0m" 302 -
+2025-04-03 07:42:01,253 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:42:01] "GET /login HTTP/1.1" 200 -
+2025-04-03 07:42:01,311 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:42:01] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:42:01,991 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:42:01] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-04-03 07:42:10,300 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:42:10] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-04-03 07:42:10,309 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:42:10] "GET /index HTTP/1.1" 200 -
+2025-04-03 07:42:10,330 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:42:10] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:42:13,781 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:42:13] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 07:42:13,795 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:42:13] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:42:13,815 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:42:13] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 07:46:47,976 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\flask\\__init__.py', reloading
+2025-04-03 07:46:47,981 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\flask\\helpers.py', reloading
+2025-04-03 07:46:47,993 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\werkzeug\\wrappers\\__init__.py', reloading
+2025-04-03 07:46:47,994 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\werkzeug\\wrappers\\response.py', reloading
+2025-04-03 07:46:48,003 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\werkzeug\\sansio\\response.py', reloading
+2025-04-03 07:46:48,009 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\flask\\globals.py', reloading
+2025-04-03 07:46:48,030 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\flask\\sessions.py', reloading
+2025-04-03 07:46:48,216 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\hashlib.py', reloading
+2025-04-03 07:46:48,221 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\base64.py', reloading
+2025-04-03 07:46:48,235 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\secrets.py', reloading
+2025-04-03 07:46:48,237 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\functools.py', reloading
+2025-04-03 07:46:48,517 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-04-03 07:46:48,875 - werkzeug - WARNING -  * Debugger is active!
+2025-04-03 07:46:48,876 - werkzeug - INFO -  * Debugger PIN: 144-346-817
+2025-04-03 07:46:51,396 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\flask\\app.py', reloading
+2025-04-03 07:46:51,415 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\flask\\scaffold.py', reloading
+2025-04-03 07:46:51,422 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\flask\\templating.py', reloading
+2025-04-03 07:46:51,425 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\jinja2\\__init__.py', reloading
+2025-04-03 07:46:51,426 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\jinja2\\environment.py', reloading
+2025-04-03 07:46:51,438 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\flask\\json\\__init__.py', reloading
+2025-04-03 07:46:51,441 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\flask\\wrappers.py', reloading
+2025-04-03 07:46:51,470 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\flask\\typing.py', reloading
+2025-04-03 07:46:51,475 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\werkzeug\\datastructures\\__init__.py', reloading
+2025-04-03 07:46:51,477 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\werkzeug\\datastructures\\headers.py', reloading
+2025-04-03 07:46:51,488 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\werkzeug\\wrappers\\request.py', reloading
+2025-04-03 07:46:51,493 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\werkzeug\\sansio\\request.py', reloading
+2025-04-03 07:46:51,498 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\werkzeug\\utils.py', reloading
+2025-04-03 07:46:51,517 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\werkzeug\\_internal.py', reloading
+2025-04-03 07:46:51,523 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\werkzeug\\datastructures\\structures.py', reloading
+2025-04-03 07:46:51,533 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\werkzeug\\datastructures\\mixins.py', reloading
+2025-04-03 07:46:51,566 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\docxtpl\\__init__.py', reloading
+2025-04-03 07:46:51,568 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\docxtpl\\template.py', reloading
+2025-04-03 07:46:51,633 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\datetime.py', reloading
+2025-04-03 07:46:51,634 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\_pydatetime.py', reloading
+2025-04-03 07:46:51,651 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\flask\\config.py', reloading
+2025-04-03 07:46:51,960 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-04-03 07:46:52,354 - werkzeug - WARNING -  * Debugger is active!
+2025-04-03 07:46:52,356 - werkzeug - INFO -  * Debugger PIN: 144-346-817
+2025-04-03 07:51:06,851 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:06] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 07:51:06,896 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:06] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:51:06,912 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:06] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 07:51:07,810 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:07] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 07:51:07,827 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:07] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:51:07,839 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:07] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 07:51:08,260 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:08] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 07:51:08,274 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:08] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:51:08,288 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:08] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 07:51:08,451 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:08] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 07:51:08,469 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:08] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:51:08,483 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:08] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 07:51:08,647 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:08] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 07:51:08,668 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:08] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:51:08,683 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:08] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 07:51:08,848 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:08] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 07:51:08,862 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:08] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:51:08,869 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:08] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 07:51:09,059 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:09] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 07:51:09,074 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:09] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:51:09,081 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:09] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 07:51:09,457 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:09] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 07:51:09,469 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:09] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:51:09,479 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:09] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 07:51:09,677 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:09] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 07:51:09,695 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:09] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:51:09,700 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:09] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 07:51:09,892 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:09] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 07:51:09,903 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:09] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:51:09,911 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:09] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 07:51:10,079 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:10] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 07:51:10,095 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:10] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:51:10,109 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:10] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 07:51:10,296 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:10] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 07:51:10,309 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:10] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:51:10,321 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:10] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 07:51:10,520 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:10] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 07:51:10,533 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:10] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:51:10,539 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:51:10] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 07:52:05,098 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-03 07:52:05,099 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-04-03 07:52:05,104 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-04-03 07:52:05,611 - werkzeug - WARNING -  * Debugger is active!
+2025-04-03 07:52:05,613 - werkzeug - INFO -  * Debugger PIN: 144-346-817
+2025-04-03 07:52:05,628 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:52:05] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-04-03 07:52:05,638 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:52:05] "GET /login HTTP/1.1" 200 -
+2025-04-03 07:52:05,690 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:52:05] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:52:07,394 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:52:07] "[32mGET / HTTP/1.1[0m" 302 -
+2025-04-03 07:52:07,403 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:52:07] "GET /login HTTP/1.1" 200 -
+2025-04-03 07:52:07,416 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:52:07] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:52:12,830 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:52:12] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-04-03 07:52:12,836 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:52:12] "GET /index HTTP/1.1" 200 -
+2025-04-03 07:52:12,857 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:52:12] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:52:15,128 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:52:15] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 07:52:15,145 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:52:15] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:52:15,165 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:52:15] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 07:55:53,206 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\jinja2\\loaders.py', reloading
+2025-04-03 07:55:53,211 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:53] "[35m[1mGET /view_student_profiles HTTP/1.1[0m" 500 -
+2025-04-03 07:55:53,225 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:53] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:55:53,226 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:53] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-04-03 07:55:53,250 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:53] "GET /view_student_profiles?__debugger__=yes&cmd=resource&f=console.png&s=VesRMQc6g0E1iZGBR1RE HTTP/1.1" 200 -
+2025-04-03 07:55:53,282 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:53] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-04-03 07:55:54,208 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-04-03 07:55:54,706 - werkzeug - WARNING -  * Debugger is active!
+2025-04-03 07:55:54,708 - werkzeug - INFO -  * Debugger PIN: 144-346-817
+2025-04-03 07:55:54,732 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:54] "[35m[1mGET /view_student_profiles HTTP/1.1[0m" 500 -
+2025-04-03 07:55:54,793 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:54] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-04-03 07:55:54,793 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:54] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:55:54,808 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:54] "GET /view_student_profiles?__debugger__=yes&cmd=resource&f=console.png&s=Ah30CawXkrOSGpiXs9Bt HTTP/1.1" 200 -
+2025-04-03 07:55:54,818 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:54] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-04-03 07:55:55,032 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:55] "[35m[1mGET /view_student_profiles HTTP/1.1[0m" 500 -
+2025-04-03 07:55:55,043 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:55] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:55:55,044 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:55] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-04-03 07:55:55,057 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:55] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=console.png&s=Ah30CawXkrOSGpiXs9Bt HTTP/1.1[0m" 304 -
+2025-04-03 07:55:55,081 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:55] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-04-03 07:55:55,327 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:55] "[35m[1mGET /view_student_profiles HTTP/1.1[0m" 500 -
+2025-04-03 07:55:55,340 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:55] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:55:55,341 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:55] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-04-03 07:55:55,350 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:55] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=console.png&s=Ah30CawXkrOSGpiXs9Bt HTTP/1.1[0m" 304 -
+2025-04-03 07:55:55,354 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:55] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-04-03 07:55:55,894 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:55] "[35m[1mGET /view_student_profiles HTTP/1.1[0m" 500 -
+2025-04-03 07:55:55,907 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:55] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:55:55,908 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:55] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-04-03 07:55:55,920 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:55] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=console.png&s=Ah30CawXkrOSGpiXs9Bt HTTP/1.1[0m" 304 -
+2025-04-03 07:55:55,925 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:55] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-04-03 07:55:56,383 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:56] "[35m[1mGET /view_student_profiles HTTP/1.1[0m" 500 -
+2025-04-03 07:55:56,399 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:56] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:55:56,401 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:56] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-04-03 07:55:56,415 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:56] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=console.png&s=Ah30CawXkrOSGpiXs9Bt HTTP/1.1[0m" 304 -
+2025-04-03 07:55:56,421 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:56] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-04-03 07:55:56,908 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:56] "[35m[1mGET /view_student_profiles HTTP/1.1[0m" 500 -
+2025-04-03 07:55:56,924 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:56] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:55:56,924 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:56] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-04-03 07:55:56,938 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:56] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=console.png&s=Ah30CawXkrOSGpiXs9Bt HTTP/1.1[0m" 304 -
+2025-04-03 07:55:56,942 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:55:56] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-04-03 07:56:01,789 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:56:01] "GET /index HTTP/1.1" 200 -
+2025-04-03 07:56:03,145 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:56:03] "[35m[1mGET /view_student_profiles HTTP/1.1[0m" 500 -
+2025-04-03 07:56:03,168 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:56:03] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:56:03,168 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:56:03] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-04-03 07:56:03,175 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:56:03] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=console.png&s=Ah30CawXkrOSGpiXs9Bt HTTP/1.1[0m" 304 -
+2025-04-03 07:56:05,824 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:56:05] "GET /admin HTTP/1.1" 200 -
+2025-04-03 07:56:05,839 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:56:05] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:56:06,522 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:56:06] "[35m[1mGET /view_student_profiles HTTP/1.1[0m" 500 -
+2025-04-03 07:56:06,540 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:56:06] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:56:06,541 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:56:06] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-04-03 07:56:06,545 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:56:06] "[36mGET /view_student_profiles?__debugger__=yes&cmd=resource&f=console.png&s=Ah30CawXkrOSGpiXs9Bt HTTP/1.1[0m" 304 -
+2025-04-03 07:56:45,379 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:56:45] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 07:56:45,398 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:56:45] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:56:45,413 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:56:45] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 07:57:11,748 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:57:11] "GET /admin HTTP/1.1" 200 -
+2025-04-03 07:57:11,767 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:57:11] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:57:12,638 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:57:12] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 07:57:12,657 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:57:12] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:57:12,670 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:57:12] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 07:57:13,518 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:57:13] "GET /admin HTTP/1.1" 200 -
+2025-04-03 07:57:13,538 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:57:13] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:57:14,821 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:57:14] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 07:57:14,843 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:57:14] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:57:14,857 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:57:14] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 07:57:15,602 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:57:15] "GET /admin HTTP/1.1" 200 -
+2025-04-03 07:57:15,618 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:57:15] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:57:16,722 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:57:16] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 07:57:16,738 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:57:16] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:57:16,747 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:57:16] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 07:59:05,482 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:05] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 07:59:05,498 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:05] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:59:05,509 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:05] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 07:59:06,162 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:06] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 07:59:06,179 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:06] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:59:06,193 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:06] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 07:59:06,670 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:06] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 07:59:06,686 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:06] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:59:06,696 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:06] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 07:59:07,162 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:07] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 07:59:07,175 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:07] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:59:07,181 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:07] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 07:59:07,666 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:07] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 07:59:07,677 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:07] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:59:07,690 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:07] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 07:59:08,808 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:08] "GET /admin HTTP/1.1" 200 -
+2025-04-03 07:59:08,829 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:08] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:59:10,198 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:10] "GET /index HTTP/1.1" 200 -
+2025-04-03 07:59:10,217 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:10] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:59:11,238 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:11] "GET /admin HTTP/1.1" 200 -
+2025-04-03 07:59:11,253 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:11] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:59:11,684 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:11] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 07:59:11,705 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:11] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:59:11,716 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:11] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 07:59:13,618 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:13] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 07:59:13,634 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:13] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:59:13,646 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:13] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 07:59:14,368 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:14] "GET /admin HTTP/1.1" 200 -
+2025-04-03 07:59:14,386 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:14] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:59:14,786 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:14] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 07:59:14,807 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:14] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:59:14,819 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:14] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 07:59:16,182 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:16] "GET /admin HTTP/1.1" 200 -
+2025-04-03 07:59:16,208 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:16] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:59:16,611 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:16] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 07:59:16,630 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:16] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 07:59:16,640 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 07:59:16] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 08:02:37,445 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:02:37] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 08:02:37,463 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:02:37] "GET /static/css/style.css HTTP/1.1" 200 -
+2025-04-03 08:02:37,477 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:02:37] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 08:02:59,365 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:02:59] "GET /admin HTTP/1.1" 200 -
+2025-04-03 08:02:59,380 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:02:59] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:03:02,159 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:03:02] "GET /index HTTP/1.1" 200 -
+2025-04-03 08:03:02,177 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:03:02] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:03:02,939 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:03:02] "GET /admin HTTP/1.1" 200 -
+2025-04-03 08:03:02,958 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:03:02] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:03:03,652 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:03:03] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 08:03:03,669 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:03:03] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:03:03,682 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:03:03] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 08:03:05,046 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:03:05] "GET /admin HTTP/1.1" 200 -
+2025-04-03 08:03:05,062 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:03:05] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:03:10,108 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:03:10] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 08:03:10,130 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:03:10] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:03:10,140 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:03:10] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 08:04:45,032 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:04:45] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 08:04:45,050 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:04:45] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:04:45,060 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:04:45] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 08:04:46,728 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:04:46] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 08:04:46,744 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:04:46] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:04:46,762 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:04:46] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 08:05:05,553 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:05:05] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 08:05:05,570 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:05:05] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:05:05,585 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:05:05] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 08:05:06,093 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:05:06] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 08:05:06,105 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:05:06] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:05:06,111 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:05:06] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 08:05:07,082 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:05:07] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 08:05:07,096 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:05:07] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:05:07,107 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:05:07] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 08:05:07,706 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:05:07] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 08:05:07,718 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:05:07] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:05:07,732 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:05:07] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 08:05:08,186 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:05:08] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 08:05:08,198 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:05:08] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:05:08,204 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:05:08] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 08:05:08,429 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:05:08] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 08:05:08,444 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:05:08] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:05:08,457 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:05:08] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 08:05:08,974 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:05:08] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 08:05:08,985 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:05:08] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:05:08,997 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:05:08] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 08:05:09,399 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:05:09] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 08:05:09,412 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:05:09] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:05:09,423 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:05:09] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 08:07:23,514 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:07:23] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 08:07:23,531 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:07:23] "GET /static/css/style.css HTTP/1.1" 200 -
+2025-04-03 08:07:23,551 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:07:23] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 08:11:34,261 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:11:34] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 08:11:34,283 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:11:34] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:11:34,292 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:11:34] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 08:11:35,439 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:11:35] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 08:11:35,454 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:11:35] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:11:35,461 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:11:35] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 08:11:35,933 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:11:35] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 08:11:35,945 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:11:35] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:11:35,959 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:11:35] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 08:11:36,426 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:11:36] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 08:11:36,440 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:11:36] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:11:36,447 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:11:36] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 08:14:37,820 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:14:37] "GET /admin HTTP/1.1" 200 -
+2025-04-03 08:14:37,846 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:14:37] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:14:39,500 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:14:39] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 08:14:39,521 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:14:39] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:14:39,536 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:14:39] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 08:14:40,212 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:14:40] "GET /index HTTP/1.1" 200 -
+2025-04-03 08:14:40,226 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:14:40] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:14:46,323 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:14:46] "GET /admin HTTP/1.1" 200 -
+2025-04-03 08:14:46,344 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:14:46] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:14:47,183 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:14:47] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 08:14:47,199 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:14:47] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:14:47,214 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:14:47] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 08:14:47,716 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:14:47] "GET /admin HTTP/1.1" 200 -
+2025-04-03 08:14:47,734 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:14:47] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:14:48,295 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:14:48] "GET /index HTTP/1.1" 200 -
+2025-04-03 08:14:48,312 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:14:48] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:17:34,900 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\ÑµÁ··½°¸Éú³ÉÆ÷\\build\\ÑµÁ··½°¸Éú³ÉÆ÷\\base_library.zip', reloading
+2025-04-03 08:17:35,431 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-04-03 08:17:35,761 - werkzeug - WARNING -  * Debugger is active!
+2025-04-03 08:17:35,763 - werkzeug - INFO -  * Debugger PIN: 144-346-817
+2025-04-03 08:18:19,922 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:18:19] "GET /index HTTP/1.1" 200 -
+2025-04-03 08:18:19,972 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:18:19] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:18:20,791 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:18:20] "GET /index HTTP/1.1" 200 -
+2025-04-03 08:18:20,808 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:18:20] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:18:23,595 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:18:23] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 08:18:23,610 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:18:23] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:18:23,622 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:18:23] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 08:18:27,253 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:18:27] "GET /admin HTTP/1.1" 200 -
+2025-04-03 08:18:27,271 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:18:27] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:18:27,880 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:18:27] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 08:18:27,900 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:18:27] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:18:27,912 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:18:27] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-03 08:18:41,071 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:18:41] "GET /view_student_profiles HTTP/1.1" 200 -
+2025-04-03 08:18:41,083 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:18:41] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-03 08:18:41,093 - werkzeug - INFO - 127.0.0.1 - - [03/Apr/2025 08:18:41] "GET /student_profiles HTTP/1.1" 200 -
+2025-04-04 16:07:07,437 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-04 16:07:07,438 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-04-04 16:07:07,451 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-04-04 16:07:07,835 - werkzeug - WARNING -  * Debugger is active!
+2025-04-04 16:07:07,838 - werkzeug - INFO -  * Debugger PIN: 144-346-817
+2025-04-04 16:07:11,932 - werkzeug - INFO - 127.0.0.1 - - [04/Apr/2025 16:07:11] "[32mGET / HTTP/1.1[0m" 302 -
+2025-04-04 16:07:11,955 - werkzeug - INFO - 127.0.0.1 - - [04/Apr/2025 16:07:11] "GET /index HTTP/1.1" 200 -
+2025-04-04 16:07:12,005 - werkzeug - INFO - 127.0.0.1 - - [04/Apr/2025 16:07:12] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-04 16:07:14,620 - werkzeug - INFO - 127.0.0.1 - - [04/Apr/2025 16:07:14] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-04-04 16:07:14,627 - werkzeug - INFO - 127.0.0.1 - - [04/Apr/2025 16:07:14] "GET /login HTTP/1.1" 200 -
+2025-04-04 16:07:14,651 - werkzeug - INFO - 127.0.0.1 - - [04/Apr/2025 16:07:14] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-04 16:07:27,300 - werkzeug - INFO - 127.0.0.1 - - [04/Apr/2025 16:07:27] "[32mGET / HTTP/1.1[0m" 302 -
+2025-04-04 16:07:27,307 - werkzeug - INFO - 127.0.0.1 - - [04/Apr/2025 16:07:27] "GET /login HTTP/1.1" 200 -
+2025-04-04 16:07:27,319 - werkzeug - INFO - 127.0.0.1 - - [04/Apr/2025 16:07:27] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -

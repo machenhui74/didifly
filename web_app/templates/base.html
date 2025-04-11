@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}儿童视觉训练方案生成系统{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- 引入日期选择器 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/zh.js"></script>
+    <!-- 引入移动端友好的日期选择器 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
+    <style>
+        /* 自定义移动端友好的日期选择器样式 */
+        .flatpickr-calendar.open {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .date-picker-container {
+            position: relative;
+        }
+        
+        /* 移动端轮盘式日期选择器样式 */
+        @media (max-width: 767px) {
+            .flatpickr-calendar {
+                width: 100% !important;
+                max-width: 300px;
+            }
+            
+            .flatpickr-days {
+                width: 100% !important;
+            }
+            
+            .dayContainer {
+                width: 100% !important;
+                min-width: auto !important;
+            }
+        }
+        
+        /* 原生日期选择器样式 */
+        input[type="date"], .date-input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+            font-size: 16px; /* 在移动设备上防止自动缩放 */
+            height: 40px; /* 增加高度使触控更容易 */
+        }
+        
+        /* 增加触摸区域大小 */
+        input[type="date"]::-webkit-calendar-picker-indicator, 
+        .date-input::-webkit-calendar-picker-indicator {
+            width: 24px;
+            height: 24px;
+            margin-left: 8px;
+            cursor: pointer;
+        }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <div class="container">
+        {% if request.endpoint != 'login' %}
+            {% if 'user_id' in session %}
+            <header class="header">
+                <h1 class="title">小马达训练方案生成系统</h1>
+                <div class="user-nav">
+                    <span class="user-greeting">欢迎，{{ session.user_name }}</span>
+                    <div class="nav-menu">
+                        <a href="{{ url_for('index') }}" class="nav-menu-item">首页</a>
+                        {% if session.user_id == 'admin' %}
+                        <a href="{{ url_for('admin') }}" class="nav-menu-item">后台管理</a>
+                        {% else %}
+                        <a href="{{ url_for('user_profile') }}" class="nav-menu-item">个人信息</a>
+                        {% endif %}
+                        <a href="{{ url_for('view_student_profiles') }}" class="nav-menu-item">学生档案</a>
+                    </div>
+                    <a href="{{ url_for('logout') }}" class="btn btn-logout">退出登录</a>
+                </div>
+            </header>
+            {% else %}
+            <h1 class="title">小马达训练方案生成系统</h1>
+            {% endif %}
+        {% endif %}
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category if category != 'error' else 'danger' }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        {% block content %}{% endblock %}
+        
+        {% if request.endpoint != 'login' %}
+        <footer class="footer">
+            <p>&copy; 2025 儿童视觉训练方案生成系统</p>
+        </footer>
+        {% endif %}
+    </div>
+    
+    {% block scripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化选项卡
+            const tabLinks = document.querySelectorAll('.nav-link');
+            const tabContents = document.querySelectorAll('.tab-pane');
+            
+            tabLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 移除所有选项卡的激活状态
+                    tabLinks.forEach(l => l.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // 激活当前选项卡
+                    this.classList.add('active');
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId).classList.add('active');
+                });
+            });
+            
+            // 默认激活第一个选项卡
+            if (tabLinks.length > 0 && !document.querySelector('.nav-link.active')) {
+                tabLinks[0].click();
+            }
+        });
+    </script>
+    {% endblock %}
+</body>
+</html> 

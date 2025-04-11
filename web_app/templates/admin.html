@@ -1,0 +1,303 @@
+{% extends 'base.html' %}
+
+{% block title %}后台管理 - 儿童视觉训练方案生成系统{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<style>
+    /* 学生档案表格样式 */
+    #profiles-table-body td {
+        vertical-align: middle;
+        font-size: 0.85rem;
+        padding: 0.4rem 0.3rem;
+        text-align: center;
+    }
+    
+    #profiles-table-body td.fw-bold {
+        font-size: 0.9rem;
+    }
+    
+    .table th {
+        background-color: #f8f9fa;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        font-size: 0.65rem;
+        padding: 0.25rem 0.15rem;
+        text-align: center;
+        vertical-align: middle;
+        white-space: nowrap;
+        line-height: 1;
+    }
+    
+    /* 表格与按钮之间的间距 */
+    .table-responsive {
+        margin-top: 25px;
+    }
+    
+    /* 表头行样式 */
+    .table thead tr {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    /* 表头单元格样式 */
+    .table thead th {
+        flex: 1;
+        min-width: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .badge {
+        font-size: 0.7rem;
+        padding: 0.2em 0.4em;
+        white-space: nowrap;
+    }
+    
+    /* 表格排序图标 */
+    .fas.fa-sort {
+        color: #aaa;
+        margin-left: 2px;
+        font-size: 0.6rem;
+    }
+    
+    /* 表格悬停效果 */
+    #profiles-table-body tr:hover {
+        background-color: rgba(0, 123, 255, 0.05);
+    }
+    
+    /* 紧凑表格 */
+    .table-compact {
+        width: 100%;
+        table-layout: fixed;
+    }
+    
+    .table-compact th:first-child,
+    .table-compact td:first-child {
+        width: 30px;
+        padding-left: 0.3rem;
+        padding-right: 0.3rem;
+    }
+    
+    .table-compact th:nth-child(2),
+    .table-compact td:nth-child(2) {
+        width: 70px;
+    }
+    
+    .table-compact th:nth-child(3),
+    .table-compact td:nth-child(3) {
+        width: 50px;
+    }
+    
+    .table-compact th:nth-child(4),
+    .table-compact td:nth-child(4) {
+        width: 90px;
+    }
+    
+    .table-compact th:nth-child(5),
+    .table-compact td:nth-child(5) {
+        width: 80px;
+    }
+    
+    .table-compact th:nth-child(6),
+    .table-compact td:nth-child(6) {
+        width: 60px;
+    }
+    
+    .table-compact th:nth-child(7),
+    .table-compact td:nth-child(7),
+    .table-compact th:nth-child(8),
+    .table-compact td:nth-child(8),
+    .table-compact th:nth-child(9),
+    .table-compact td:nth-child(9),
+    .table-compact th:nth-child(10),
+    .table-compact td:nth-child(10) {
+        width: 65px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="card admin-card">
+    <div class="card-header">
+        <h2>后台管理面板</h2>
+    </div>
+    <div class="card-body">
+        <ul class="nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" href="#users">用户列表</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#add-user">添加用户</a>
+            </li>
+        </ul>
+        
+        <div class="tab-content mt-4">
+            <!-- 用户列表 -->
+            <div class="tab-pane active" id="users">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>账号</th>
+                                <th>用户名</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for username, user_data in users.items() %}
+                            {% if username != 'admin' %}
+                            <tr>
+                                <td>{{ username }}</td>
+                                <td>{{ user_data.name }}</td>
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-primary edit-user" data-username="{{ username }}" 
+                                      data-name="{{ user_data.name }}" data-store="{{ user_data.store }}">编辑</a>
+                                    <form method="POST" action="{{ url_for('delete_user') }}" style="display: inline;">
+                                        <input type="hidden" name="username" value="{{ username }}">
+                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('确定要删除此用户吗？')">删除</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- 添加用户 -->
+            <div class="tab-pane" id="add-user">
+                <div class="admin-form-container">
+                    <form method="POST" action="{{ url_for('add_user') }}">
+                        <div class="form-group-horizontal">
+                            <label for="new_username" class="form-label-horizontal">账号</label>
+                            <input type="text" class="form-control-admin-horizontal" id="new_username" name="new_username" required>
+                        </div>
+                        <div class="form-group-horizontal">
+                            <label for="new_password" class="form-label-horizontal">密码</label>
+                            <input type="password" class="form-control-admin-horizontal" id="new_password" name="new_password" required>
+                        </div>
+                        <div class="form-group-horizontal">
+                            <label for="new_name" class="form-label-horizontal">用户名</label>
+                            <input type="text" class="form-control-admin-horizontal" id="new_name" name="new_name" required>
+                        </div>
+                        <div class="form-group-horizontal">
+                            <label for="new_store" class="form-label-horizontal">所属门店</label>
+                            <input type="text" class="form-control-admin-horizontal" id="new_store" name="new_store" required>
+                        </div>
+                        <div class="btn-container">
+                            <button type="submit" class="btn btn-primary">添加用户</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 编辑用户模态框 -->
+<div id="editUserModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>编辑用户</h2>
+        <div class="admin-form-container">
+            <form method="POST" action="{{ url_for('edit_user') }}">
+                <input type="hidden" id="edit_username" name="username">
+                <div class="form-group-horizontal">
+                    <label for="edit_password" class="form-label-horizontal">新密码</label>
+                    <input type="password" class="form-control-admin-horizontal" id="edit_password" name="new_password" placeholder="留空表示不修改密码">
+                </div>
+                <div class="form-group-horizontal">
+                    <label for="edit_name" class="form-label-horizontal">用户名</label>
+                    <input type="text" class="form-control-admin-horizontal" id="edit_name" name="new_name" required>
+                </div>
+                <div class="form-group-horizontal">
+                    <label for="edit_store" class="form-label-horizontal">所属门店</label>
+                    <input type="text" class="form-control-admin-horizontal" id="edit_store" name="new_store" required>
+                </div>
+                <div class="btn-container">
+                    <button type="submit" class="btn btn-primary">保存修改</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 获取模态框
+        const modal = document.getElementById('editUserModal');
+        const closeBtn = modal.querySelector('.close');
+        
+        // 编辑用户
+        const editButtons = document.querySelectorAll('.edit-user');
+        const editModal = document.getElementById('editUserModal');
+        
+        editButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // 获取用户数据
+                const username = this.getAttribute('data-username');
+                const name = this.getAttribute('data-name');
+                const store = this.getAttribute('data-store');
+                
+                // 填充表单
+                document.getElementById('edit_username').value = username;
+                document.getElementById('edit_name').value = name;
+                document.getElementById('edit_store').value = store || '';
+                document.getElementById('edit_password').value = '';
+                
+                // 显示模态框
+                editModal.style.display = 'block';
+            });
+        });
+        
+        // 关闭模态框
+        closeBtn.addEventListener('click', function() {
+            editModal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', function(event) {
+            if (event.target == editModal) {
+                editModal.style.display = 'none';
+            }
+        });
+        
+        // 选项卡切换
+        const tabLinks = document.querySelectorAll('.nav-link');
+        const tabPanes = document.querySelectorAll('.tab-pane');
+        
+        tabLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // 移除所有活动状态
+                tabLinks.forEach(l => l.classList.remove('active'));
+                tabPanes.forEach(p => p.classList.remove('active'));
+                
+                // 添加当前活动状态
+                this.classList.add('active');
+                const target = this.getAttribute('href').substring(1);
+                document.getElementById(target).classList.add('active');
+            });
+        });
+        
+        // 保留学生档案相关功能的空实现，以避免导航栏中调用这些函数时出错
+        function loadStudentProfiles() {
+            console.log('学生档案功能已从管理面板中移除，请使用导航栏的学生档案入口');
+            return false;
+        }
+        
+        // 将该函数暴露给全局作用域，以防其他地方需要调用
+        window.loadStudentProfiles = loadStudentProfiles;
+    });
+</script>
+{% endblock %}
