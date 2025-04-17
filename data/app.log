@@ -1,0 +1,26 @@
+2025-03-26 21:23:52,061 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-03-26 21:23:52,062 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-03-26 21:23:52,069 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-03-26 21:23:52,661 - werkzeug - WARNING -  * Debugger is active!
+2025-03-26 21:23:52,665 - werkzeug - INFO -  * Debugger PIN: 144-346-817
+2025-03-26 21:25:05,279 - werkzeug - INFO -  * Detected change in 'C:\\Users\\cool3\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\jinja2\\loaders.py', reloading
+2025-03-26 21:25:05,285 - werkzeug - INFO - 127.0.0.1 - - [26/Mar/2025 21:25:05] "[35m[1mGET /login HTTP/1.1[0m" 500 -
+2025-03-26 21:25:05,427 - werkzeug - INFO - 127.0.0.1 - - [26/Mar/2025 21:25:05] "GET /login?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-03-26 21:25:05,429 - werkzeug - INFO - 127.0.0.1 - - [26/Mar/2025 21:25:05] "GET /login?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-03-26 21:25:05,488 - werkzeug - INFO - 127.0.0.1 - - [26/Mar/2025 21:25:05] "GET /login?__debugger__=yes&cmd=resource&f=console.png&s=42BZZQQbFdhHUIQg67DC HTTP/1.1" 200 -
+2025-03-26 21:25:05,538 - werkzeug - INFO - 127.0.0.1 - - [26/Mar/2025 21:25:05] "GET /login?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-03-26 21:25:06,131 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)
+2025-03-26 21:25:06,760 - werkzeug - WARNING -  * Debugger is active!
+2025-03-26 21:25:06,764 - werkzeug - INFO -  * Debugger PIN: 144-346-817
+2025-03-26 21:28:33,421 - werkzeug - INFO - 127.0.0.1 - - [26/Mar/2025 21:28:33] "GET /login HTTP/1.1" 200 -
+2025-03-26 21:28:40,174 - werkzeug - INFO - 127.0.0.1 - - [26/Mar/2025 21:28:40] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-03-26 21:28:40,216 - werkzeug - INFO - 127.0.0.1 - - [26/Mar/2025 21:28:40] "[35m[1mGET /index HTTP/1.1[0m" 500 -
+2025-03-26 21:28:40,367 - werkzeug - INFO - 127.0.0.1 - - [26/Mar/2025 21:28:40] "[36mGET /index?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-03-26 21:28:40,371 - werkzeug - INFO - 127.0.0.1 - - [26/Mar/2025 21:28:40] "[36mGET /index?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-03-26 21:28:40,407 - werkzeug - INFO - 127.0.0.1 - - [26/Mar/2025 21:28:40] "GET /index?__debugger__=yes&cmd=resource&f=console.png&s=6CyNRhUF8eQBgFaeKdgv HTTP/1.1" 200 -
+2025-03-26 21:28:40,444 - werkzeug - INFO - 127.0.0.1 - - [26/Mar/2025 21:28:40] "[36mGET /index?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-03-26 21:28:54,111 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\web_app_modular\\run.py', reloading
+2025-03-26 21:28:54,117 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\web_app_modular\\run.py', reloading
+2025-03-26 21:28:54,117 - werkzeug - INFO -  * Detected change in 'D:\\cursortest\\web_app_modular\\run.py', reloading
+2025-03-26 21:28:54,328 - werkzeug - INFO -  * Restarting with watchdog (windowsapi)

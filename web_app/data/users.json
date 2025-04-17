@@ -1,0 +1,13 @@
+{
+    "admin": {
+        "password": "98444b5725e0c985$2XyKh19Hbxk7LaauAhA0mM7d18to9PCx5zWpLPOW7U4=",
+        "name": "管理员",
+        "is_encrypted": true
+    },
+    "17681603753": {
+        "password": "1a3379400e469f0b$/ydfA2gVDexQEq18Trjvb3GdohsmaxW2+rxnDYprjlU=",
+        "name": "聪明东西",
+        "is_encrypted": true,
+        "store": "台州"
+    }
+}

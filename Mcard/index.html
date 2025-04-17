@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mcard - 基于图像识别的记忆卡片应用</title>
+    <style>
+        /* 全局样式 */
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #6b9ac4;
+            --accent-color: #84b4c8;
+            --light-color: #e1e5eb;
+            --dark-color: #333;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --danger-color: #f44336;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "微软雅黑", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        h1, h2, h3, h4 {
+            margin-bottom: 16px;
+            color: var(--primary-color);
+        }
+        
+        p {
+            margin-bottom: 12px;
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+        
+        button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        input, select, textarea {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            width: 100%;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+        }
+        
+        .section-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--light-color);
+        }
+        
+        .section-title h2 {
+            margin-bottom: 0;
+        }
+        
+        .section-description {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        /* 特定组件样式 */
+        /* 照片上传/拍摄界面 */
+        .upload-area {
+            border: 2px dashed var(--secondary-color);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: #f9f9f9;
+            margin-bottom: 20px;
+        }
+        
+        .upload-area:hover {
+            border-color: var(--primary-color);
+            background-color: #f0f0f0;
+        }
+        
+        .upload-icon {
+            font-size: 48px;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+        
+        /* 单词选择界面 */
+        .word-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .word-item {
+            background-color: var(--light-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .word-item:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .word-item.selected {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* 记忆卡片样式 */
+        .card-container {
+            perspective: 1000px;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+        
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+        
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: var(--border-radius);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .card-front {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .card-back {
+            background-color: white;
+            color: var(--dark-color);
+            transform: rotateY(180deg);
+            border: 1px solid var(--light-color);
+        }
+        
+        .word {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .phonetic {
+            font-size: 16px;
+            color: #e0e0e0;
+            margin-bottom: 10px;
+        }
+        
+        .translation {
+            font-size: 20px;
+        }
+        
+        /* 学习计划和复习提醒 */
+        .timeline {
+            position: relative;
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 10px;
+            width: 2px;
+            background-color: var(--secondary-color);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -35px;
+            top: 20px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+        }
+        
+        .notification {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+        
+        .notification-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+        
+        /* 卡片管理和学习统计 */
+        .stat-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+        
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            color: #666;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: var(--light-color);
+            border-radius: 5px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary-color);
+            border-radius: 5px;
+        }
+
+        /* 加载动画 */
+        .loading {
+            display: none;
+            position: relative;
+            width: 100%;
+            height: 60px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .loading-text {
+            margin-top: 10px;
+            color: var(--primary-color);
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(74, 111, 165, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* 分页指示器 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .pagination-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--light-color);
+            margin: 0 5px;
+        }
+        
+        .pagination-dot.active {
+            background-color: var(--primary-color);
+        }
+
+        /* 媒体查询适配移动设备 */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .section {
+                padding: 15px;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .card-container {
+                height: 180px;
+            }
+            
+            .word {
+                font-size: 28px;
+            }
+            
+            .translation {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Mcard - 基于图像识别的记忆卡片应用</h1>
+            <p class="section-description">通过拍照和图像识别，轻松创建个性化记忆卡片，高效学习外语单词。</p>
+        </header>
+
+        <!-- 第一步：照片上传/拍摄界面 -->
+        <section id="upload-section" class="section">
+            <div class="section-title">
+                <h2>1. 照片上传/拍摄</h2>
+            </div>
+            <p class="section-description">上传图片或拍照，我们会自动识别图片中的单词。</p>
+            
+            <div class="upload-area" id="upload-area">
+                <div class="upload-icon">📷</div>
+                <h3>点击上传照片或拍摄图片</h3>
+                <p>支持 JPG、PNG 格式</p>
+                <input type="file" id="photo-upload" accept="image/*" style="display: none;">
+            </div>
+            
+            <div class="buttons">
+                <button id="upload-btn">上传图片</button>
+                <button id="camera-btn">拍摄照片</button>
+            </div>
+            
+            <div id="preview-container" style="margin-top: 20px; display: none;">
+                <h3>预览</h3>
+                <img id="preview-image" src="" alt="预览图片" style="max-width: 100%; border-radius: var(--border-radius); margin-top: 10px;">
+                
+                <div id="analysis-loading" class="loading">
+                    <div class="loading-spinner"></div>
+                    <div class="loading-text">正在分析图像中的文字...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第二步：图像分析结果 -->
+        <section id="analysis-section" class="section">
+            <div class="section-title">
+                <h2>2. 图像分析结果</h2>
+            </div>
+            <p class="section-description">我们已识别出以下单词，点击选择想要学习的单词。</p>
+            
+            <div class="image-analysis">
+                <img src="https://placehold.co/600x400/e1e5eb/4a6fa5?text=示例图片&font=microsoft-yahei" alt="示例图片" style="max-width: 100%; border-radius: var(--border-radius); margin-bottom: 20px;">
+                
+                <h3>识别结果</h3>
+                <div class="word-list">
+                    <div class="word-item">apple</div>
+                    <div class="word-item">banana</div>
+                    <div class="word-item selected">book</div>
+                    <div class="word-item">computer</div>
+                    <div class="word-item selected">coffee</div>
+                    <div class="word-item">desk</div>
+                    <div class="word-item">garden</div>
+                    <div class="word-item">house</div>
+                    <div class="word-item">laptop</div>
+                    <div class="word-item selected">phone</div>
+                </div>
+                
+                <button id="create-cards-btn">创建记忆卡片</button>
+            </div>
+        </section>
+
+        <!-- 第三步：记忆卡片展示界面 -->
+        <section id="card-section" class="section">
+            <div class="section-title">
+                <h2>3. 记忆卡片</h2>
+            </div>
+            <p class="section-description">点击卡片可以查看单词释义，左右滑动可以切换卡片。</p>
+            
+            <div class="card-container">
+                <div class="card" id="card">
+                    <div class="card-front">
+                        <div class="word">book</div>
+                        <div class="phonetic">/bʊk/</div>
+                    </div>
+                    <div class="card-back">
+                        <div class="translation">书，书籍</div>
+                        <div style="margin-top: 10px; font-size: 14px;">
+                            <div>例句：I love reading books.</div>
+                            <div>我喜欢读书。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pagination" id="pagination">
+                <div class="pagination-dot active"></div>
+                <div class="pagination-dot"></div>
+                <div class="pagination-dot"></div>
+            </div>
+            
+            <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
+                <button id="prev-card">上一张</button>
+                <button id="flip-card">翻转</button>
+                <button id="next-card">下一张</button>
+            </div>
+        </section>
+
+        <!-- 第四步：学习计划和复习提醒 -->
+        <section id="review-section" class="section">
+            <div class="section-title">
+                <h2>4. 学习计划和复习提醒</h2>
+            </div>
+            <p class="section-description">基于艾宾浩斯遗忘曲线设计的复习计划，帮助你高效记忆。</p>
+            
+            <div class="notification">
+                <div class="notification-close">×</div>
+                <h3>现在是复习时间！</h3>
+                <p>距离上次学习已过去24小时，建议复习：book, coffee, phone</p>
+                <button style="background-color: white; color: var(--primary-color); margin-top: 10px;">开始复习</button>
+            </div>
+            
+            <h3>复习计划</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h4>第一天（今天）</h4>
+                    <p>首次学习 book, coffee, phone</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>第二天（明天）</h4>
+                    <p>第一次复习 book, coffee, phone</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>第四天</h4>
+                    <p>第二次复习 book, coffee, phone</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>第七天</h4>
+                    <p>第三次复习 book, coffee, phone</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>第十五天</h4>
+                    <p>第四次复习 book, coffee, phone</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第五步：卡片管理和学习统计 -->
+        <section id="stats-section" class="section">
+            <div class="section-title">
+                <h2>5. 卡片管理和学习统计</h2>
+            </div>
+            <p class="section-description">查看学习进度和记忆卡片管理。</p>
+            
+            <div class="grid">
+                <div class="stat-card">
+                    <div class="stat-number">36</div>
+                    <div class="stat-label">已学单词</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">24</div>
+                    <div class="stat-label">掌握单词</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">待复习</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">连续学习天数</div>
+                </div>
+            </div>
+            
+            <h3 style="margin-top: 20px;">学习进度</h3>
+            <div class="progress-container">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                    <span>总体掌握度</span>
+                    <span>67%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 67%;"></div>
+                </div>
+            </div>
+            
+            <h3 style="margin-top: 20px;">记忆卡片管理</h3>
+            <div style="margin-top: 15px;">
+                <input type="text" placeholder="搜索卡片...">
+                <div style="margin-top: 15px;">
+                    <div style="display: flex; justify-content: space-between; padding: 10px; background-color: #f5f7fa; border-radius: var(--border-radius); margin-bottom: 10px;">
+                        <span>book</span>
+                        <div>
+                            <button style="padding: 5px 10px; background-color: var(--accent-color);">查看</button>
+                            <button style="padding: 5px 10px; background-color: var(--danger-color);">删除</button>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 10px; background-color: #f5f7fa; border-radius: var(--border-radius); margin-bottom: 10px;">
+                        <span>coffee</span>
+                        <div>
+                            <button style="padding: 5px 10px; background-color: var(--accent-color);">查看</button>
+                            <button style="padding: 5px 10px; background-color: var(--danger-color);">删除</button>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 10px; background-color: #f5f7fa; border-radius: var(--border-radius); margin-bottom: 10px;">
+                        <span>phone</span>
+                        <div>
+                            <button style="padding: 5px 10px; background-color: var(--accent-color);">查看</button>
+                            <button style="padding: 5px 10px; background-color: var(--danger-color);">删除</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html> 

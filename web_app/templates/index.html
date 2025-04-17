@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form action="{{ url_for('submit') }}" method="post">
+    <!-- 选项卡导航 -->
+    <ul class="nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" href="#basic-info">基本信息</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#evaluation-data">测评数据</a>
+        </li>
+    </ul>
+    
+    <!-- 选项卡内容 -->
+    <div class="tab-content">
+        <!-- 基本信息选项卡 -->
+        <div id="basic-info" class="tab-pane active">
+            <!-- 个人信息卡片 -->
+            <div class="card">
+                <div class="card-header">个人信息</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label" for="name">姓名：</label>
+                                <input type="text" id="name" name="name" class="form-control-short" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label" for="dob">出生日期：</label>
+                                <div class="date-picker-container">
+                                    <input type="date" id="dob" name="dob" class="form-control-short date-input" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label" for="test_date">测评日期：</label>
+                                <div class="date-picker-container">
+                                    <input type="date" id="test_date" name="test_date" class="form-control-short date-input" value="{{ current_date }}" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 测评机构信息卡片 -->
+            <div class="card">
+                <div class="card-header">测评机构信息</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label" for="training_center">训练中心：</label>
+                                <input type="text" id="training_center" name="training_center" class="form-control-short" value="{{ user_store }}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label" for="assessor">测评师：</label>
+                                <input type="text" id="assessor" name="assessor" class="form-control-short">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 测评数据选项卡 -->
+        <div id="evaluation-data" class="tab-pane">
+            <div class="card visual-assessment-card">
+                <div class="card-header">视觉能力测评数据</div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="form-label" for="vb">视觉广度时间（秒）：</label>
+                        <input type="number" id="vb" name="vb" class="form-control-short" required>
+                        <small class="form-text">视觉广度测试：评估儿童同时处理多个视觉信息的能力</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="vd">视觉辨别丢漏个数：</label>
+                        <input type="number" id="vd" name="vd" class="form-control-short" required>
+                        <small class="form-text">视觉辨别测试：评估儿童区分相似视觉图形的能力</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="vm">视动统合分数：</label>
+                        <input type="number" id="vm" name="vm" class="form-control-short" required>
+                        <small class="form-text">视动统合测试：评估儿童眼手协调能力</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="vm2">视觉记忆分数：</label>
+                        <input type="number" id="vm2" name="vm2" class="form-control-short" required>
+                        <small class="form-text">视觉记忆测试：评估儿童短期视觉记忆能力</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 按钮组 -->
+    <div class="btn-group">
+        <button type="reset" class="btn btn-secondary">重置表单</button>
+        <button type="submit" class="btn btn-primary">生成训练方案</button>
+    </div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 日期输入字段初始化完成后的处理
+        // 注意：这里我们使用原生日期选择器，不再需要初始化flatpickr
+    });
+</script>
+{% endblock %} 

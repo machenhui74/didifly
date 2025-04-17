@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}个人信息 - 儿童视觉训练方案生成系统{% endblock %}
+
+{% block content %}
+<div class="card admin-card">
+    <div class="card-header">
+        <h2>个人信息管理</h2>
+    </div>
+    <div class="card-body">
+        <div class="admin-form-container">
+            <form method="POST" action="{{ url_for('update_user_profile') }}">
+                <div class="form-group-horizontal">
+                    <label for="username" class="form-label-horizontal">账号</label>
+                    <input type="text" class="form-control-admin-horizontal" id="username" value="{{ username }}" readonly>
+                </div>
+                <div class="form-group-horizontal">
+                    <label for="new_name" class="form-label-horizontal">用户名</label>
+                    <input type="text" class="form-control-admin-horizontal" id="new_name" name="new_name" value="{{ name }}" required>
+                </div>
+                <div class="form-group-horizontal">
+                    <label for="store" class="form-label-horizontal">所属门店</label>
+                    <input type="text" class="form-control-admin-horizontal" id="store" value="{{ store }}" readonly>
+                </div>
+                <div class="form-group-horizontal">
+                    <label for="new_password" class="form-label-horizontal">新密码</label>
+                    <input type="password" class="form-control-admin-horizontal" id="new_password" name="new_password" placeholder="如需修改密码，请在此输入新密码">
+                </div>
+                <div class="form-group-horizontal">
+                    <label for="confirm_password" class="form-label-horizontal">确认密码</label>
+                    <input type="password" class="form-control-admin-horizontal" id="confirm_password" name="confirm_password" placeholder="再次输入新密码">
+                </div>
+                <div class="btn-container">
+                    <button type="submit" class="btn btn-primary">保存修改</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 密码确认验证
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function(e) {
+            const newPassword = document.getElementById('new_password').value;
+            const confirmPassword = document.getElementById('confirm_password').value;
+            
+            if (newPassword && newPassword !== confirmPassword) {
+                e.preventDefault();
+                alert('两次输入的密码不一致，请重新输入');
+            }
+        });
+    });
+</script>
+{% endblock %} 
