@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify, send_file
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 import sys
 import json
 import logging
@@ -13,6 +13,9 @@ from config import SOURCE_FOLDER, DESTINATION_FOLDER, DATA_FOLDER, STUDENT_PROFI
 from auth import login_required, admin_required, login_user, USERS
 from users import add_user as add_user_func, update_user, delete_user as delete_user_func
 
+# 学生档案数量限制
+MAX_STUDENT_PROFILES = 100000  # 最大学生档案数量限制
+
 # Add the parent directory to sys.path to import the required modules
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from cpbg.plan_generator import generate_plan
@@ -23,6 +26,7 @@ app = Flask(__name__)
 
 # 配置从环境变量读取，如果不存在则使用默认值
 app.secret_key = os.environ.get('SECRET_KEY', 'dev_secret_key_change_in_production')
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=2)
 
 # 配置日志
 logging.basicConfig(
@@ -39,12 +43,31 @@ logger = logging.getLogger(__name__)
 # 学生档案数据管理函数
 # -----------------------------
 
-def load_student_profiles():
-    """加载学生档案数据"""
+def load_student_profiles(limit=None, page=None):
+    """
+    加载学生档案数据
+    
+    参数:
+        limit (int, 可选): 限制返回的档案数量，None表示不限制
+        page (int, 可选): 分页页码，从1开始，与limit一起使用
+    
+    返回:
+        list: 学生档案列表
+    """
     if os.path.exists(STUDENT_PROFILES_FILE):
         try:
             with open(STUDENT_PROFILES_FILE, 'r', encoding='utf-8') as f:
-                return json.load(f)
+                profiles = json.load(f)
+                
+                # 如果设置了limit和page，进行分页处理
+                if limit is not None and limit > 0:
+                    # 默认页码为1
+                    current_page = 1 if page is None or page < 1 else page
+                    start_idx = (current_page - 1) * limit
+                    end_idx = start_idx + limit
+                    return profiles[start_idx:end_idx]
+                
+                return profiles
         except Exception as e:
             logger.error(f"加载学生档案数据时出错: {str(e)}")
     return []
@@ -70,7 +93,7 @@ def filter_accessible_profiles(all_profiles, user_id, user_store):
 
 def create_csv_content(profiles):
     """根据学生档案列表创建CSV内容"""
-    csv_content = "姓名,年龄,出生日期,测评日期,训练中心,测评师,视觉广度分数,视觉广度评级,视觉广度目标,视觉辨别分数,视觉辨别评级,视觉辨别目标,视动统合分数,视动统合评级,视动统合目标,视觉记忆分数,视觉记忆评级,视觉记忆目标,提交人,提交时间\n"
+    csv_content = "姓名,年龄,出生日期,测评日期,训练中心,测评师,视觉广度分数,视觉广度评级,视觉广度目标,视觉辨别分数,视觉辨别评级,视觉辨别目标,视动统合分数,视动统合评级,视动统合目标,视觉记忆分数,视觉记忆评级,视觉记忆目标,听觉广度分数,听觉广度评级,听觉广度目标,听觉分辨分数,听觉分辨评级,听觉分辨目标,听动统合分数,听动统合评级,听动统合目标,听觉记忆分数,听觉记忆评级,听觉记忆目标,提交人,提交时间\n"
     
     for profile in profiles:
         row = [
@@ -92,6 +115,18 @@ def create_csv_content(profiles):
             str(profile.get('vm2', '')),
             profile.get('vm2_current', ''),
             str(profile.get('vm2_target', '')),
+            str(profile.get('ab', '')),
+            profile.get('ab_current', ''),
+            str(profile.get('ab_target', '')),
+            str(profile.get('ad', '')),
+            profile.get('ad_current', ''),
+            str(profile.get('ad_target', '')),
+            str(profile.get('am', '')),
+            profile.get('am_current', ''),
+            str(profile.get('am_target', '')),
+            str(profile.get('am2', '')),
+            profile.get('am2_current', ''),
+            str(profile.get('am2_target', '')),
             profile.get('submitted_by', ''),
             profile.get('submitted_at', '')
         ]
@@ -126,6 +161,7 @@ def login():
             session['user_id'] = username
             session['user_name'] = user_data['name']
             session['user_store'] = user_data.get('store', '')
+            session.permanent = True  # 设置会话为永久，以便 PERMANENT_SESSION_LIFETIME 生效
             flash(f'欢迎回来，{user_data["name"]}！', 'success')
             return redirect(url_for('index'))
         
@@ -143,9 +179,17 @@ def logout():
 def index():
     # 从session中获取用户门店
     user_store = session.get('user_store', '')
+    user_name = session.get('user_name', '')
+    user_id = session.get('user_id', '')
+    
+    # 管理员账号默认值设置
+    if user_id == 'admin':
+        user_store = '台州店'
+        user_name = '马老师'
+    
     # 获取当前日期（HTML5日期格式：YYYY-MM-DD）
     current_date = datetime.now().strftime('%Y-%m-%d')
-    return render_template('index.html', user_store=user_store, current_date=current_date)
+    return render_template('index.html', user_store=user_store, user_name=user_name, user_id=user_id, current_date=current_date)
 
 # 管理员后台管理页面
 @app.route('/admin')
@@ -167,6 +211,7 @@ def add_user():
         flash('所有字段都是必填的！', 'error')
         return redirect(url_for('admin'))
     
+    # 调用 users.py 中的函数添加用户（包含密码验证）
     success, message = add_user_func(new_username, new_password, new_name, new_store)
     flash(message, 'success' if success else 'error')
     
@@ -186,6 +231,7 @@ def edit_user():
         flash('账号和用户名是必填的！', 'error')
         return redirect(url_for('admin'))
     
+    # 调用 users.py 中的函数更新用户（包含密码验证）
     success, message = update_user(username, new_password, new_name, new_store)
     flash(message, 'success' if success else 'error')
     
@@ -235,21 +281,51 @@ def submit():
         today = datetime.today()
         age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
         
-        # 获取测评数据
+        # 获取视觉测评数据
         try:
             vb = int(request.form.get('vb', '0'))
             vd = int(request.form.get('vd', '0'))
             vm = int(request.form.get('vm', '0'))
             vm2 = int(request.form.get('vm2', '0'))
         except ValueError:
-            flash('请输入有效的测评数据！', 'error')
+            flash('请输入有效的视觉测评数据！', 'error')
             return redirect(url_for('index'))
         
-        # 计算当前评级及下阶段目标
+        # 获取听力测评数据（可选）
+        ab = ad = am = am2 = None
+        try:
+            if request.form.get('ab', ''):
+                ab = int(request.form.get('ab'))
+            if request.form.get('ad', ''):
+                ad = int(request.form.get('ad'))
+            if request.form.get('am', ''):
+                am = int(request.form.get('am'))
+            if request.form.get('am2', ''):
+                am2 = int(request.form.get('am2'))
+        except ValueError:
+            flash('请输入有效的听力测评数据！', 'error')
+            return redirect(url_for('index'))
+        
+        # 计算视觉能力当前评级及下阶段目标
         vb_current, vb_target, vb_target_eval = calculate_rating_and_target("visual_breadth", age, vb)
         vd_current, vd_target, vd_target_eval = calculate_rating_and_target("visual_discrimination", age, vd)
         vm_current, vm_target, vm_target_eval = calculate_rating_and_target("visuo_motor", age, vm)
         vm2_current, vm2_target, vm2_target_eval = calculate_rating_and_target("visual_memory", age, vm2)
+        
+        # 计算听力能力当前评级及下阶段目标（如果有数据）
+        ab_current = ab_target = ab_target_eval = None
+        ad_current = ad_target = ad_target_eval = None
+        am_current = am_target = am_target_eval = None
+        am2_current = am2_target = am2_target_eval = None
+        
+        if ab is not None:
+            ab_current, ab_target, ab_target_eval = calculate_rating_and_target("auditory_breadth", age, ab)
+        if ad is not None:
+            ad_current, ad_target, ad_target_eval = calculate_rating_and_target("auditory_discrimination", age, ad)
+        if am is not None:
+            am_current, am_target, am_target_eval = calculate_rating_and_target("audio_motor", age, am)
+        if am2 is not None:
+            am2_current, am2_target, am2_target_eval = calculate_rating_and_target("auditory_memory", age, am2)
         
         child_ratings = {
             "visual_breadth": vb_current,
@@ -258,8 +334,18 @@ def submit():
             "visual_memory": vm2_current
         }
         
-        # 生成训练方案和测评报告
-        generate_plan(name, age, child_ratings, SOURCE_FOLDER, DESTINATION_FOLDER)
+        # 添加听力能力评级（如果有）
+        if ab is not None:
+            child_ratings["auditory_breadth"] = ab_current
+        if ad is not None:
+            child_ratings["auditory_discrimination"] = ad_current
+        if am is not None:
+            child_ratings["audio_motor"] = am_current
+        if am2 is not None:
+            child_ratings["auditory_memory"] = am2_current
+        
+        # 生成训练方案
+        folder_name = generate_plan(name, age, child_ratings, SOURCE_FOLDER, DESTINATION_FOLDER, weeks=1)
         
         # 生成测评报告
         ReportGenerator().generate_measurement_report(
@@ -268,7 +354,11 @@ def submit():
             vd, vd_current, vd_target, vd_target_eval,
             vm, vm_current, vm_target, vm_target_eval,
             vm2, vm2_current, vm2_target, vm2_target_eval,
-            training_center, assessor
+            training_center, assessor,
+            ab, ab_current, ab_target, ab_target_eval,
+            ad, ad_current, ad_target, ad_target_eval,
+            am, am_current, am_target, am_target_eval,
+            am2, am2_current, am2_target, am2_target_eval
         )
         
         # 创建学生档案数据
@@ -296,11 +386,52 @@ def submit():
             'vm2': vm2,
             'vm2_current': vm2_current,
             'vm2_target': vm2_target,
-            'vm2_target_eval': vm2_target_eval
+            'vm2_target_eval': vm2_target_eval,
+            'folder_name': folder_name  # 添加文件夹名称到档案
         }
+        
+        # 添加听力测评数据（如果有）
+        if ab is not None:
+            student_profile.update({
+                'ab': ab,
+                'ab_current': ab_current,
+                'ab_target': ab_target,
+                'ab_target_eval': ab_target_eval
+            })
+        
+        if ad is not None:
+            student_profile.update({
+                'ad': ad,
+                'ad_current': ad_current,
+                'ad_target': ad_target,
+                'ad_target_eval': ad_target_eval
+            })
+            
+        if am is not None:
+            student_profile.update({
+                'am': am,
+                'am_current': am_current,
+                'am_target': am_target,
+                'am_target_eval': am_target_eval
+            })
+            
+        if am2 is not None:
+            student_profile.update({
+                'am2': am2,
+                'am2_current': am2_current,
+                'am2_target': am2_target,
+                'am2_target_eval': am2_target_eval
+            })
         
         # 保存学生档案到数据文件
         profiles = load_student_profiles()
+        
+        # 检查档案总数是否达到限制
+        if len(profiles) >= MAX_STUDENT_PROFILES:
+            logger.warning(f"学生档案数量已达到上限 {MAX_STUDENT_PROFILES}，无法添加新档案")
+            flash(f'系统已达到最大学生档案数量限制（{MAX_STUDENT_PROFILES}条），请联系管理员处理。', 'error')
+            return redirect(url_for('index'))
+            
         profiles.append(student_profile)
         save_student_profiles(profiles)
         
@@ -329,6 +460,31 @@ def submit():
             'assessor': assessor
         }
         
+        # 添加听力测评结果（如果有）
+        if ab is not None:
+            session['results']['ab'] = ab
+            session['results']['ab_current'] = ab_current
+            session['results']['ab_target'] = ab_target
+            session['results']['ab_target_eval'] = ab_target_eval
+        
+        if ad is not None:
+            session['results']['ad'] = ad
+            session['results']['ad_current'] = ad_current
+            session['results']['ad_target'] = ad_target
+            session['results']['ad_target_eval'] = ad_target_eval
+            
+        if am is not None:
+            session['results']['am'] = am
+            session['results']['am_current'] = am_current
+            session['results']['am_target'] = am_target
+            session['results']['am_target_eval'] = am_target_eval
+            
+        if am2 is not None:
+            session['results']['am2'] = am2
+            session['results']['am2_current'] = am2_current
+            session['results']['am2_target'] = am2_target
+            session['results']['am2_target_eval'] = am2_target_eval
+        
         flash('训练方案和测评报告生成成功！', 'success')
         return redirect(url_for('results'))
     
@@ -350,15 +506,36 @@ def results():
 @app.route('/student_profiles')
 @login_required
 def student_profiles():
+    # 获取分页参数
+    page = request.args.get('page', 1, type=int)
+    limit = request.args.get('limit', 50, type=int)  # 默认每页50条
+    
     # 加载所有学生档案
     all_profiles = load_student_profiles()
+    
+    # 获取总记录数
+    total_count = len(all_profiles)
     
     # 根据用户权限过滤可访问的学生档案
     user_id = session.get('user_id')
     user_store = session.get('user_store', '')
     accessible_profiles = filter_accessible_profiles(all_profiles, user_id, user_store)
     
-    return jsonify(accessible_profiles)
+    # 进行分页处理
+    start_idx = (page - 1) * limit
+    end_idx = min(start_idx + limit, len(accessible_profiles))
+    paginated_profiles = accessible_profiles[start_idx:end_idx]
+    
+    # 返回分页数据和分页信息
+    return jsonify({
+        'profiles': paginated_profiles,
+        'pagination': {
+            'total': len(accessible_profiles),
+            'page': page,
+            'limit': limit,
+            'pages': (len(accessible_profiles) + limit - 1) // limit
+        }
+    })
 
 # 学生档案页面
 @app.route('/view_student_profiles')
@@ -477,18 +654,32 @@ def update_user_profile():
         return redirect(url_for('admin'))
     
     username = session['user_id']
-    new_name = request.form.get('new_name', '').strip()
     new_password = request.form.get('new_password', '').strip()
+    confirm_password = request.form.get('confirm_password', '').strip()
+    
+    # 非管理员用户只能修改密码，不能修改用户名和所属门店
+    # 用原来的用户名，不从表单获取
+    new_name = session['user_name']
     
     # 验证输入
     if not new_name:
         flash('用户名不能为空！', 'error')
         return redirect(url_for('user_profile'))
     
-    success, message = update_user(username, new_password, new_name)
+    # 验证密码
+    if new_password:
+        # 检查确认密码是否一致
+        if new_password != confirm_password:
+            flash('两次输入的密码不一致，请重新输入！', 'error')
+            return redirect(url_for('user_profile'))
+        
+        # 使用users.py中的更新函数进行更新（包含密码验证）
+        success, message = update_user(username, new_password, new_name)
+    else:
+        # 如果不更新密码，只更新其他信息
+        success, message = update_user(username, None, new_name)
     
     if success:
-        session['user_name'] = new_name
         flash('个人信息更新成功！', 'success')
     else:
         flash(message, 'error')
@@ -528,7 +719,7 @@ def download_report():
         flash(f'下载测评报告时出错: {str(e)}', 'error')
         return redirect(url_for('results'))
 
-@app.route('/download_plan')
+@app.route('/download_plan', methods=['GET', 'POST'])
 @login_required
 def download_plan():
     """下载训练方案压缩包"""
@@ -537,12 +728,50 @@ def download_plan():
             flash('请先提交表单！', 'error')
             return redirect(url_for('index'))
         
-        # 获取学生姓名
+        # 获取学生姓名和其他信息
         name = session['results']['name']
+        age = session['results']['age']
         
-        # 训练方案文件夹路径
-        plan_folder = os.path.join(DESTINATION_FOLDER, f"{name}—12节课视觉训练")
+        # 处理POST请求（用户选择了每周课程数）
+        if request.method == 'POST':
+            try:
+                weeks = int(request.form.get('weeks', 1))
+                if weeks < 1:
+                    weeks = 1
+            except ValueError:
+                weeks = 1
+            
+            # 从session获取评级信息，重新生成训练方案
+            child_ratings = {
+                "visual_breadth": session['results']['vb_current'],
+                "visual_discrimination": session['results']['vd_current'],
+                "visuo_motor": session['results']['vm_current'],
+                "visual_memory": session['results']['vm2_current']
+            }
+            
+            # 添加听力能力评级（如果有）
+            if 'ab_current' in session['results']:
+                child_ratings["auditory_breadth"] = session['results']['ab_current']
+            if 'ad_current' in session['results']:
+                child_ratings["auditory_discrimination"] = session['results']['ad_current']
+            if 'am_current' in session['results']:
+                child_ratings["audio_motor"] = session['results']['am_current']
+            if 'am2_current' in session['results']:
+                child_ratings["auditory_memory"] = session['results']['am2_current']
+            
+            # 生成新的训练方案
+            folder_name = generate_plan(name, age, child_ratings, SOURCE_FOLDER, DESTINATION_FOLDER, weeks=weeks)
+            
+            # 更新session中的文件夹名称
+            session['results']['folder_name'] = folder_name
+            
+            # 训练方案文件夹路径
+            plan_folder = os.path.join(DESTINATION_FOLDER, folder_name)
+        else:
+            # GET请求，渲染选择页面
+            return render_template('select_weeks.html', name=name)
         
+        # 处理文件下载
         if not os.path.exists(plan_folder):
             flash('训练方案文件夹不存在！', 'error')
             return redirect(url_for('results'))

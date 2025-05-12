@@ -2,6 +2,38 @@
 
 {% block title %}个人信息 - 儿童视觉训练方案生成系统{% endblock %}
 
+{% block styles %}
+{{ super() }}
+<style>
+    /* 密码强度容器样式 */
+    .password-strength-container {
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .form-group-horizontal {
+        align-items: flex-start;
+    }
+
+    .form-label-horizontal {
+        padding-top: 7px;
+        box-sizing: border-box;
+    }
+
+    .password-input-wrapper {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        width: 0;
+    }
+
+    .password-input-wrapper .form-control-admin-horizontal {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="card admin-card">
     <div class="card-header">
@@ -9,26 +41,31 @@
     </div>
     <div class="card-body">
         <div class="admin-form-container">
-            <form method="POST" action="{{ url_for('update_user_profile') }}">
-                <div class="form-group-horizontal">
-                    <label for="username" class="form-label-horizontal">账号</label>
-                    <input type="text" class="form-control-admin-horizontal" id="username" value="{{ username }}" readonly>
-                </div>
+            <form method="POST" action="{{ url_for('update_user_profile') }}" id="user-profile-form">
                 <div class="form-group-horizontal">
                     <label for="new_name" class="form-label-horizontal">用户名</label>
-                    <input type="text" class="form-control-admin-horizontal" id="new_name" name="new_name" value="{{ name }}" required>
+                    <input type="text" class="form-control-admin-horizontal" id="new_name" name="new_name" value="{{ name }}" readonly>
                 </div>
                 <div class="form-group-horizontal">
                     <label for="store" class="form-label-horizontal">所属门店</label>
                     <input type="text" class="form-control-admin-horizontal" id="store" value="{{ store }}" readonly>
                 </div>
                 <div class="form-group-horizontal">
+                    <label for="username" class="form-label-horizontal">账号</label>
+                    <input type="text" class="form-control-admin-horizontal" id="username" value="{{ username }}" readonly>
+                </div>
+                <div class="form-group-horizontal">
                     <label for="new_password" class="form-label-horizontal">新密码</label>
-                    <input type="password" class="form-control-admin-horizontal" id="new_password" name="new_password" placeholder="如需修改密码，请在此输入新密码">
+                    <div class="password-input-wrapper">
+                        <input type="password" class="form-control-admin-horizontal" id="new_password" name="new_password" placeholder="如需修改密码，请在此输入新密码">
+                        <div id="new-password-strength" class="password-strength-container"></div>
+                    </div>
                 </div>
                 <div class="form-group-horizontal">
                     <label for="confirm_password" class="form-label-horizontal">确认密码</label>
-                    <input type="password" class="form-control-admin-horizontal" id="confirm_password" name="confirm_password" placeholder="再次输入新密码">
+                    <div class="password-input-wrapper">
+                        <input type="password" class="form-control-admin-horizontal" id="confirm_password" name="confirm_password" placeholder="再次输入新密码">
+                    </div>
                 </div>
                 <div class="btn-container">
                     <button type="submit" class="btn btn-primary">保存修改</button>
@@ -41,17 +78,37 @@
 
 {% block scripts %}
 {{ super() }}
+<script src="{{ url_for('static', filename='js/password-strength.js') }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // 初始化密码强度检测器
+        const newPasswordInput = document.getElementById('new_password');
+        const newPasswordStrengthContainer = document.getElementById('new-password-strength');
+        
+        if (newPasswordInput && newPasswordStrengthContainer) {
+            new PasswordStrengthMeter(newPasswordInput, newPasswordStrengthContainer);
+        }
+        
         // 密码确认验证
-        const form = document.querySelector('form');
+        const form = document.getElementById('user-profile-form');
         form.addEventListener('submit', function(e) {
             const newPassword = document.getElementById('new_password').value;
             const confirmPassword = document.getElementById('confirm_password').value;
             
-            if (newPassword && newPassword !== confirmPassword) {
-                e.preventDefault();
-                alert('两次输入的密码不一致，请重新输入');
+            if (newPassword) {
+                // 先验证密码强度
+                const result = isPasswordValid(newPassword);
+                if (!result.valid) {
+                    e.preventDefault();
+                    alert(result.message);
+                    return;
+                }
+                
+                // 再验证两次输入是否一致
+                if (newPassword !== confirmPassword) {
+                    e.preventDefault();
+                    alert('两次输入的密码不一致，请重新输入');
+                }
             }
         });
     });

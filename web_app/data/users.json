@@ -5,9 +5,15 @@
         "is_encrypted": true
     },
     "17681603753": {
-        "password": "1a3379400e469f0b$/ydfA2gVDexQEq18Trjvb3GdohsmaxW2+rxnDYprjlU=",
-        "name": "聪明东西",
+        "password": "a1a981c0cfb9f820$wev4k7uocpe7aAmaUEurAh2m/zZg2Jcc1DTZcp6LkUE=",
+        "name": "张老师",
         "is_encrypted": true,
         "store": "台州"
+    },
+    "18899889988": {
+        "password": "00aa577b1bb9f8d4$KpFou6Q6eyu2S9flLG10S/e2cK/fk/phgnhbwdYlDrE=",
+        "name": "大萝卜",
+        "store": "北京",
+        "is_encrypted": true
     }
 }

@@ -72,10 +72,54 @@
             </tbody>
         </table>
         
+        {% if results.ab is defined %}
+        <h3>听觉能力测评结果</h3>
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>测评项目</th>
+                    <th>测评分数</th>
+                    <th>当前评级</th>
+                    <th>目标分数</th>
+                    <th>目标评级</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>听觉广度</td>
+                    <td>{{ results.ab }} 分</td>
+                    <td>{{ results.ab_current }}</td>
+                    <td>{{ results.ab_target }} 分</td>
+                    <td>{{ results.ab_target_eval }}</td>
+                </tr>
+                <tr>
+                    <td>听觉分辨</td>
+                    <td>{{ results.ad }} 个</td>
+                    <td>{{ results.ad_current }}</td>
+                    <td>{{ results.ad_target }} 个</td>
+                    <td>{{ results.ad_target_eval }}</td>
+                </tr>
+                <tr>
+                    <td>听动统合</td>
+                    <td>{{ results.am }} 分</td>
+                    <td>{{ results.am_current }}</td>
+                    <td>{{ results.am_target }} 分</td>
+                    <td>{{ results.am_target_eval }}</td>
+                </tr>
+                <tr>
+                    <td>听觉记忆</td>
+                    <td>{{ results.am2 }} 分</td>
+                    <td>{{ results.am2_current }}</td>
+                    <td>{{ results.am2_target }} 分</td>
+                    <td>{{ results.am2_target_eval }}</td>
+                </tr>
+            </tbody>
+        </table>
+        {% endif %}
+        
         <div class="alert alert-success">
             <p>训练方案和测评报告已成功生成！</p>
-            <p>训练方案已保存至: <strong>{{ results.name }}—12节课视觉训练</strong> 文件夹</p>
-            <p>测评报告已保存至: <strong>{{ results.name }}测评记录</strong> 文件夹</p>
         </div>
         
         <div class="download-buttons">

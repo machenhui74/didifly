@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}选择训练课程数量 - 儿童视觉训练方案生成系统{% endblock %}
+
+{% block content %}
+<div class="card visual-assessment-card">
+    <div class="card-header">选择每周上课次数</div>
+    <div class="card-body">
+        <h2>为 {{ name }} 选择每周上课次数</h2>
+        
+        <form action="{{ url_for('download_plan') }}" method="post">
+            <div class="form-group">
+                <label for="weeks">请选择每周上课次数：</label>
+                <select class="form-control" id="weeks" name="weeks">
+                    <option value="1">每周1次课（12节课训练方案）</option>
+                    <option value="2">每周2次课（24节课训练方案）</option>
+                    <option value="3">每周3次课（36节课训练方案）</option>
+                    <option value="4">每周4次课（48节课训练方案）</option>
+                    <option value="5">每周5次课（60节课训练方案）</option>
+                </select>
+            </div>
+            <div class="form-buttons">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-file-archive"></i> 生成并下载训练方案
+                </button>
+                <a href="{{ url_for('results') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> 返回
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+    }
+    
+    .form-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+    }
+</style>
+{% endblock %} 

@@ -2,16 +2,6 @@
 
 {% block content %}
 <form action="{{ url_for('submit') }}" method="post">
-    <!-- 选项卡导航 -->
-    <ul class="nav-tabs">
-        <li class="nav-item">
-            <a class="nav-link active" href="#basic-info">基本信息</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#evaluation-data">测评数据</a>
-        </li>
-    </ul>
-    
     <!-- 选项卡内容 -->
     <div class="tab-content">
         <!-- 基本信息选项卡 -->
@@ -57,13 +47,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-label" for="training_center">训练中心：</label>
-                                <input type="text" id="training_center" name="training_center" class="form-control-short" value="{{ user_store }}" required>
+                                <input type="text" id="training_center" name="training_center" class="form-control-short" value="{{ user_store }}" {% if user_id != 'admin' %}readonly{% endif %} required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-label" for="assessor">测评师：</label>
-                                <input type="text" id="assessor" name="assessor" class="form-control-short">
+                                <input type="text" id="assessor" name="assessor" class="form-control-short" value="{{ user_name }}" {% if user_id != 'admin' %}readonly{% endif %} required>
                             </div>
                         </div>
                     </div>
@@ -71,38 +61,76 @@
             </div>
         </div>
         
-        <!-- 测评数据选项卡 -->
+        <!-- 视听觉数据选项卡 (合并后) -->
         <div id="evaluation-data" class="tab-pane">
             <div class="card visual-assessment-card">
-                <div class="card-header">视觉能力测评数据</div>
-                <div class="card-body">
-                    <div class="form-group">
-                        <label class="form-label" for="vb">视觉广度时间（秒）：</label>
-                        <input type="number" id="vb" name="vb" class="form-control-short" required>
-                        <small class="form-text">视觉广度测试：评估儿童同时处理多个视觉信息的能力</small>
+                <div class="card-header">视听觉能力测评数据</div>
+                <div class="card-body audiovisual-data-body">
+                    <div class="audiovisual-column visual-column">
+                        <div class="form-group">
+                            <label class="form-label" for="vb">视觉广度时间（秒）：</label>
+                            <input type="number" id="vb" name="vb" class="form-control-short" required>
+                            <small class="form-text">视觉广度测试：评估儿童同时处理多个视觉信息的能力</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="vd">视觉辨别丢漏个数：</label>
+                            <input type="number" id="vd" name="vd" class="form-control-short" required>
+                            <small class="form-text">视觉辨别测试：评估儿童区分相似视觉图形的能力</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="vm">视动统合分数：</label>
+                            <input type="number" id="vm" name="vm" class="form-control-short" required>
+                            <small class="form-text">视动统合测试：评估儿童眼手协调能力</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="vm2">视觉记忆分数：</label>
+                            <input type="number" id="vm2" name="vm2" class="form-control-short" required>
+                            <small class="form-text">视觉记忆测试：评估儿童短期视觉记忆能力</small>
+                        </div>
                     </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="vd">视觉辨别丢漏个数：</label>
-                        <input type="number" id="vd" name="vd" class="form-control-short" required>
-                        <small class="form-text">视觉辨别测试：评估儿童区分相似视觉图形的能力</small>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="vm">视动统合分数：</label>
-                        <input type="number" id="vm" name="vm" class="form-control-short" required>
-                        <small class="form-text">视动统合测试：评估儿童眼手协调能力</small>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="vm2">视觉记忆分数：</label>
-                        <input type="number" id="vm2" name="vm2" class="form-control-short" required>
-                        <small class="form-text">视觉记忆测试：评估儿童短期视觉记忆能力</small>
+
+                    <div class="audiovisual-column auditory-column">
+                        <div class="form-group">
+                            <label class="form-label" for="ab">听觉广度（记住数字长度）：</label>
+                            <input type="number" id="ab" name="ab" class="form-control-short">
+                            <small class="form-text">听觉广度测试：评估儿童记住听到的数字序列长度的能力</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="ad">听觉分辨（画错画漏个数）：</label>
+                            <input type="number" id="ad" name="ad" class="form-control-short">
+                            <small class="form-text">听觉分辨测试：评估儿童区分相似听觉信息的能力</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="am">听动统合（平均得分）：</label>
+                            <input type="number" id="am" name="am" class="form-control-short">
+                            <small class="form-text">听动统合测试：评估儿童听觉与运动协调能力</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="am2">听觉记忆（记住数字长度）：</label>
+                            <input type="number" id="am2" name="am2" class="form-control-short">
+                            <small class="form-text">听觉记忆测试：评估儿童短期听觉记忆能力</small>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
+    <!-- 选项卡导航 -->
+    <ul class="nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" href="#basic-info">基本信息</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#evaluation-data">视听觉数据</a>
+        </li>
+    </ul>
     
     <!-- 按钮组 -->
     <div class="btn-group">

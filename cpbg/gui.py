@@ -8,10 +8,14 @@ from datetime import datetime
 from baogao4 import ReportGenerator
 from target_calculator import calculate_rating_and_target
 import tkinter.messagebox
+import sys
+import os
+
+# 添加web_app目录到系统路径以导入config
+sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'web_app'))
+from config import SOURCE_FOLDER, DESTINATION_FOLDER
 
 #默认全屏打开的
-# 数据文件夹路径
-SOURCE_FOLDER, DESTINATION_FOLDER = r"D:\23", r"D:\学员训练方案"
 
 
 class BetterDateEntry(ttk.Frame):

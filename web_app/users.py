@@ -1,9 +1,46 @@
 from auth import USERS, save_users, encrypt_password
+import re
+
+def validate_password_strength(password):
+    """
+    验证密码强度
+    
+    要求:
+    - 至少8位长度
+    - 包含大写字母
+    - 包含小写字母
+    - 包含数字
+    - 包含特殊字符
+    
+    返回: (bool, str) - (是否通过验证, 错误信息)
+    """
+    if len(password) < 8:
+        return False, "密码长度必须至少为8位！"
+    
+    if not re.search(r'[A-Z]', password):
+        return False, "密码必须包含至少一个大写字母！"
+    
+    if not re.search(r'[a-z]', password):
+        return False, "密码必须包含至少一个小写字母！"
+    
+    if not re.search(r'[0-9]', password):
+        return False, "密码必须包含至少一个数字！"
+    
+    if not re.search(r'[^A-Za-z0-9]', password):
+        return False, "密码必须包含至少一个特殊字符！"
+    
+    return True, ""
 
 def add_user(username, password, name, store):
     """添加新用户"""
     if username in USERS:
         return False, "账号已存在！"
+    
+    # 验证密码强度
+    if password:
+        is_valid, error_msg = validate_password_strength(password)
+        if not is_valid:
+            return False, error_msg
     
     USERS[username] = {
         'password': encrypt_password(password),
@@ -22,6 +59,11 @@ def update_user(username, password=None, name=None, store=None):
         return False, "用户不存在！"
     
     if password:
+        # 验证密码强度
+        is_valid, error_msg = validate_password_strength(password)
+        if not is_valid:
+            return False, error_msg
+            
         USERS[username]['password'] = encrypt_password(password)
         USERS[username]['is_encrypted'] = True
     

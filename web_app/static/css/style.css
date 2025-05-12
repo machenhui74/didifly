@@ -110,25 +110,117 @@ body {
     background-color: #e2e6ea;
 }
 
-/* 卡片样式 */
-.card {
+/* 卡片样式统一 */
+.card, 
+.visual-assessment-card,
+.admin-card {
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
     overflow: hidden;
-    width: 50%;
+    width: 80%; /* 统一宽度为80% */
+    max-width: 960px; /* 设置最大宽度，在超宽屏幕上不会过于拉伸 */
     margin-left: auto;
     margin-right: auto;
 }
 
-/* 视觉能力测评数据卡片样式 */
+/* 卡片样式 - 只保留特定样式 */
+.card {
+    /* 移除重复的通用样式，只保留特定样式 */
+}
+
+/* 视觉能力测评数据卡片样式 - 只保留特定样式 */
 .visual-assessment-card {
-    width: 50%;
+    /* 移除重复的通用样式，只保留特定样式 */
+}
+
+/* 管理员卡片样式 - 只保留特定样式 */
+.admin-card {
+    margin-top: 10px; /* 保留特定的顶部边距 */
+}
+
+/* 学生档案卡片样式 - 特殊处理 */
+.student-profiles-card {
+    width: 95% !important; /* 由于特殊需求保持较宽 */
+    max-width: 1200px !important;
     margin-left: auto;
     margin-right: auto;
 }
 
+/* 响应式调整 - 统一标准 */
+@media (max-width: 767px) {
+    .card, 
+    .visual-assessment-card,
+    .admin-card {
+        width: 95%; /* 小屏幕上扩大宽度 */
+    }
+    .nav-tabs {
+        width: 90%;
+    }
+    
+    .form-control-short {
+        width: 100%;
+    }
+    
+    .header {
+        flex-direction: column;
+    }
+    
+    .header .title {
+        text-align: center;
+        margin-bottom: 15px;
+    }
+    
+    .user-nav {
+        justify-content: center;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 20% auto;
+    }
+    
+    .table-responsive {
+        border: 0;
+    }
+    
+    .admin-form-container {
+        width: 90%;
+    }
+    
+    .form-control-admin {
+        width: 100%;
+    }
+    
+    .form-group-horizontal {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .form-label-horizontal {
+        width: 100%;
+        text-align: left;
+        margin-bottom: 5px;
+    }
+    
+    .form-control-admin-horizontal {
+        width: 100%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .card, 
+    .visual-assessment-card,
+    .admin-card {
+        width: 85%; /* 中等屏幕上略微缩小 */
+    }
+    .nav-tabs {
+        width: 70%;
+    }
+}
+
+/* 卡片样式 */
 .card-header {
     background-color: var(--primary-color);
     color: white;
@@ -163,7 +255,7 @@ body {
 
 /* 短输入框样式 */
 .form-control-short {
-    width: 50%;
+    width: 25;
     padding: 10px;
     border: 1px solid var(--border-color);
     border-radius: 4px;
@@ -318,45 +410,6 @@ body {
     }
 }
 
-/* 小窗口状态下的响应式调整 */
-@media (max-width: 767px) {
-    .card, .visual-assessment-card {
-        width: 90%;
-    }
-    
-    .nav-tabs {
-        width: 90%;
-    }
-    
-    .form-control-short {
-        width: 100%;
-    }
-    
-    .header {
-        flex-direction: column;
-    }
-    
-    .header .title {
-        text-align: center;
-        margin-bottom: 15px;
-    }
-    
-    .user-nav {
-        justify-content: center;
-    }
-}
-
-/* 中等窗口状态下的响应式调整 */
-@media (min-width: 768px) and (max-width: 991px) {
-    .card, .visual-assessment-card {
-        width: 70%;
-    }
-    
-    .nav-tabs {
-        width: 70%;
-    }
-}
-
 /* 日期选择器样式 */
 .date-picker-container {
     position: relative;
@@ -473,7 +526,7 @@ body {
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
-    max-width: 500px;
+    max-width: 800px;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -497,20 +550,7 @@ body {
     margin-top: 1.5rem;
 }
 
-/* 管理员卡片样式 */
-.admin-card {
-    width: 100%;
-    max-width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10px;
-}
-
 /* 管理员卡片标题样式 */
-.admin-card .card-header {
-    padding: 8px 20px;
-}
-
 .admin-card .card-header h2 {
     margin: 0;
     font-size: 1.5rem;
@@ -532,7 +572,7 @@ body {
 
 /* 管理员表单容器 */
 .admin-form-container {
-    width: 80%;
+    width: 40%;
     margin: 0 auto;
 }
 
@@ -557,9 +597,9 @@ body {
 /* 水平布局表单组 */
 .form-group-horizontal {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 15px;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 .form-label-horizontal {
@@ -567,15 +607,19 @@ body {
     margin-right: 15px;
     text-align: right;
     font-weight: bold;
+    padding-top: 10px;
+    box-sizing: border-box;
+    flex-shrink: 0;
 }
 
 .form-control-admin-horizontal {
-    width: 60%;
     padding: 10px;
     border: 1px solid var(--border-color);
     border-radius: 4px;
     font-size: 1rem;
     font-family: inherit;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .form-control-admin-horizontal:focus {
@@ -584,50 +628,37 @@ body {
     box-shadow: 0 0 0 3px rgba(79, 176, 198, 0.25);
 }
 
+/* 直接作为 form-group-horizontal 子元素的独立输入框 */
+.form-group-horizontal > .form-control-admin-horizontal {
+    flex-grow: 1;
+    min-width: 0;
+}
+
+/* 密码输入框及其强度指示器的包装器 */
+.password-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+/* 特指 password-input-wrapper 内的输入框 */
+.password-input-wrapper > .form-control-admin-horizontal {
+    margin-bottom: 8px;
+}
+
+/* 密码强度指示器容器 */
+.password-strength-container {
+    width: 100%;
+    box-sizing: border-box;
+}
+
 /* 按钮容器 */
 .btn-container {
     display: flex;
     justify-content: center;
     margin-top: 20px;
-}
-
-/* 响应式调整 */
-@media (max-width: 767px) {
-    .modal-content {
-        width: 95%;
-        margin: 20% auto;
-    }
-    
-    .table-responsive {
-        border: 0;
-    }
-    
-    .admin-card {
-        width: 100%;
-    }
-    
-    .admin-form-container {
-        width: 90%;
-    }
-    
-    .form-control-admin {
-        width: 100%;
-    }
-    
-    .form-group-horizontal {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .form-label-horizontal {
-        width: 100%;
-        text-align: left;
-        margin-bottom: 5px;
-    }
-    
-    .form-control-admin-horizontal {
-        width: 100%;
-    }
 }
 
 /* 学生档案表格样式 */
@@ -640,13 +671,6 @@ body {
 
 .student-profiles-table .table-responsive {
     overflow-x: auto;
-}
-
-.student-profiles-card {
-    width: 95% !important;
-    max-width: 1200px !important;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 /* 确保表格内容不会换行和竖向排列 */
@@ -665,4 +689,30 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-} 
+}
+
+/* 视听觉数据卡片特定样式 */
+.audiovisual-data-body {
+    display: flex;
+    flex-wrap: wrap; /* 在小屏幕上允许换行 */
+    justify-content: space-between; /* 在两列之间创建空间 */
+}
+
+.audiovisual-column {
+    flex-basis: 100%; /* 默认占满一行，为小屏幕准备 */
+    box-sizing: border-box;
+}
+
+@media (min-width: 768px) { /* 应用于平板及以上屏幕 */
+    .audiovisual-column {
+        flex-basis: 48%; /* 每列占据大约一半减去间隙 */
+    }
+}
+
+/* 确保 .form-group 在列内有合适的底部间距 */
+.audiovisual-column .form-group {
+    margin-bottom: 20px; /* 与通用 .form-group 一致 */
+}
+
+/* 短输入框样式 - 确保它在新的列布局中仍然是50%宽度相对于其父.form-group */
+/* .form-control-short width: 50%; 已有，在两栏布局中，这个50%是相对于其父.form-group的宽度 */ 

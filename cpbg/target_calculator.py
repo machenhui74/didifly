@@ -26,10 +26,56 @@ def calculate_rating_and_target(ability_type, age, current_score):
         }
         standards = age_standards.get(age, age_standards[8])  # 默认用8岁的标准
     elif ability_type == "visual_memory":
-        standards = [("优秀", 4, 4),
+        standards = [("优秀", 4, float("inf")),
                      ("合格", 3, 3),
                      ("不合格", 2, 2),
                      ("极差", 0, 1)]
+    # 新增听觉广度标准
+    elif ability_type == "auditory_breadth":
+        age_standards = {
+            4: [("极差", 0, 1), ("不合格", 2, 3), ("合格", 4, 4), ("优秀", 5, float("inf"))],
+            5: [("极差", 0, 2), ("不合格", 3, 4), ("合格", 5, 5), ("优秀", 6, float("inf"))],
+            6: [("极差", 0, 3), ("不合格", 4, 5), ("合格", 6, 6), ("优秀", 7, float("inf"))],
+            7: [("极差", 0, 4), ("不合格", 5, 6), ("合格", 7, 7), ("优秀", 8, float("inf"))],
+            8: [("极差", 0, 4), ("不合格", 5, 6), ("合格", 7, 7), ("优秀", 8, float("inf"))],
+            9: [("极差", 0, 4), ("不合格", 5, 6), ("合格", 7, 7), ("优秀", 8, float("inf"))],
+            10: [("极差", 0, 5), ("不合格", 6, 7), ("合格", 8, 8), ("优秀", 9, float("inf"))],
+            11: [("极差", 0, 6), ("不合格", 7, 8), ("合格", 9, 9), ("优秀", 10, float("inf"))],
+            12: [("极差", 0, 7), ("不合格", 8, 9), ("合格", 10, 10), ("优秀", 11, float("inf"))],
+        }
+        standards = age_standards.get(age, age_standards[12] if age > 12 else age_standards[4])
+    # 新增听觉分辨标准
+    elif ability_type == "auditory_discrimination":
+        standards = [("优秀", 0, 0),
+                     ("合格", 1, 1),
+                     ("不合格", 2, 2),
+                     ("极差", 3, float("inf"))]
+    # 新增听动统合标准
+    elif ability_type == "audio_motor":
+        if age < 6:
+            standards = [("优秀", 19, 20),
+                         ("合格", 17, 18),
+                         ("不合格", 15, 16),
+                         ("极差", 0, 14)]
+        else:
+            standards = [("优秀", 29, 30),
+                         ("合格", 26, 28),
+                         ("不合格", 22, 25),
+                         ("极差", 0, 21)]
+    # 新增听觉记忆标准
+    elif ability_type == "auditory_memory":
+        age_standards = {
+            4: [("不合格", 0, 1), ("合格", 2, 2), ("优秀", 3, float("inf"))],  # 4岁没有极差水平
+            5: [("极差", 0, 1), ("不合格", 2, 2), ("合格", 3, 3), ("优秀", 4, float("inf"))],
+            6: [("极差", 0, 1), ("不合格", 2, 2), ("合格", 3, 3), ("优秀", 4, float("inf"))],
+            7: [("极差", 0, 1), ("不合格", 2, 2), ("合格", 3, 3), ("优秀", 4, float("inf"))],
+            8: [("极差", 0, 2), ("不合格", 3, 3), ("合格", 4, 4), ("优秀", 5, float("inf"))],
+            9: [("极差", 0, 2), ("不合格", 3, 3), ("合格", 4, 4), ("优秀", 5, float("inf"))],
+            10: [("极差", 0, 3), ("不合格", 4, 4), ("合格", 5, 5), ("优秀", 6, float("inf"))],
+            11: [("极差", 0, 3), ("不合格", 4, 4), ("合格", 5, 5), ("优秀", 6, float("inf"))],
+            12: [("极差", 0, 4), ("不合格", 5, 5), ("合格", 6, 6), ("优秀", 7, float("inf"))],
+        }
+        standards = age_standards.get(age, age_standards[12] if age > 12 else age_standards[4])
     else:
         return "未知", current_score, "未知"
 
@@ -77,5 +123,11 @@ if __name__ == "__main__":
     print("6岁, 视动统合, 15分:", calculate_rating_and_target("visuo_motor", 6, 15))  # ('不合格', 16, '合格')
     print("7岁, 视动统合, 20分:", calculate_rating_and_target("visuo_motor", 7, 20))  # ('优秀', 27, '优秀')
     print("6岁, 视觉记忆, 2分:", calculate_rating_and_target("visual_memory", 6, 2))  # ('不合格', 3, '合格')
+
+    # 测试听力训练的评估
+    print("6岁, 听觉广度, 4分:", calculate_rating_and_target("auditory_breadth", 6, 4))  # ('不合格', 6, '合格')
+    print("5岁, 听觉分辨, 1个:", calculate_rating_and_target("auditory_discrimination", 5, 1))  # ('合格', 0, '优秀')
+    print("7岁, 听动统合, 25分:", calculate_rating_and_target("audio_motor", 7, 25))  # ('不合格', 29, '优秀')
+    print("8岁, 听觉记忆, 3分:", calculate_rating_and_target("auditory_memory", 8, 3))  # ('不合格', 4, '合格')
 
 

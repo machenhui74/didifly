@@ -55,17 +55,37 @@ def calculate_weights(child_ratings):
     return {ability: raw[ability] / total for ability in raw}
 
 # 生成训练方案的核心函数
-def generate_plan(child_name, child_age, child_ratings, source_folder, destination_folder):
+def generate_plan(child_name, child_age, child_ratings, source_folder, destination_folder, weeks=1):
+    # 过滤输入，只保留视觉相关的能力评估
+    visual_ratings = {k: v for k, v in child_ratings.items() if k in categories}
+    
+    # 计算总课程数量（12节课 × weeks)
+    total_courses = 12 * weeks
+    # 计算每节课7题，总共需要的题目数
+    total_needed = total_courses * 7
+    
+    # 当没有视觉能力评估时提醒用户
+    if not visual_ratings:
+        print("警告：没有可用的视觉能力评估结果。请确保至少提供一项视觉相关的能力评估。")
+        return
+    
     # 计算目标难度：公式 "L" + str(child_age + offset - 3)
-    target_difficulties = {cat: f"L{child_age + rating_to_offset[rating] - 3}"
-                           for cat, rating in child_ratings.items()}
+    # 对于4-5周岁且能力"极差"或"不合格"的小朋友，固定使用L1难度
+    target_difficulties = {}
+    for cat, rating in visual_ratings.items():
+        if (child_age in [4, 5]) and (rating in ["极差", "不合格"]):
+            target_difficulties[cat] = "L1"
+        else:
+            # 计算难度值，确保至少为1（不小于L1）
+            difficulty_value = max(1, child_age + rating_to_offset[rating] - 3)
+            target_difficulties[cat] = f"L{difficulty_value}"
+    
     # 计算权重
-    weights = calculate_weights(child_ratings)
+    weights = calculate_weights(visual_ratings)
     # 构建文件索引
     files_index = build_file_index(source_folder)
-    # 按比例分配题目数量（总共12节课×7题=84题）
-    total_needed = 12 * 7
-    required = {cat: int(round(total_needed * weights[cat])) for cat in child_ratings}
+    # 按比例分配题目数量
+    required = {cat: int(round(total_needed * weights[cat])) for cat in visual_ratings}
     diff = total_needed - sum(required.values())
     while diff:
         if diff > 0:
@@ -81,7 +101,7 @@ def generate_plan(child_name, child_age, child_ratings, source_folder, destinati
                 break
     # 从目标难度中抽取文件（不足时允许重复抽取）
     selected_files = []
-    for cat in child_ratings:
+    for cat in visual_ratings:
         need = required[cat]
         diff_label = target_difficulties[cat]
         pool = files_index.get(cat, {}).get(diff_label, [])
@@ -90,7 +110,7 @@ def generate_plan(child_name, child_age, child_ratings, source_folder, destinati
             continue
         picks = random.choices(pool, k=need) if len(pool) < need else random.sample(pool, k=need)
         selected_files.extend(picks)
-    # 如果抽取的文件不足，则从所有候选文件中补足到84个
+    # 如果抽取的文件不足，则从所有候选文件中补足
     if len(selected_files) < total_needed:
         remain = total_needed - len(selected_files)
         all_candidates = []
@@ -101,16 +121,17 @@ def generate_plan(child_name, child_age, child_ratings, source_folder, destinati
             raise Exception("错误：没有任何可用文件，请检查文件命名格式！")
         selected_files.extend(random.choices(all_candidates, k=remain))
     selected_files = selected_files[:total_needed]
-    # 分组：打乱后按每组7题分为12组，不足时随机补齐
+    # 分组：打乱后按每组7题分为total_courses组，不足时随机补齐
     random.shuffle(selected_files)
     group_size = 7
-    course_names = [f"第{i}次课" for i in range(1, 13)]
-    groups = [selected_files[i*group_size:(i+1)*group_size] for i in range(12)]
+    course_names = [f"第{i}次课" for i in range(1, total_courses + 1)]
+    groups = [selected_files[i*group_size:(i+1)*group_size] for i in range(total_courses)]
     for group in groups:
         while len(group) < group_size:
             group.append(random.choice(selected_files))
-    # 在目标文件夹下自动生成以小朋友名字命名的子文件夹，然后生成12节课的子文件夹
-    destination_base = os.path.join(destination_folder, f"{child_name}—12节课视觉训练")
+    # 在目标文件夹下自动生成以小朋友名字命名的子文件夹，然后生成课程的子文件夹
+    folder_name = f"{child_name}—{total_courses}节课视觉训练"
+    destination_base = os.path.join(destination_folder, folder_name)
     os.makedirs(destination_base, exist_ok=True)
     for course_name, group in zip(course_names, groups):
         course_folder = os.path.join(destination_base, course_name)
@@ -120,4 +141,5 @@ def generate_plan(child_name, child_age, child_ratings, source_folder, destinati
             dst = os.path.join(course_folder, fname)
             shutil.copy(src, dst)
             print(f"复制 {fname} 到 {course_folder}")
-    print("方案生成完成！")
+    print(f"方案生成完成！共{total_courses}节课。")
+    return folder_name

@@ -47,6 +47,10 @@
     .table-compact th:nth-child(8), .table-compact td:nth-child(8) { width: 80px; }
     .table-compact th:nth-child(9), .table-compact td:nth-child(9) { width: 80px; }
     .table-compact th:nth-child(10), .table-compact td:nth-child(10) { width: 80px; }
+    .table-compact th:nth-child(11), .table-compact td:nth-child(11) { width: 80px; }
+    .table-compact th:nth-child(12), .table-compact td:nth-child(12) { width: 80px; }
+    .table-compact th:nth-child(13), .table-compact td:nth-child(13) { width: 80px; }
+    .table-compact th:nth-child(14), .table-compact td:nth-child(14) { width: 80px; }
     
     /* 确保内容不会竖向排列 */
     .table-responsive {
@@ -159,11 +163,15 @@
                         <th>视觉辨别</th>
                         <th>视动统合</th>
                         <th>视觉记忆</th>
+                        <th>听觉广度</th>
+                        <th>听觉分辨</th>
+                        <th>听动统合</th>
+                        <th>听觉记忆</th>
                     </tr>
                 </thead>
                 <tbody id="profiles-table-body">
                     <tr>
-                        <td colspan="10" class="text-center">
+                        <td colspan="14" class="text-center">
                             <div class="spinner-border" role="status">
                                 <span class="visually-hidden">加载中...</span>
                             </div>
@@ -204,87 +212,93 @@
         
         if (selectAllCheckbox) {
             selectAllCheckbox.addEventListener('change', function() {
-                document.querySelectorAll('.profile-checkbox').forEach(cb => {
-                    cb.checked = this.checked;
-                });
+                const checkboxes = document.querySelectorAll('.profile-checkbox');
+                checkboxes.forEach(cb => { cb.checked = this.checked; });
                 updateDownloadButtonState();
             });
         }
         
         if (downloadSelectedBtn) {
             downloadSelectedBtn.addEventListener('click', function() {
-                const selectedIds = [];
-                document.querySelectorAll('.profile-checkbox:checked').forEach(cb => {
-                    selectedIds.push(cb.value);
-                });
-                
+                const selectedIds = getSelectedProfileIds();
                 if (selectedIds.length > 0) {
-                    window.location.href = '{{ url_for("export_selected_profiles") }}?ids=' + selectedIds.join(',');
+                    window.location.href = `{{ url_for('export_selected_profiles') }}?ids=${selectedIds.join(',')}`;
                 }
             });
         }
         
         if (searchInput) {
-            searchInput.addEventListener('input', filterProfiles);
-            searchInput.addEventListener('keyup', function(e) {
-                if (e.key === 'Enter') { filterProfiles(); }
+            searchInput.addEventListener('input', function() {
+                filterProfiles();
             });
         }
         
-        // 表格排序初始化
-        document.querySelectorAll('.sortable').forEach(header => {
+        // 初始化排序事件监听
+        const sortableHeaders = document.querySelectorAll('.sortable');
+        sortableHeaders.forEach(header => {
             header.addEventListener('click', function() {
-                const sortField = this.getAttribute('data-sort');
+                const field = this.getAttribute('data-sort');
                 
-                if (sortConfig.field === sortField) {
+                if (sortConfig.field === field) {
+                    // 如果已经按照这个字段排序，则切换排序方向
                     sortConfig.direction = sortConfig.direction === 'asc' ? 'desc' : 'asc';
                 } else {
-                    sortConfig.field = sortField;
+                    // 否则按照新字段升序排序
+                    sortConfig.field = field;
                     sortConfig.direction = 'asc';
                 }
                 
-                document.querySelectorAll('.sortable i').forEach(icon => {
+                // 重新排序和渲染
+                sortProfiles();
+                filterProfiles();
+                
+                // 更新排序图标
+                document.querySelectorAll('.fas.fa-sort').forEach(icon => {
                     icon.className = 'fas fa-sort';
                 });
                 
-                const icon = this.querySelector('i');
-                icon.className = `fas fa-sort-${sortConfig.direction === 'asc' ? 'up' : 'down'}`;
-                
-                sortProfiles();
-                filterProfiles();
+                const iconClass = sortConfig.direction === 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down';
+                const icon = this.querySelector('.fas');
+                if (icon) icon.className = iconClass;
             });
         });
         
-        // 功能函数
+        function getSelectedProfileIds() {
+            const selectedIds = [];
+            document.querySelectorAll('.profile-checkbox:checked').forEach(checkbox => {
+                selectedIds.push(checkbox.value);
+            });
+            return selectedIds;
+        }
+        
         function updateDownloadButtonState() {
             const selectedCount = document.querySelectorAll('.profile-checkbox:checked').length;
-            if (downloadSelectedBtn) {
-                downloadSelectedBtn.disabled = selectedCount === 0;
-                downloadSelectedBtn.textContent = selectedCount > 0 ? `下载选中 (${selectedCount})` : '下载选中';
-            }
+            downloadSelectedBtn.disabled = selectedCount === 0;
+            downloadSelectedBtn.textContent = `下载选中 (${selectedCount})`;
         }
         
         function filterProfiles() {
-            const searchTerm = searchInput.value.toLowerCase().trim();
+            const searchQuery = (searchInput.value || '').toLowerCase();
             const selectedStores = getSelectedStores();
             
-            let filteredProfiles = sortedProfiles;
+            let filteredProfiles = [...sortedProfiles];
             
+            // 过滤门店
             if (selectedStores.length > 0) {
-                filteredProfiles = filteredProfiles.filter(profile => 
-                    selectedStores.includes(profile.training_center)
-                );
+                filteredProfiles = filteredProfiles.filter(profile => {
+                    const store = (profile.training_center || '').toLowerCase();
+                    return selectedStores.includes(store);
+                });
             }
             
-            if (searchTerm) {
-                filteredProfiles = filteredProfiles.filter(profile => 
-                    profile.name.toLowerCase().includes(searchTerm) ||
-                    (profile.assessor && profile.assessor.toLowerCase().includes(searchTerm))
-                );
+            // 按姓名搜索
+            if (searchQuery) {
+                filteredProfiles = filteredProfiles.filter(profile => {
+                    return profile.name.toLowerCase().includes(searchQuery);
+                });
             }
             
             renderProfiles(filteredProfiles);
-            updateFilterIconState();
         }
         
         function getSelectedStores() {
@@ -328,27 +342,44 @@
             });
         }
         
-        function loadStudentProfiles() {
+        function loadStudentProfiles(page = 1) {
             if (!tableBody) return;
             
-            fetch('{{ url_for("student_profiles") }}')
+            // 显示加载中的状态
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="14" class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">加载中...</span>
+                        </div>
+                        <p>正在加载学生档案数据...</p>
+                    </td>
+                </tr>
+            `;
+            
+            // 默认每页50条记录
+            const limit = 50;
+            
+            fetch(`{{ url_for("student_profiles") }}?page=${page}&limit=${limit}`)
                 .then(response => response.json())
                 .then(data => {
-                    allProfiles = data;
-                    
-                    if (data.length === 0) {
-                        tableBody.innerHTML = '<tr><td colspan="10" class="text-center">暂无门店学生档案数据</td></tr>';
+                    if (!data.profiles || data.profiles.length === 0) {
+                        tableBody.innerHTML = '<tr><td colspan="14" class="text-center">暂无门店学生档案数据</td></tr>';
                         return;
                     }
                     
+                    allProfiles = data.profiles;
                     sortedProfiles = [...allProfiles];
                     initStoreFilter(allProfiles);
                     sortProfiles();
                     renderProfiles(sortedProfiles);
+                    
+                    // 更新分页控件
+                    renderPagination(data.pagination);
                 })
                 .catch(error => {
                     console.error('加载学生档案失败:', error);
-                    tableBody.innerHTML = '<tr><td colspan="10" class="text-center">加载学生档案失败</td></tr>';
+                    tableBody.innerHTML = '<tr><td colspan="14" class="text-center">加载学生档案失败</td></tr>';
                 });
         }
         
@@ -356,7 +387,7 @@
             tableBody.innerHTML = '';
             
             if (profiles.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="10" class="text-center">没有找到匹配的学生档案</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="14" class="text-center">没有找到匹配的学生档案</td></tr>';
                 return;
             }
             
@@ -380,11 +411,17 @@
                 appendCell(row, profile.training_center || '-');
                 appendCell(row, profile.assessor || '-');
                 
-                // 测评指标单元格
+                // 视觉测评指标单元格
                 appendRatingCell(row, `${profile.vb}秒`, profile.vb_current);
                 appendRatingCell(row, `${profile.vd}个`, profile.vd_current);
                 appendRatingCell(row, `${profile.vm}分`, profile.vm_current);
                 appendRatingCell(row, `${profile.vm2}分`, profile.vm2_current);
+                
+                // 听觉测评指标单元格（如果有）
+                appendRatingCell(row, profile.ab ? `${profile.ab}分` : '-', profile.ab_current || '-');
+                appendRatingCell(row, profile.ad ? `${profile.ad}个` : '-', profile.ad_current || '-');
+                appendRatingCell(row, profile.am ? `${profile.am}分` : '-', profile.am_current || '-');
+                appendRatingCell(row, profile.am2 ? `${profile.am2}分` : '-', profile.am2_current || '-');
                 
                 tableBody.appendChild(row);
             });
@@ -479,6 +516,93 @@
             document.querySelector('.store-all').indeterminate = !allChecked && anyChecked;
             
             filterProfiles();
+        }
+        
+        function renderPagination(pagination) {
+            // 获取或创建分页容器
+            let paginationContainer = document.getElementById('profiles-pagination');
+            if (!paginationContainer) {
+                paginationContainer = document.createElement('div');
+                paginationContainer.id = 'profiles-pagination';
+                paginationContainer.className = 'pagination-container text-center mt-3';
+                document.querySelector('.table-responsive').after(paginationContainer);
+            }
+            
+            // 如果只有一页，不显示分页控件
+            if (pagination.pages <= 1) {
+                paginationContainer.innerHTML = '';
+                return;
+            }
+            
+            // 创建分页控件HTML
+            let paginationHTML = '<ul class="pagination justify-content-center">';
+            
+            // 上一页按钮
+            paginationHTML += `
+                <li class="page-item ${pagination.page <= 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" data-page="${pagination.page - 1}" ${pagination.page <= 1 ? 'tabindex="-1" aria-disabled="true"' : ''}>上一页</a>
+                </li>
+            `;
+            
+            // 页码按钮
+            const startPage = Math.max(1, pagination.page - 2);
+            const endPage = Math.min(pagination.pages, pagination.page + 2);
+            
+            // 显示第一页
+            if (startPage > 1) {
+                paginationHTML += `<li class="page-item"><a class="page-link" href="#" data-page="1">1</a></li>`;
+                if (startPage > 2) {
+                    paginationHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+                }
+            }
+            
+            // 显示中间页码
+            for (let i = startPage; i <= endPage; i++) {
+                paginationHTML += `
+                    <li class="page-item ${i === pagination.page ? 'active' : ''}">
+                        <a class="page-link" href="#" data-page="${i}">${i}</a>
+                    </li>
+                `;
+            }
+            
+            // 显示最后一页
+            if (endPage < pagination.pages) {
+                if (endPage < pagination.pages - 1) {
+                    paginationHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+                }
+                paginationHTML += `<li class="page-item"><a class="page-link" href="#" data-page="${pagination.pages}">${pagination.pages}</a></li>`;
+            }
+            
+            // 下一页按钮
+            paginationHTML += `
+                <li class="page-item ${pagination.page >= pagination.pages ? 'disabled' : ''}">
+                    <a class="page-link" href="#" data-page="${pagination.page + 1}" ${pagination.page >= pagination.pages ? 'tabindex="-1" aria-disabled="true"' : ''}>下一页</a>
+                </li>
+            `;
+            
+            paginationHTML += '</ul>';
+            
+            // 显示记录总数和当前页信息
+            paginationHTML += `
+                <div class="text-center mt-2">
+                    <small>总共 ${pagination.total} 条记录，第 ${pagination.page}/${pagination.pages} 页</small>
+                </div>
+            `;
+            
+            paginationContainer.innerHTML = paginationHTML;
+            
+            // 添加页码点击事件
+            const pageLinks = paginationContainer.querySelectorAll('.page-link');
+            pageLinks.forEach(link => {
+                if (!link.hasAttribute('data-page')) return;
+                
+                link.addEventListener('click', e => {
+                    e.preventDefault();
+                    const page = parseInt(link.getAttribute('data-page'));
+                    if (page < 1) return;
+                    loadStudentProfiles(page);
+                });
+            });
         }
         
         // 初始化数据
