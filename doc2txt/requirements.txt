@@ -1,2 +1,0 @@
-python-docx==0.8.11
-# tkinter通常包含在Python标准库中，无需额外安装 
