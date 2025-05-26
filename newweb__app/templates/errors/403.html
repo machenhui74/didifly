@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}权限不足 - {{ super() }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6 text-center">
+            <div class="error-page">
+                <!-- 错误图标 -->
+                <div class="error-icon mb-4">
+                    <i class="fas fa-lock" style="font-size: 6rem; color: #ffc107;"></i>
+                </div>
+                
+                <!-- 错误标题 -->
+                <h1 class="error-title mb-3" style="font-size: 3rem; color: #ffc107;">403</h1>
+                <h2 class="error-subtitle mb-4">权限不足</h2>
+                
+                <!-- 错误描述 -->
+                <div class="error-description mb-4">
+                    <p class="lead">抱歉，您没有权限访问此页面。</p>
+                    <p class="text-muted">请联系管理员获取相应权限，或使用有权限的账号登录。</p>
+                </div>
+                
+                <!-- 操作按钮 -->
+                <div class="error-actions">
+                    <a href="{{ url_for('main.index') }}" class="btn btn-tiffany btn-lg me-3">
+                        <i class="fas fa-home me-2"></i>返回首页
+                    </a>
+                    <a href="{{ url_for('auth.logout') }}" class="btn btn-outline-tiffany btn-lg">
+                        <i class="fas fa-sign-out-alt me-2"></i>重新登录
+                    </a>
+                </div>
+                
+                <!-- 帮助信息 -->
+                <div class="error-help mt-5">
+                    <h5>您可以尝试：</h5>
+                    <ul class="list-unstyled text-start">
+                        <li><i class="fas fa-check text-success me-2"></i>检查您是否使用了正确的账号</li>
+                        <li><i class="fas fa-check text-success me-2"></i>联系管理员申请相应权限</li>
+                        <li><i class="fas fa-check text-success me-2"></i>使用有权限的账号重新登录</li>
+                        <li><i class="fas fa-check text-success me-2"></i>返回首页使用其他功能</li>
+                    </ul>
+                </div>
+                
+                <!-- 权限说明 -->
+                <div class="permission-info mt-4">
+                    <div class="alert alert-warning">
+                        <i class="fas fa-shield-alt me-2"></i>
+                        <strong>权限说明：</strong> 
+                        此功能需要特定权限才能访问。如需使用，请联系系统管理员。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.error-page {
+    padding: 2rem;
+    background: white;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+.error-title {
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.error-subtitle {
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.error-description {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.error-actions .btn {
+    min-width: 140px;
+}
+
+.error-help {
+    background: var(--tiffany-blue-xlight);
+    padding: 1.5rem;
+    border-radius: var(--border-radius-md);
+    border-left: 4px solid var(--tiffany-blue);
+}
+
+.error-help h5 {
+    color: var(--tiffany-blue);
+    margin-bottom: 1rem;
+}
+
+.error-help ul {
+    margin: 0;
+}
+
+.error-help li {
+    padding: 0.25rem 0;
+    color: var(--text-muted);
+}
+
+.permission-info .alert {
+    text-align: left;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .error-icon i {
+        font-size: 4rem !important;
+    }
+    
+    .error-title {
+        font-size: 2rem !important;
+    }
+    
+    .error-actions .btn {
+        display: block;
+        width: 100%;
+        margin: 0.5rem 0;
+    }
+    
+    .error-actions .me-3 {
+        margin-right: 0 !important;
+    }
+}
+</style>
+{% endblock %} 

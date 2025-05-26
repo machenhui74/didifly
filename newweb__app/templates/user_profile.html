@@ -1,0 +1,299 @@
+{% extends "base.html" %}
+
+{% block title %}个人信息 - {{ super() }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4" style="background-color: var(--tiffany-blue-xlight, #f0f8ff); padding: 20px; border-radius: var(--border-radius-md, 0.5rem);">
+    <h1 class="mb-4 app-title">个人信息管理</h1>
+
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0 text-tiffany">用户信息</h5>
+                </div>
+                <div class="card-body">
+                    <form id="userProfileForm" action="{{ url_for('student.update_user_profile') }}" method="POST">
+                        <!-- 基本信息区域 -->
+                        <div class="mb-4">
+                            <h5 class="mb-3">基本信息</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="userName" class="form-label">用户名</label>
+                                    <input type="text" class="form-control" id="userName" name="name" value="{{ name }}" readonly>
+                                    {% if session.user_role == 'principal' %}
+                                    <div class="form-text text-warning">
+                                        <i class="bi bi-info-circle me-1"></i>校长权限下不允许修改个人信息
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="userStore" class="form-label">所属门店</label>
+                                    <input type="text" class="form-control" id="userStore" name="store" value="{{ store }}" readonly>
+                                    {% if session.user_role == 'principal' %}
+                                    <div class="form-text text-warning">
+                                        <i class="bi bi-info-circle me-1"></i>校长权限下不允许修改训练中心信息
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="userAccount" class="form-label">账号</label>
+                                    <input type="text" class="form-control" id="userAccount" name="username" value="{{ username }}" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 密码修改区域 -->
+                        <div class="mb-4">
+                            <h5 class="mb-3">修改密码</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="newPassword" class="form-label">新密码</label>
+                                    <input type="password" class="form-control" id="newPassword" name="new_password" placeholder="如需修改密码，请在此输入新密码">
+                                    <div id="newPasswordStrength" class="mt-1 small placeholder-text">密码强度指示器将在此显示</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="confirmPassword" class="form-label">确认新密码</label>
+                                    <input type="password" class="form-control" id="confirmPassword" name="confirm_password" placeholder="再次输入新密码">
+                                    <div id="confirmPasswordFeedback" class="mt-1 small"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{{ url_for('main.index') }}" class="btn btn-outline-secondary me-md-2">
+                                <i class="fas fa-arrow-left me-2"></i>返回首页
+                            </a>
+                            <button type="submit" class="btn btn-tiffany" id="saveBtn">
+                                <i class="fas fa-save me-2"></i>保存修改
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* 统一按钮样式 */
+.btn-tiffany {
+    background-color: var(--tiffany-blue, #0ABAB5);
+    border-color: var(--tiffany-blue, #0ABAB5);
+    color: white;
+    font-weight: 500;
+}
+
+.btn-tiffany:hover {
+    background-color: var(--tiffany-blue-dark, #089A94);
+    border-color: var(--tiffany-blue-dark, #089A94);
+    color: white;
+}
+
+.btn-outline-secondary {
+    border-color: #6c757d;
+    color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: white;
+}
+
+/* 表单样式 */
+.form-control:focus {
+    border-color: var(--tiffany-blue, #0ABAB5);
+    box-shadow: 0 0 0 0.2rem rgba(10, 186, 181, 0.25);
+}
+
+.form-control[readonly] {
+    background-color: var(--tiffany-blue-xlight, #f8fdff);
+    border-color: var(--tiffany-blue-light, #b3e5fc);
+}
+
+/* 密码强度和验证样式 */
+.placeholder-text {
+    color: #6c757d;
+    font-style: italic;
+}
+
+.password-strength-weak {
+    color: #dc3545;
+    font-weight: 500;
+}
+
+.password-strength-medium {
+    color: #ffc107;
+    font-weight: 500;
+}
+
+.password-strength-strong {
+    color: #28a745;
+    font-weight: 500;
+}
+
+.password-match {
+    color: #28a745;
+    font-weight: 500;
+}
+
+.password-mismatch {
+    color: #dc3545;
+    font-weight: 500;
+}
+
+/* 信息区域样式 */
+.mb-4 h5 {
+    color: var(--tiffany-blue, #0ABAB5);
+    font-weight: 600;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--tiffany-blue-light, #b3e5fc);
+}
+
+/* 响应式优化 */
+@media (max-width: 768px) {
+    .d-grid .btn {
+        margin: 0.25rem 0;
+    }
+}
+
+.text-tiffany {
+    color: var(--tiffany-blue, #0ABAB5);
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const newPasswordInput = document.getElementById('newPassword');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+    const strengthIndicator = document.getElementById('newPasswordStrength');
+    const confirmFeedback = document.getElementById('confirmPasswordFeedback');
+    const saveBtn = document.getElementById('saveBtn');
+    const form = document.getElementById('userProfileForm');
+
+    // 密码强度检查函数
+    function checkPasswordStrength(password) {
+        if (!password) {
+            return { strength: 'none', message: '密码强度指示器将在此显示' };
+        }
+
+        let score = 0;
+        let feedback = [];
+
+        // 长度检查
+        if (password.length >= 8) {
+            score += 1;
+        } else {
+            feedback.push('至少8个字符');
+        }
+
+        // 包含数字
+        if (/\d/.test(password)) {
+            score += 1;
+        } else {
+            feedback.push('包含数字');
+        }
+
+        // 包含小写字母
+        if (/[a-z]/.test(password)) {
+            score += 1;
+        } else {
+            feedback.push('包含小写字母');
+        }
+
+        // 包含大写字母
+        if (/[A-Z]/.test(password)) {
+            score += 1;
+        } else {
+            feedback.push('包含大写字母');
+        }
+
+        // 包含特殊字符
+        if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+            score += 1;
+        } else {
+            feedback.push('包含特殊字符');
+        }
+
+        if (score < 3) {
+            return { 
+                strength: 'weak', 
+                message: `密码强度：弱 (建议: ${feedback.slice(0, 2).join('、')})` 
+            };
+        } else if (score < 4) {
+            return { 
+                strength: 'medium', 
+                message: `密码强度：中等 (建议: ${feedback.join('、')})` 
+            };
+        } else {
+            return { 
+                strength: 'strong', 
+                message: '密码强度：强' 
+            };
+        }
+    }
+
+    // 密码确认检查函数
+    function checkPasswordMatch() {
+        const password = newPasswordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+
+        if (!confirmPassword) {
+            confirmFeedback.textContent = '';
+            confirmFeedback.className = 'mt-1 small';
+            return true;
+        }
+
+        if (password === confirmPassword) {
+            confirmFeedback.textContent = '✓ 密码匹配';
+            confirmFeedback.className = 'mt-1 small password-match';
+            return true;
+        } else {
+            confirmFeedback.textContent = '✗ 密码不匹配';
+            confirmFeedback.className = 'mt-1 small password-mismatch';
+            return false;
+        }
+    }
+
+    // 新密码输入事件
+    newPasswordInput.addEventListener('input', function() {
+        const result = checkPasswordStrength(this.value);
+        strengthIndicator.textContent = result.message;
+        strengthIndicator.className = `mt-1 small password-strength-${result.strength}`;
+        
+        // 如果确认密码已输入，重新检查匹配
+        if (confirmPasswordInput.value) {
+            checkPasswordMatch();
+        }
+    });
+
+    // 确认密码输入事件
+    confirmPasswordInput.addEventListener('input', checkPasswordMatch);
+
+    // 表单提交验证
+    form.addEventListener('submit', function(e) {
+        const password = newPasswordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+
+        if (password && password !== confirmPassword) {
+            e.preventDefault();
+            alert('两次输入的密码不一致，请重新输入！');
+            confirmPasswordInput.focus();
+            return false;
+        }
+
+        if (password && password.length < 6) {
+            e.preventDefault();
+            alert('密码长度至少需要6个字符！');
+            newPasswordInput.focus();
+            return false;
+        }
+
+        // 提交时禁用按钮防止重复提交
+        saveBtn.disabled = true;
+        saveBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> 保存中...';
+    });
+});
+</script>
+{% endblock %} 

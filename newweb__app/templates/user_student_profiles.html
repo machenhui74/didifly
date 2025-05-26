@@ -1,0 +1,1831 @@
+{% extends "base.html" %}
+
+{% block title %}学生档案查看 - {{ super() }}{% endblock %}
+
+{% block head_extra %}
+<style>
+/* 强制固定导航栏高度，防止内容过多导致高度变化 */
+body > header > nav.navbar {
+    min-height: 60px !important;
+    max-height: 60px !important;
+}
+
+/* 移动端导航栏高度固定 */
+@media (max-width: 767.98px) {
+    body > header > nav.navbar {
+        min-height: 56px !important;
+        max-height: 56px !important;
+    }
+}
+
+/* 确保导航项不会换行 */
+body > header > nav.navbar .navbar-nav {
+    flex-wrap: nowrap !important;
+}
+
+/* 导航项紧凑布局 */
+body > header > nav.navbar .navbar-nav .nav-link {
+    padding: 0.375rem 0.75rem !important;
+    white-space: nowrap !important;
+}
+
+/* 移动端导航项优化 */
+@media (max-width: 767.98px) {
+    body > header > nav.navbar .navbar-nav .nav-link {
+        padding: 0.5rem 0.75rem !important;
+    }
+}
+
+/* 确保下拉菜单能正常显示 */
+body > header > nav.navbar .dropdown-menu {
+    z-index: 1050 !important;
+}
+
+/* 页面特定的按钮样式 */
+.btn-tiffany {
+    background-color: var(--tiffany-blue, #0ABAB5);
+    border-color: var(--tiffany-blue, #0ABAB5);
+    color: white;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-tiffany:hover {
+    background-color: var(--tiffany-blue-dark, #089A94);
+    border-color: var(--tiffany-blue-dark, #089A94);
+    color: white;
+    transform: translateY(-1px);
+}
+
+.btn-outline-tiffany {
+    border-color: var(--tiffany-blue, #0ABAB5);
+    color: var(--tiffany-blue, #0ABAB5);
+    background-color: transparent;
+}
+
+.btn-outline-tiffany:hover {
+    background-color: var(--tiffany-blue, #0ABAB5);
+    border-color: var(--tiffany-blue, #0ABAB5);
+    color: white;
+}
+
+/* 搜索控件样式 */
+.search-controls .form-control:focus {
+    border-color: var(--tiffany-blue, #0ABAB5);
+    box-shadow: 0 0 0 0.2rem rgba(10, 186, 181, 0.25);
+}
+
+.input-group-text {
+    background-color: var(--tiffany-blue-xlight, #f8fdff);
+    border-color: var(--tiffany-blue-light, #b3e5fc);
+    color: var(--tiffany-blue, #0ABAB5);
+}
+
+/* 移动端档案卡片样式 */
+.profile-card {
+    border: 1px solid var(--tiffany-blue-light, #e0f7fa);
+    border-radius: var(--border-radius-md, 0.5rem);
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    background: linear-gradient(135deg, white 0%, var(--tiffany-blue-xlight, #f8fdff) 100%);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+/* 紧凑型移动端档案卡片样式 */
+.profile-card-compact {
+    border: 1px solid var(--tiffany-blue-light, #e0f7fa);
+    border-radius: var(--border-radius-sm, 0.375rem);
+    padding: 0.5rem;
+    margin-bottom: 0.375rem;
+    background: linear-gradient(135deg, white 0%, var(--tiffany-blue-xlight, #f8fdff) 100%);
+    transition: all 0.2s ease;
+    position: relative;
+    min-height: auto;
+}
+
+.profile-card-compact:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(10, 186, 181, 0.12);
+    border-color: var(--tiffany-blue, #0ABAB5);
+}
+
+.profile-card-compact.selected {
+    border-color: var(--tiffany-blue, #0ABAB5);
+    background: linear-gradient(135deg, var(--tiffany-blue-xlight, #f8fdff) 0%, var(--tiffany-blue-light, #e0f7fa) 100%);
+}
+
+.profile-card-header-compact {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.375rem;
+}
+
+.profile-main-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.profile-name-compact {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--tiffany-blue, #0ABAB5);
+    margin: 0 0 0.125rem 0;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.profile-meta {
+    display: flex;
+    gap: 0.375rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.age-badge {
+    background-color: var(--tiffany-blue, #0ABAB5);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.75rem;
+    line-height: 1;
+}
+
+.date-text {
+    font-size: 0.7rem;
+    color: #6c757d;
+    font-weight: 400;
+}
+
+.profile-checkbox-compact {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--tiffany-blue, #0ABAB5);
+    margin-left: 0.25rem;
+    flex-shrink: 0;
+}
+
+.profile-scores-compact {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.375rem;
+}
+
+.score-group {
+    flex: 1;
+    min-width: 0;
+}
+
+.group-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--tiffany-blue, #0ABAB5);
+    display: block;
+    margin-bottom: 0.125rem;
+    text-align: center;
+}
+
+.scores-row {
+    display: flex;
+    gap: 0.125rem;
+    justify-content: center;
+}
+
+.score-compact {
+    background-color: white;
+    border: 1px solid var(--tiffany-blue-light, #e0f7fa);
+    border-radius: 0.25rem;
+    padding: 0.125rem 0.25rem;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: #333;
+    text-align: center;
+    min-width: 1.5rem;
+    line-height: 1;
+}
+
+.score-compact:hover {
+    background-color: var(--tiffany-blue-xlight, #f8fdff);
+    border-color: var(--tiffany-blue, #0ABAB5);
+}
+
+.profile-footer-compact {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.7rem;
+    color: #6c757d;
+    border-top: 1px solid var(--tiffany-blue-light, #e0f7fa);
+    padding-top: 0.25rem;
+    margin-top: 0.25rem;
+}
+
+.center-text {
+    font-weight: 500;
+    color: var(--tiffany-blue, #0ABAB5);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 60%;
+}
+
+.assessor-text {
+    font-weight: 400;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 35%;
+    text-align: right;
+}
+
+/* 表格样式优化 */
+.table th {
+    color: var(--tiffany-blue, #0ABAB5);
+    font-weight: 600;
+    border-bottom: 2px solid var(--tiffany-blue-light, #b3e5fc);
+    background-color: var(--tiffany-blue-xlight, #f8fdff) !important;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+}
+
+.table th:hover {
+    background-color: var(--tiffany-blue-light, #e0f7fa) !important;
+}
+
+.sort-icon {
+    font-size: 0.75rem;
+    opacity: 0.5;
+    transition: opacity 0.2s ease;
+}
+
+.table th:hover .sort-icon {
+    opacity: 1;
+}
+
+.table th.sorted .sort-icon {
+    opacity: 1;
+    color: var(--tiffany-blue, #0ABAB5);
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(10, 186, 181, 0.05);
+}
+
+.table td {
+    vertical-align: middle;
+    font-size: 0.875rem;
+}
+
+/* 分页样式 */
+.pagination .page-link {
+    color: var(--tiffany-blue, #0ABAB5);
+    border-color: var(--tiffany-blue-light, #e0f7fa);
+}
+
+.pagination .page-link:hover {
+    background-color: var(--tiffany-blue-light, #e0f7fa);
+    border-color: var(--tiffany-blue, #0ABAB5);
+    color: var(--tiffany-blue-dark, #089A94);
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--tiffany-blue, #0ABAB5);
+    border-color: var(--tiffany-blue, #0ABAB5);
+}
+
+/* 筛选下拉菜单 */
+.dropdown-menu {
+    border: 1px solid var(--tiffany-blue-light, #e0f7fa);
+    border-radius: var(--border-radius-md, 0.5rem);
+    box-shadow: 0 4px 12px rgba(10, 186, 181, 0.15);
+    background-color: white !important;
+    z-index: 1050 !important;
+}
+
+/* 新的筛选面板样式 */
+.filter-dropdown-panel {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fdff 100%);
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
+    z-index: 1000;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    max-height: 50vh;
+    overflow: hidden;
+    min-width: 380px;
+    backdrop-filter: blur(10px);
+}
+
+/* 筛选面板头部 */
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #f0f0f0;
+    background: linear-gradient(90deg, #0ABAB5 0%, #089A94 100%);
+    color: white;
+    border-radius: 12px 12px 0 0;
+}
+
+.filter-title {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
+
+.filter-close {
+    filter: invert(1);
+    opacity: 0.8;
+}
+
+.filter-close:hover {
+    opacity: 1;
+}
+
+/* 加载状态 */
+.loading-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    color: #6b7280;
+    font-size: 0.7rem;
+}
+
+.loading-text {
+    margin-left: 0.375rem;
+}
+
+/* 筛选内容区域 */
+.filter-content {
+    padding: 1rem;
+    max-height: none;
+    overflow: visible;
+}
+
+/* 搜索和操作按钮行 */
+.search-and-actions-row {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #f0f0f0;
+}
+
+.search-section {
+    flex: 1;
+    min-width: 0;
+}
+
+.actions-section {
+    flex: 2;
+    min-width: 0;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.action-buttons .btn {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.4rem;
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 筛选区块 */
+.filter-section {
+    margin-bottom: 1rem;
+}
+
+.filter-section:last-child {
+    margin-bottom: 0;
+}
+
+/* 筛选标签 */
+.filter-label {
+    display: flex;
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
+    min-height: 1.2rem;
+}
+
+.filter-label i {
+    color: #0ABAB5;
+    font-size: 0.85rem;
+}
+
+/* 筛选选项容器 - 紧凑布局 */
+.filter-options-container {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 0.375rem;
+    max-height: none;
+    overflow: visible;
+}
+
+/* 紧凑的复选框布局 */
+.filter-options-container .form-check {
+    margin-bottom: 0.25rem;
+    padding-left: 1.25rem;
+}
+
+.filter-options-container .form-check:last-child {
+    margin-bottom: 0;
+}
+
+.filter-options-container .form-check-input {
+    margin-top: 0.125rem;
+}
+
+.filter-options-container .form-check-label {
+    font-size: 0.75rem;
+    line-height: 1.2;
+    margin-left: 0.25rem;
+}
+
+/* 左右分栏布局 */
+.filter-columns {
+    display: flex;
+    gap: 1rem;
+}
+
+.filter-left-column {
+    flex: 1;
+    min-width: 0;
+}
+
+.filter-right-column {
+    flex: 1;
+    min-width: 0;
+}
+
+/* 左侧列内部的横向布局 */
+.filter-left-row {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.filter-half-width {
+    flex: 1;
+    min-width: 0;
+}
+
+/* 年龄和时间筛选的紧凑布局 */
+.compact-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.compact-row .col-6 {
+    flex: 1;
+}
+
+/* 筛选表单控件 - 更紧凑 */
+.filter-select,
+.filter-input {
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.375rem;
+    height: auto;
+}
+
+.filter-select:focus,
+.filter-input:focus {
+    border-color: #0ABAB5;
+    box-shadow: 0 0 0 2px rgba(10, 186, 181, 0.1);
+}
+
+/* 多选下拉框样式 */
+.filter-select[multiple] {
+    min-height: 80px;
+    max-height: 120px;
+    overflow-y: auto;
+    padding: 0.25rem;
+}
+
+.filter-select[multiple] option {
+    padding: 0.25rem 0.375rem;
+    font-size: 0.75rem;
+    border-radius: 2px;
+    margin-bottom: 1px;
+}
+
+.filter-select[multiple] option:checked {
+    background-color: #0ABAB5;
+    color: white;
+}
+
+.filter-select[multiple] option:hover {
+    background-color: #f0fdfc;
+}
+
+/* 快速日期按钮 - 更紧凑 - 将被删除 */
+
+/* 筛选操作按钮 */
+.filter-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    padding: 0.5rem 0.75rem;
+    border-top: 1px solid #f0f0f0;
+    background: #fafbfc;
+    border-radius: 0 0 12px 12px;
+}
+
+.filter-actions .btn {
+    border-radius: 4px;
+    font-weight: 500;
+    padding: 0.25rem 0.5rem;
+    transition: all 0.2s ease;
+    font-size: 0.75rem;
+}
+
+.filter-actions .btn-primary {
+    background: linear-gradient(135deg, #0ABAB5 0%, #089A94 100%);
+    border: none;
+}
+
+.filter-actions .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(10, 186, 181, 0.3);
+}
+
+.filter-actions .btn-outline-secondary {
+    border-color: #d1d5db;
+    color: #6b7280;
+}
+
+.filter-actions .btn-outline-secondary:hover {
+    background: #f3f4f6;
+    border-color: #9ca3af;
+}
+
+/* 移动端优化 */
+@media (max-width: 767.98px) {
+    .container-fluid {
+        padding-left: 10px !important; 
+        padding-right: 10px !important;
+        padding-bottom: 10px !important;
+    }
+    
+    .app-title {
+        font-size: 1.3rem;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+    
+    .search-controls .card-body {
+        padding: 0.75rem;
+    }
+    
+    .btn {
+        min-height: 40px;
+        font-size: 0.85rem;
+    }
+    
+    /* 分页管理移动端优化 */
+    .pagination-container {
+        padding: 0.75rem;
+    }
+    
+    .pagination-controls {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.25rem;
+    }
+    
+    .pagination-controls .form-label {
+        font-size: 0.8rem;
+    }
+    
+    .pagination-controls .form-select {
+        font-size: 0.8rem;
+        min-width: 70px;
+    }
+    
+    #paginationInfo {
+        font-size: 0.75rem;
+        text-align: center;
+    }
+    
+    /* 紧凑型卡片移动端优化 */
+    .profile-card-compact {
+        padding: 0.375rem;
+        margin-bottom: 0.25rem;
+        border-radius: 0.25rem;
+    }
+    
+    .profile-card-header-compact {
+        margin-bottom: 0.25rem;
+    }
+    
+    .profile-name-compact {
+        font-size: 0.9rem;
+        margin-bottom: 0.1rem;
+    }
+    
+    .age-badge {
+        font-size: 0.65rem;
+        padding: 0.1rem 0.3rem;
+    }
+    
+    .date-text {
+        font-size: 0.65rem;
+    }
+    
+    .profile-checkbox-compact {
+        width: 14px;
+        height: 14px;
+    }
+    
+    .profile-scores-compact {
+        gap: 0.375rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    .group-label {
+        font-size: 0.6rem;
+        margin-bottom: 0.1rem;
+    }
+    
+    .scores-row {
+        gap: 0.1rem;
+    }
+    
+    .score-compact {
+        padding: 0.1rem 0.2rem;
+        font-size: 0.65rem;
+        min-width: 1.25rem;
+        border-radius: 0.2rem;
+    }
+    
+    .profile-footer-compact {
+        font-size: 0.65rem;
+        padding-top: 0.2rem;
+        margin-top: 0.2rem;
+    }
+    
+    .pagination {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .pagination .page-item {
+        margin: 0.1rem;
+    }
+    
+    .pagination .page-link {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+    }
+    
+    /* 移动端搜索和操作按钮行优化 */
+    .search-and-actions-row {
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+        padding-top: 0.5rem;
+    }
+    
+    .search-section,
+    .actions-section {
+        flex: none;
+        width: 100%;
+    }
+    
+    .action-buttons {
+        gap: 0.25rem;
+    }
+    
+    .action-buttons .btn {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.4rem;
+        flex: 1;
+        min-width: 0;
+    }
+}
+
+/* 超小屏幕优化 */
+@media (max-width: 480px) {
+    .app-title {
+        font-size: 1.2rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .search-controls .card-body {
+        padding: 0.5rem;
+    }
+    
+    .profile-card-compact {
+        padding: 0.3rem;
+        margin-bottom: 0.2rem;
+    }
+    
+    .profile-card-header-compact {
+        margin-bottom: 0.2rem;
+    }
+    
+    .profile-name-compact {
+        font-size: 0.85rem;
+    }
+    
+    .age-badge {
+        font-size: 0.6rem;
+        padding: 0.08rem 0.25rem;
+    }
+    
+    .date-text {
+        font-size: 0.6rem;
+    }
+    
+    .profile-checkbox-compact {
+        width: 12px;
+        height: 12px;
+    }
+    
+    .profile-scores-compact {
+        gap: 0.25rem;
+        margin-bottom: 0.2rem;
+    }
+    
+    .group-label {
+        font-size: 0.55rem;
+        margin-bottom: 0.08rem;
+    }
+    
+    .scores-row {
+        gap: 0.08rem;
+    }
+    
+    .score-compact {
+        padding: 0.08rem 0.15rem;
+        font-size: 0.6rem;
+        min-width: 1rem;
+    }
+    
+    .profile-footer-compact {
+        font-size: 0.6rem;
+        padding-top: 0.15rem;
+        margin-top: 0.15rem;
+    }
+    
+    .center-text, .assessor-text {
+        font-size: 0.6rem;
+    }
+}
+
+/* 触摸设备优化 */
+@media (hover: none) and (pointer: coarse) {
+    .profile-card:hover,
+    .table th:hover,
+    .btn-tiffany:hover,
+    .btn-outline-tiffany:hover {
+        transform: none;
+        box-shadow: none;
+    }
+    
+    .profile-card:active {
+        transform: scale(0.98);
+    }
+    
+    .btn-tiffany:active {
+        background-color: var(--tiffany-blue-dark, #089A94);
+        transform: scale(0.98);
+    }
+    
+    .btn-outline-tiffany:active {
+        background-color: var(--tiffany-blue, #0ABAB5);
+        transform: scale(0.98);
+    }
+}
+
+/* 高对比度模式支持 */
+@media (prefers-contrast: high) {
+    .profile-card,
+    .search-controls .card {
+        border-width: 2px;
+    }
+    
+    .btn-tiffany,
+    .btn-outline-tiffany {
+        border-width: 2px;
+    }
+}
+
+/* 减少动画效果 */
+@media (prefers-reduced-motion: reduce) {
+    .profile-card,
+    .btn-tiffany,
+    .btn-outline-tiffany,
+    .sort-icon {
+        transition: none;
+    }
+    
+    .profile-card:hover,
+    .btn-tiffany:hover,
+    .btn-outline-tiffany:hover {
+        transform: none;
+    }
+}
+
+/* 加载状态 */
+.loading-skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* 空状态样式 */
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #6c757d;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    color: var(--tiffany-blue-light, #b3e5fc);
+    margin-bottom: 1rem;
+}
+
+.empty-state h6 {
+    color: var(--tiffany-blue, #0ABAB5);
+    margin-bottom: 0.5rem;
+}
+
+/* 焦点可见性增强 */
+.form-select:focus-visible,
+.btn-tiffany:focus-visible,
+.btn-outline-tiffany:focus-visible {
+    outline: 2px solid var(--tiffany-blue, #0ABAB5);
+    outline-offset: 2px;
+}
+
+/* 分页管理样式 */
+.pagination-container {
+    background-color: white;
+    border-radius: var(--border-radius-md, 0.5rem);
+    padding: 1rem;
+    border: 1px solid var(--tiffany-blue-light, #e0f7fa);
+}
+
+.pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.pagination-controls .form-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--tiffany-blue, #0ABAB5);
+    white-space: nowrap;
+}
+
+.pagination-controls .form-select {
+    border-color: var(--tiffany-blue-light, #e0f7fa);
+    color: var(--tiffany-blue, #0ABAB5);
+    font-weight: 500;
+    min-width: 80px;
+}
+
+.pagination-controls .form-select:focus {
+    border-color: var(--tiffany-blue, #0ABAB5);
+    box-shadow: 0 0 0 0.2rem rgba(10, 186, 181, 0.25);
+}
+
+#paginationInfo {
+    font-weight: 500;
+    color: #6c757d;
+}
+
+/* 移动端适配 - 小于420px时的优化 */
+@media (max-width: 420px) {
+    .filter-dropdown-panel {
+        min-width: auto;
+        margin-left: -10px;
+        margin-right: -10px;
+        border-radius: 8px;
+        max-height: 60vh;
+    }
+    
+    .filter-columns {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .filter-left-column,
+    .filter-right-column {
+        flex: none;
+        width: 100%;
+    }
+    
+    /* 移动端左侧行布局调整 */
+    .filter-left-row {
+        gap: 0.25rem;
+    }
+    
+    .filter-half-width {
+        flex: 1;
+        min-width: 0;
+    }
+    
+    .filter-header {
+        padding: 0.375rem 0.5rem;
+        border-radius: 8px 8px 0 0;
+    }
+    
+    .filter-title {
+        font-size: 0.75rem;
+    }
+    
+    .filter-content {
+        padding: 0.5rem;
+    }
+    
+    .filter-section {
+        margin-bottom: 0.5rem;
+    }
+    
+    .filter-label {
+        font-size: 0.7rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    .filter-options-container {
+        padding: 0.25rem;
+    }
+    
+    .filter-options-container .form-check-label {
+        font-size: 0.7rem;
+    }
+    
+    .compact-row {
+        gap: 0.25rem;
+        margin-bottom: 0.375rem;
+    }
+    
+    .filter-select,
+    .filter-input {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.3rem;
+    }
+    
+    /* 移动端多选下拉框优化 */
+    .filter-select[multiple] {
+        min-height: 60px;
+        max-height: 80px;
+        font-size: 0.7rem;
+    }
+    
+    .filter-select[multiple] option {
+        padding: 0.2rem 0.3rem;
+        font-size: 0.7rem;
+    }
+    
+    .filter-actions {
+        padding: 0.375rem 0.5rem;
+    }
+    
+    .filter-actions .btn {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.4rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4" style="background-color: var(--tiffany-blue-xlight, #f0f8ff); padding: 20px; border-radius: var(--border-radius-md, 0.5rem);">
+    <h1 class="mb-4 app-title">学生档案管理</h1>
+
+    <!-- 搜索与操作栏 -->
+    <div class="search-controls mb-4" style="position: relative;">
+        <!-- 集成的筛选面板 - 固定显示 -->
+        <div id="storeFilterDropdown" class="filter-dropdown-panel" style="display: block;">
+            <div class="filter-header">
+                <h6 class="filter-title">
+                    <i class="bi bi-funnel me-2"></i>搜索与筛选
+                </h6>
+            </div>
+            
+            <div class="filter-content">
+                <!-- 第一行：筛选条件 -->
+                <div class="filter-columns">
+                    <!-- 左侧列：训练中心和测评师 -->
+                    <div class="filter-left-column">
+                        <div class="filter-left-row">
+                            <!-- 训练中心筛选 -->
+                            <div class="filter-section filter-half-width">
+                                <label class="filter-label">
+                                    <i class="bi bi-building me-2"></i>训练中心
+                                </label>
+                                <select class="form-select filter-select" id="storeFilterSelect" multiple>
+                                    <!-- 动态加载选项 -->
+                                </select>
+                            </div>
+                            
+                            <!-- 测评师筛选 -->
+                            <div class="filter-section filter-half-width">
+                                <label class="filter-label">
+                                    <i class="bi bi-person-badge me-2"></i>测评师
+                                </label>
+                                <select class="form-select filter-select" id="assessorFilterSelect" multiple>
+                                    <!-- 动态加载选项 -->
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 右侧列：年龄和时间筛选 -->
+                    <div class="filter-right-column">
+                        <!-- 年龄筛选 -->
+                        <div class="filter-section">
+                            <label class="filter-label">
+                                <i class="bi bi-calendar-range me-2"></i>年龄范围
+                            </label>
+                            <div class="compact-row">
+                                <div class="col-6">
+                                    <select class="form-select filter-select" id="minAgeFilter">
+                                        <option value="">最小年龄</option>
+                                        <option value="3">3岁</option>
+                                        <option value="4">4岁</option>
+                                        <option value="5">5岁</option>
+                                        <option value="6">6岁</option>
+                                        <option value="7">7岁</option>
+                                        <option value="8">8岁</option>
+                                        <option value="9">9岁</option>
+                                        <option value="10">10岁以上</option>
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <select class="form-select filter-select" id="maxAgeFilter">
+                                        <option value="">最大年龄</option>
+                                        <option value="3">3岁</option>
+                                        <option value="4">4岁</option>
+                                        <option value="5">5岁</option>
+                                        <option value="6">6岁</option>
+                                        <option value="7">7岁</option>
+                                        <option value="8">8岁</option>
+                                        <option value="9">9岁</option>
+                                        <option value="10">10岁以上</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 时间段筛选 -->
+                        <div class="filter-section">
+                            <label class="filter-label">
+                                <i class="bi bi-calendar-event me-2"></i>测评时间
+                            </label>
+                            <div class="compact-row">
+                                <div class="col-6">
+                                    <input type="date" class="form-control filter-input" id="startDateFilter" placeholder="开始日期">
+                                </div>
+                                <div class="col-6">
+                                    <input type="date" class="form-control filter-input" id="endDateFilter" placeholder="结束日期">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 第二行：搜索框和操作按钮 -->
+                <div class="search-and-actions-row">
+                    <div class="search-section">
+                        <label class="filter-label">
+                            <i class="bi bi-search me-2"></i>学生姓名
+                        </label>
+                        <input type="text" class="form-control filter-input" id="profileSearchInput" placeholder="按学生姓名搜索...">
+                    </div>
+                    <div class="actions-section">
+                        <label class="filter-label">
+                            <i class="bi bi-gear me-2"></i>操作
+                        </label>
+                        <div class="action-buttons">
+                            <button type="button" class="btn btn-outline-tiffany btn-sm" id="selectAllBtn">
+                                <i class="bi bi-check2-square me-1"></i>全选/反选
+                            </button>
+                            <button type="button" class="btn btn-tiffany btn-sm" id="downloadSelectedBtn" disabled>
+                                <i class="bi bi-download me-1"></i>下载选中 (<span id="selectedCount">0</span>)
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm" id="clearStoreFilterBtnNew">
+                                <i class="bi bi-arrow-clockwise me-1"></i>重置
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+
+    <!-- 学生档案表格 -->
+    <div class="profiles-container">
+        <div class="card shadow-sm">
+            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 text-tiffany">学生档案列表</h5>
+                <small class="text-muted" id="profilesCount">加载中...</small>
+            </div>
+            <div class="card-body p-0">
+                <!-- 移动端卡片式布局 -->
+                <div class="d-md-none" id="mobileProfilesList">
+                    <div class="text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">加载中...</span>
+                        </div>
+                        <p class="mt-2 text-muted">正在加载学生档案...</p>
+                    </div>
+                </div>
+
+                <!-- 桌面端表格布局 -->
+                <div class="d-none d-md-block">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-sm align-middle custom-table mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col" style="width: 3%;"><input type="checkbox" class="form-check-input" id="selectAllCheckbox" title="全选当页"></th>
+                    <th scope="col" data-sort-key="name" style="width: 8%;">姓名 <i class="bi bi-arrow-down-up sort-icon"></i></th>
+                    <th scope="col" data-sort-key="age" style="width: 5%;">年龄 <i class="bi bi-arrow-down-up sort-icon"></i></th>
+                    <th scope="col" data-sort-key="test_date" style="width: 10%;">测评日期 <i class="bi bi-arrow-down-up sort-icon"></i></th>
+                    <th scope="col" data-sort-key="training_center" style="width: 10%;">训练中心 <i class="bi bi-arrow-down-up sort-icon"></i></th>
+                    <th scope="col" data-sort-key="assessor" style="width: 8%;">测评师 <i class="bi bi-arrow-down-up sort-icon"></i></th>
+                    <th scope="col" data-sort-key="vb" style="width: 5%;">VB <i class="bi bi-arrow-down-up sort-icon"></i></th>
+                    <th scope="col" data-sort-key="vd" style="width: 5%;">VD <i class="bi bi-arrow-down-up sort-icon"></i></th>
+                    <th scope="col" data-sort-key="vm" style="width: 5%;">VM <i class="bi bi-arrow-down-up sort-icon"></i></th>
+                    <th scope="col" data-sort-key="vm2" style="width: 6%;">VM2 <i class="bi bi-arrow-down-up sort-icon"></i></th>
+                    <th scope="col" data-sort-key="ab" style="width: 5%;">AB <i class="bi bi-arrow-down-up sort-icon"></i></th>
+                    <th scope="col" data-sort-key="ad" style="width: 5%;">AD <i class="bi bi-arrow-down-up sort-icon"></i></th>
+                    <th scope="col" data-sort-key="am" style="width: 5%;">AM <i class="bi bi-arrow-down-up sort-icon"></i></th>
+                    <th scope="col" data-sort-key="am2" style="width: 6%;">AM2 <i class="bi bi-arrow-down-up sort-icon"></i></th>
+                </tr>
+            </thead>
+            <tbody id="studentProfilesTableBody">
+                <tr>
+                    <td colspan="14" class="text-center py-5">
+                        <div class="spinner-border spinner-border-sm text-primary" role="status">
+                            <span class="visually-hidden">加载中...</span>
+                        </div>
+                        <span class="ms-2">正在加载学生档案...</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 分页导航和管理 -->
+    <div class="pagination-container mt-4">
+        <div class="row align-items-center">
+            <!-- 分页管理 -->
+            <div class="col-12 col-md-4 mb-2 mb-md-0">
+                <div class="pagination-controls">
+                    <label for="pageSizeSelect" class="form-label me-2 mb-0">每页显示：</label>
+                    <select class="form-select form-select-sm d-inline-block" id="pageSizeSelect" style="width: auto;">
+                        <option value="50" selected>50条</option>
+                        <option value="100">100条</option>
+                        <option value="200">200条</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- 分页信息 -->
+            <div class="col-12 col-md-4 mb-2 mb-md-0 text-center">
+                <small class="text-muted" id="paginationInfo">
+                    显示第 1-50 条，共 0 条记录
+                </small>
+    </div>
+
+    <!-- 分页导航 -->
+            <div class="col-12 col-md-4">
+                <nav aria-label="学生档案分页" class="d-flex justify-content-center justify-content-md-end">
+                    <ul class="pagination pagination-sm mb-0">
+            <!-- JS will populate this -->
+        </ul>
+    </nav>
+</div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 全局变量
+    let currentPage = 1;
+    let currentLimit = 50; // 默认显示50条
+    let currentSearchName = '';
+    let currentSearchAssessor = '';
+    let currentSortBy = 'name';
+    let currentSortOrder = 'asc';
+    let selectedProfiles = new Set();
+    let allProfiles = [];
+    
+    // 训练中心和测评师的映射关系
+    let storeAssessorMapping = {};
+    let allStores = [];
+    let allAssessors = [];
+    
+    // 筛选条件
+    let currentFilters = {
+        stores: [],
+        assessors: [],
+        minAge: '',
+        maxAge: '',
+        startDate: '',
+        endDate: ''
+    };
+    
+    // DOM元素
+    const mobileProfilesList = document.getElementById('mobileProfilesList');
+    const desktopTableBody = document.getElementById('studentProfilesTableBody');
+    const profilesCount = document.getElementById('profilesCount');
+    const paginationInfo = document.getElementById('paginationInfo');
+    const pageSizeSelect = document.getElementById('pageSizeSelect');
+    
+    // 分页大小选择事件
+    if (pageSizeSelect) {
+        pageSizeSelect.addEventListener('change', function() {
+            currentLimit = parseInt(this.value);
+            currentPage = 1;
+            loadProfiles();
+        });
+    }
+    
+    // 加载学生档案数据
+    function loadProfiles() {
+        const params = new URLSearchParams({
+            page: currentPage,
+            limit: currentLimit,
+            search_name: currentSearchName,
+            search_assessor: currentSearchAssessor,
+            sort_by: currentSortBy,
+            sort_order: currentSortOrder,
+            // 添加新的筛选参数
+            filter_stores: currentFilters.stores.join(','),
+            filter_assessors: currentFilters.assessors.join(','),
+            min_age: currentFilters.minAge,
+            max_age: currentFilters.maxAge,
+            start_date: currentFilters.startDate,
+            end_date: currentFilters.endDate
+        });
+        
+        fetch(`{{ url_for('student.student_profiles') }}?${params}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                
+                allProfiles = data.profiles;
+                updateProfilesDisplay(data.profiles);
+                updateProfilesCount(data.pagination.total_count);
+                updatePagination(data.pagination);
+                
+                // 更新筛选选项
+                updateFilterOptions(data.pagination);
+            })
+            .catch(error => {
+                console.error('加载学生档案失败:', error);
+                showError('加载学生档案失败: ' + error.message);
+            });
+    }
+    
+    // 更新档案显示
+    function updateProfilesDisplay(profiles) {
+        // 移动端卡片显示
+        if (mobileProfilesList) {
+            if (profiles.length === 0) {
+                mobileProfilesList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="bi bi-inbox"></i>
+                        <h6>暂无学生档案</h6>
+                        <p>没有找到符合条件的学生档案</p>
+                    </div>
+                `;
+            } else {
+                mobileProfilesList.innerHTML = profiles.map(profile => `
+                    <div class="profile-card-compact ${selectedProfiles.has(profile.id) ? 'selected' : ''}" data-id="${profile.id}">
+                        <div class="profile-card-header-compact">
+                            <div class="profile-main-info">
+                                <h6 class="profile-name-compact">${profile.name || '未知'}</h6>
+                                <div class="profile-meta">
+                                    <span class="age-badge">${profile.age || '-'}岁</span>
+                                    <span class="date-text">${profile.test_date || '-'}</span>
+                                </div>
+                            </div>
+                            <input type="checkbox" class="profile-checkbox-compact" ${selectedProfiles.has(profile.id) ? 'checked' : ''}>
+                        </div>
+                        <div class="profile-scores-compact">
+                            <div class="score-group visual">
+                                <span class="group-label">视觉</span>
+                                <div class="scores-row">
+                                    <span class="score-compact" title="视觉广度">${profile.vb || '-'}</span>
+                                    <span class="score-compact" title="视觉分辨">${profile.vd || '-'}</span>
+                                    <span class="score-compact" title="视动统合">${profile.vm || '-'}</span>
+                                    <span class="score-compact" title="视觉记忆">${profile.vm2 || '-'}</span>
+                                </div>
+                            </div>
+                            <div class="score-group auditory">
+                                <span class="group-label">听觉</span>
+                                <div class="scores-row">
+                                    <span class="score-compact" title="听觉广度">${profile.ab || '-'}</span>
+                                    <span class="score-compact" title="听觉分辨">${profile.ad || '-'}</span>
+                                    <span class="score-compact" title="听动统合">${profile.am || '-'}</span>
+                                    <span class="score-compact" title="听觉记忆">${profile.am2 || '-'}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="profile-footer-compact">
+                            <span class="center-text">${profile.training_center || '-'}</span>
+                            <span class="assessor-text">${profile.assessor || '-'}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+        
+        // 桌面端表格显示
+        if (desktopTableBody) {
+            if (profiles.length === 0) {
+                desktopTableBody.innerHTML = `
+                    <tr>
+                        <td colspan="14" class="text-center py-5">
+                            <div class="empty-state">
+                                <i class="bi bi-inbox"></i>
+                                <h6>暂无学生档案</h6>
+                                <p>没有找到符合条件的学生档案</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            } else {
+                desktopTableBody.innerHTML = profiles.map(profile => `
+                    <tr data-id="${profile.id}">
+                        <td><input type="checkbox" class="form-check-input profile-checkbox" ${selectedProfiles.has(profile.id) ? 'checked' : ''}></td>
+                        <td>${profile.name || '-'}</td>
+                        <td>${profile.age || '-'}</td>
+                        <td>${profile.test_date || '-'}</td>
+                        <td>${profile.training_center || '-'}</td>
+                        <td>${profile.assessor || '-'}</td>
+                        <td>${profile.vb || '-'}</td>
+                        <td>${profile.vd || '-'}</td>
+                        <td>${profile.vm || '-'}</td>
+                        <td>${profile.vm2 || '-'}</td>
+                        <td>${profile.ab || '-'}</td>
+                        <td>${profile.ad || '-'}</td>
+                        <td>${profile.am || '-'}</td>
+                        <td>${profile.am2 || '-'}</td>
+                    </tr>
+                `).join('');
+            }
+        }
+        
+        updateSelectedCount();
+    }
+    
+    // 更新档案数量显示
+    function updateProfilesCount(count) {
+        if (profilesCount) {
+            profilesCount.textContent = `共 ${count} 条记录`;
+        }
+    }
+    
+    // 更新分页信息
+    function updatePaginationInfo(pagination) {
+        if (paginationInfo) {
+            const start = (pagination.page - 1) * pagination.limit + 1;
+            const end = Math.min(pagination.page * pagination.limit, pagination.total_count);
+            paginationInfo.textContent = `显示第 ${start}-${end} 条，共 ${pagination.total_count} 条记录`;
+        }
+    }
+    
+    // 更新分页
+    function updatePagination(pagination) {
+        const paginationContainer = document.querySelector('.pagination');
+        if (!paginationContainer) return;
+        
+        let paginationHTML = '';
+        
+        // 上一页
+        if (pagination.page > 1) {
+            paginationHTML += `<li class="page-item"><a class="page-link" href="#" data-page="${pagination.page - 1}">上一页</a></li>`;
+        }
+        
+        // 页码
+        const startPage = Math.max(1, pagination.page - 2);
+        const endPage = Math.min(pagination.pages, pagination.page + 2);
+        
+        for (let i = startPage; i <= endPage; i++) {
+            paginationHTML += `<li class="page-item ${i === pagination.page ? 'active' : ''}">
+                <a class="page-link" href="#" data-page="${i}">${i}</a>
+            </li>`;
+        }
+        
+        // 下一页
+        if (pagination.page < pagination.pages) {
+            paginationHTML += `<li class="page-item"><a class="page-link" href="#" data-page="${pagination.page + 1}">下一页</a></li>`;
+        }
+        
+        paginationContainer.innerHTML = paginationHTML;
+        
+        // 更新分页信息
+        updatePaginationInfo(pagination);
+    }
+    
+    // 更新选中数量
+    function updateSelectedCount() {
+        const count = document.getElementById('selectedCount');
+        const button = document.getElementById('downloadSelectedBtn');
+        
+            if (count) count.textContent = selectedProfiles.size;
+        if (button) button.disabled = selectedProfiles.size === 0;
+    }
+    
+    // 显示错误信息
+    function showError(message) {
+        if (mobileProfilesList) {
+            mobileProfilesList.innerHTML = `
+                <div class="alert alert-danger" role="alert">
+                    <h6 class="alert-heading">加载失败</h6>
+                    <p class="mb-0">${message}</p>
+                </div>
+            `;
+        }
+        
+        if (desktopTableBody) {
+            desktopTableBody.innerHTML = `
+                <tr>
+                    <td colspan="14" class="text-center py-3">
+                        <div class="alert alert-danger" role="alert">
+                            <h6 class="alert-heading">加载失败</h6>
+                            <p class="mb-0">${message}</p>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }
+    }
+    
+    // 事件监听
+    
+    // 搜索功能
+    const searchInput = document.getElementById('profileSearchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+                currentSearchName = this.value.trim();
+                currentPage = 1;
+                loadProfiles();
+            });
+        }
+    
+    // 表头排序功能
+    document.addEventListener('click', function(e) {
+        const th = e.target.closest('th[data-sort-key]');
+        if (th) {
+            const sortKey = th.dataset.sortKey;
+            
+            // 如果点击的是当前排序字段，切换排序方向
+            if (currentSortBy === sortKey) {
+                currentSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSortBy = sortKey;
+                currentSortOrder = 'asc';
+            }
+            
+            // 更新表头样式
+            document.querySelectorAll('th[data-sort-key]').forEach(header => {
+                header.classList.remove('sorted');
+                const icon = header.querySelector('.sort-icon');
+                if (icon) {
+                    icon.className = 'bi bi-arrow-down-up sort-icon';
+                }
+            });
+            
+            th.classList.add('sorted');
+            const icon = th.querySelector('.sort-icon');
+            if (icon) {
+                icon.className = currentSortOrder === 'asc' ? 'bi bi-arrow-up sort-icon' : 'bi bi-arrow-down sort-icon';
+            }
+            
+            currentPage = 1;
+            loadProfiles();
+        }
+    });
+    
+    // 选择功能
+    document.addEventListener('change', function(e) {
+        if (e.target.classList.contains('profile-checkbox') || e.target.classList.contains('profile-checkbox-compact')) {
+            const profileId = parseInt(e.target.closest('[data-id]').dataset.id);
+            
+            if (e.target.checked) {
+                selectedProfiles.add(profileId);
+            } else {
+                selectedProfiles.delete(profileId);
+            }
+            
+            // 同步其他设备的选择状态
+            document.querySelectorAll(`[data-id="${profileId}"] .profile-checkbox, [data-id="${profileId}"] .profile-checkbox-compact`).forEach(checkbox => {
+                checkbox.checked = e.target.checked;
+            });
+            
+            // 更新卡片样式
+            document.querySelectorAll(`[data-id="${profileId}"]`).forEach(card => {
+                if (e.target.checked) {
+                    card.classList.add('selected');
+                } else {
+                    card.classList.remove('selected');
+                }
+            });
+            
+            updateSelectedCount();
+        }
+    });
+    
+    // 全选功能
+    document.addEventListener('click', function(e) {
+        if (e.target.id === 'selectAllBtn') {
+            const allCheckboxes = document.querySelectorAll('.profile-checkbox, .profile-checkbox-compact');
+            const isSelectAll = selectedProfiles.size === 0;
+            
+            if (isSelectAll) {
+                // 全选
+                allProfiles.forEach(profile => selectedProfiles.add(profile.id));
+                allCheckboxes.forEach(checkbox => checkbox.checked = true);
+                document.querySelectorAll('.profile-card, .profile-card-compact').forEach(card => card.classList.add('selected'));
+            } else {
+                // 取消全选
+                selectedProfiles.clear();
+                allCheckboxes.forEach(checkbox => checkbox.checked = false);
+                document.querySelectorAll('.profile-card, .profile-card-compact').forEach(card => card.classList.remove('selected'));
+            }
+            
+            updateSelectedCount();
+        }
+    });
+    
+    // 分页功能
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('page-link') && e.target.dataset.page) {
+            e.preventDefault();
+            currentPage = parseInt(e.target.dataset.page);
+            loadProfiles();
+        }
+    });
+    
+    // 下载选中功能
+    document.addEventListener('click', function(e) {
+        if (e.target.id === 'downloadSelectedBtn') {
+            if (selectedProfiles.size === 0) {
+                alert('请先选择要下载的学生档案');
+                return;
+            }
+            
+            const ids = Array.from(selectedProfiles).join(',');
+            window.location.href = `{{ url_for('student.export_selected_profiles') }}?ids=${ids}`;
+        }
+    });
+    
+    // 筛选功能事件监听
+    document.addEventListener('click', function(e) {
+        // 清除筛选按钮
+        if (e.target.id === 'clearStoreFilterBtn' || e.target.closest('#clearStoreFilterBtn') ||
+            e.target.id === 'clearStoreFilterBtnNew' || e.target.closest('#clearStoreFilterBtnNew')) {
+            console.log('清除筛选按钮被点击了！');
+            clearFilters();
+            return;
+        }
+    });
+
+    // 应用筛选逻辑 (当任何筛选条件变化时调用)
+    function applyFiltersAndReload() {
+        // 收集训练中心筛选
+        const storeSelect = document.getElementById('storeFilterSelect');
+        currentFilters.stores = Array.from(storeSelect.selectedOptions).map(option => option.value);
+        
+        // 收集测评师筛选
+        const assessorSelect = document.getElementById('assessorFilterSelect');
+        currentFilters.assessors = Array.from(assessorSelect.selectedOptions).map(option => option.value);
+        
+        // 收集年龄筛选
+        currentFilters.minAge = document.getElementById('minAgeFilter').value;
+        currentFilters.maxAge = document.getElementById('maxAgeFilter').value;
+        
+        // 收集时间筛选
+        currentFilters.startDate = document.getElementById('startDateFilter').value;
+        currentFilters.endDate = document.getElementById('endDateFilter').value;
+        
+        // 重置到第一页并重新加载
+        currentPage = 1;
+        loadProfiles();
+    }
+
+    // 监听所有筛选控件的变化 (包括搜索框)
+    const filterControls = [
+        document.getElementById('storeFilterSelect'),
+        document.getElementById('assessorFilterSelect'),
+        document.getElementById('minAgeFilter'),
+        document.getElementById('maxAgeFilter'),
+        document.getElementById('startDateFilter'),
+        document.getElementById('endDateFilter'),
+        document.getElementById('profileSearchInput') // 添加搜索框到数组中
+    ];
+
+    filterControls.forEach(control => {
+        if (control) {
+            const eventType = control.id === 'profileSearchInput' ? 'input' : 'change';
+            control.addEventListener(eventType, function() {
+                console.log('筛选条件变化:', this.id, this.value);
+                if (this.id === 'profileSearchInput') {
+                    currentSearchName = this.value.trim();
+                }
+                applyFiltersAndReload(); 
+            });
+        }
+    });
+
+    // 清除筛选 (保持不变，但确保它也会刷新列表)
+    function clearFilters() {
+        // 重置筛选条件
+        currentFilters = {
+            stores: [],
+            assessors: [],
+            minAge: '',
+            maxAge: '',
+            startDate: '',
+            endDate: ''
+        };
+        currentSearchName = ''; // 也清除搜索词
+        
+        // 重置表单元素
+        const storeSelect = document.getElementById('storeFilterSelect');
+        const assessorSelect = document.getElementById('assessorFilterSelect');
+        
+        if (storeSelect) {
+            Array.from(storeSelect.options).forEach(option => option.selected = false);
+        }
+        if (assessorSelect) {
+            Array.from(assessorSelect.options).forEach(option => option.selected = false);
+        }
+        
+        document.getElementById('minAgeFilter').value = '';
+        document.getElementById('maxAgeFilter').value = '';
+        document.getElementById('startDateFilter').value = '';
+        document.getElementById('endDateFilter').value = '';
+        if(searchInput) searchInput.value = ''; // 清空搜索框
+        
+        updateAssessorOptions(); // 更新测评师选项，因为训练中心清空了
+        
+        // 重新加载数据
+        currentPage = 1;
+        loadProfiles();
+    }
+
+    // 更新筛选选项
+    function updateFilterOptions(pagination) {
+        console.log('更新筛选选项，接收到的数据:', pagination);
+        
+        // 从当前档案数据中构建训练中心和测评师的映射关系
+        if (allProfiles && allProfiles.length > 0) {
+            storeAssessorMapping = {};
+            allProfiles.forEach(profile => {
+                const store = profile.training_center;
+                const assessor = profile.assessor;
+                if (store && assessor) {
+                    if (!storeAssessorMapping[store]) {
+                        storeAssessorMapping[store] = new Set();
+                    }
+                    storeAssessorMapping[store].add(assessor);
+                }
+            });
+            
+            // 将Set转换为Array
+            Object.keys(storeAssessorMapping).forEach(store => {
+                storeAssessorMapping[store] = Array.from(storeAssessorMapping[store]);
+            });
+            
+            console.log('从档案数据构建的映射关系:', storeAssessorMapping);
+        }
+        
+        // 保存所有测评师数据
+        if (pagination.available_assessors) {
+            allAssessors = pagination.available_assessors;
+            console.log('所有可用测评师:', allAssessors);
+        }
+        
+        // 更新训练中心选项
+        const storeSelect = document.getElementById('storeFilterSelect');
+        if (storeSelect && pagination.available_stores) {
+            console.log('可用训练中心:', pagination.available_stores);
+            allStores = pagination.available_stores;
+            storeSelect.innerHTML = pagination.available_stores.map(store => `
+                <option value="${store}" ${currentFilters.stores.includes(store) ? 'selected' : ''}>
+                        ${store}
+                </option>
+            `).join('');
+        } else {
+            console.log('训练中心数据为空或元素不存在');
+            if (storeSelect) {
+                storeSelect.innerHTML = '<option disabled>暂无训练中心数据</option>';
+            }
+        }
+        
+        // 更新测评师选项（根据选中的训练中心）
+        updateAssessorOptions();
+    }
+    
+    // 更新测评师选项（根据选中的训练中心）
+    function updateAssessorOptions() {
+        const storeSelect = document.getElementById('storeFilterSelect');
+        const assessorSelect = document.getElementById('assessorFilterSelect');
+        
+        if (!assessorSelect) return;
+        
+        const selectedStores = Array.from(storeSelect.selectedOptions).map(option => option.value);
+        console.log('选中的训练中心:', selectedStores);
+        
+        let availableAssessors = [];
+        
+        if (selectedStores.length === 0) {
+            // 如果没有选择训练中心，显示所有测评师
+            availableAssessors = allAssessors;
+        } else {
+            // 如果选择了训练中心，只显示这些训练中心的测评师
+            const assessorSet = new Set();
+            selectedStores.forEach(store => {
+                if (storeAssessorMapping[store]) {
+                    storeAssessorMapping[store].forEach(assessor => {
+                        assessorSet.add(assessor);
+                    });
+                }
+            });
+            availableAssessors = Array.from(assessorSet);
+        }
+        
+        console.log('可用测评师:', availableAssessors);
+        
+        // 保存当前选中的测评师（只保留仍然可用的）
+        const currentSelectedAssessors = Array.from(assessorSelect.selectedOptions).map(option => option.value);
+        const validSelectedAssessors = currentSelectedAssessors.filter(assessor => 
+            availableAssessors.includes(assessor)
+        );
+        
+        // 更新测评师选项
+        assessorSelect.innerHTML = availableAssessors.map(assessor => `
+            <option value="${assessor}" ${validSelectedAssessors.includes(assessor) ? 'selected' : ''}>
+                        ${assessor}
+            </option>
+            `).join('');
+        
+        // 如果没有可用的测评师，显示提示
+        if (availableAssessors.length === 0) {
+            assessorSelect.innerHTML = '<option disabled>请先选择训练中心</option>';
+        }
+    }
+    
+    // 初始加载
+    loadProfiles();
+});
+</script>
+{% endblock %} 

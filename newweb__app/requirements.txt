@@ -1,0 +1,6 @@
+Flask
+docxtpl
+python-dotenv
+pandas
+python-docx
+openpyxl 

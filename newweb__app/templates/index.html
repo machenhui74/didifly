@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% block title %}首页 - 学生评测系统{% endblock %}
+
+{% block head_extra %}
+<style>
+    .welcome-section {
+        text-align: center;
+        padding: 3rem 1rem;
+        background-color: var(--tiffany-blue-xlight, #f0f8ff); /* 统一背景色 */
+        border-radius: var(--border-radius-md, .5rem);
+        margin-bottom: 2rem;
+    }
+    .welcome-title {
+        color: var(--tiffany-blue, #0ABAB5); /* 统一蒂芙尼蓝 */
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+    .form-section-title {
+        color: var(--tiffany-blue, #0ABAB5); /* 统一蒂芙尼蓝 */
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--tiffany-blue-light, #b3e5fc); /* 统一边框色 */
+        font-weight: 600;
+    }
+    .form-label {
+        font-weight: 500;
+    }
+    
+    /* 统一按钮样式 */
+    .btn-tiffany {
+        background-color: var(--tiffany-blue, #0ABAB5);
+        border-color: var(--tiffany-blue, #0ABAB5);
+        color: white;
+        font-weight: 500;
+    }
+    
+    .btn-tiffany:hover {
+        background-color: var(--tiffany-blue-dark, #36c7b8);
+        border-color: var(--tiffany-blue-dark, #36c7b8);
+        color: white;
+    }
+    
+    /* 统一表单验证样式 */
+    .form-control:focus {
+        border-color: var(--tiffany-blue, #0ABAB5);
+        box-shadow: 0 0 0 0.2rem rgba(10, 186, 181, 0.25);
+    }
+    
+    /* 响应式优化 */
+    @media (max-width: 768px) {
+        .welcome-section {
+            padding: 2rem 1rem;
+        }
+        
+        .form-section-title {
+            font-size: 1.25rem;
+        }
+    }
+    
+    .app-title {
+        color: var(--tiffany-blue, #0ABAB5); /* 统一蒂芙尼蓝 */
+    }
+    
+    .text-tiffany {
+        color: var(--tiffany-blue, #0ABAB5); /* 统一蒂芙尼蓝 */
+    }
+    
+    .btn-outline-tiffany {
+        border-color: var(--tiffany-blue, #0ABAB5);
+        color: var(--tiffany-blue, #0ABAB5);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="welcome-section">
+    <h1 class="welcome-title">欢迎回来，{{ user_name }}！</h1>
+    <p class="lead text-muted">今天是 {{ current_date }}，您当前在 {{ user_store }}。</p>
+    <p class="text-muted">使用下方表单提交新的学生测评数据。</p>
+</div>
+
+<form action="{{ url_for('student.submit') }}" method="POST">
+    <h3 class="form-section-title">学生基本信息</h3>
+    <div class="row g-3 mb-3">
+        <div class="col-md-4">
+            <label for="name" class="form-label">姓名 <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="col-md-4">
+            <label for="dob" class="form-label">出生日期 <span class="text-danger">*</span></label>
+            <input type="date" class="form-control" id="dob" name="dob" required>
+        </div>
+        <div class="col-md-4">
+            <label for="test_date" class="form-label">测评日期 <span class="text-danger">*</span></label>
+            <input type="date" class="form-control" id="test_date" name="test_date" value="{{ current_date }}" required>
+        </div>
+    </div>
+    <div class="row g-3 mb-4">
+        <div class="col-md-6">
+            <label for="training_center" class="form-label">训练中心 <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="training_center" name="training_center" value="{{ user_store }}" required>
+        </div>
+        <div class="col-md-6">
+            <label for="assessor" class="form-label">测评师 <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="assessor" name="assessor" value="{{ user_name }}" required>
+        </div>
+    </div>
+
+    <h3 class="form-section-title">视觉测评数据 (原始分)</h3>
+    <div class="row g-3 mb-3">
+        <div class="col-md-3">
+            <label for="vb" class="form-label">视觉广度 (vb)</label>
+            <input type="number" class="form-control" id="vb" name="vb" placeholder="例如: 300">
+        </div>
+        <div class="col-md-3">
+            <label for="vd" class="form-label">视觉分辨 (vd)</label>
+            <input type="number" class="form-control" id="vd" name="vd" placeholder="例如: 3">
+        </div>
+        <div class="col-md-3">
+            <label for="vm" class="form-label">视动统合 (vm)</label>
+            <input type="number" class="form-control" id="vm" name="vm" placeholder="例如: 16">
+        </div>
+        <div class="col-md-3">
+            <label for="vm2" class="form-label">视觉记忆 (vm2)</label>
+            <input type="number" class="form-control" id="vm2" name="vm2" placeholder="例如: 1">
+        </div>
+    </div>
+
+    <h3 class="form-section-title">听觉测评数据 (原始分)</h3>
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <label for="ab" class="form-label">听觉广度 (ab)</label>
+            <input type="number" class="form-control" id="ab" name="ab" placeholder="例如: 6">
+        </div>
+        <div class="col-md-3">
+            <label for="ad" class="form-label">听觉分辨 (ad)</label>
+            <input type="number" class="form-control" id="ad" name="ad" placeholder="例如: 1">
+        </div>
+        <div class="col-md-3">
+            <label for="am" class="form-label">听动统合 (am)</label>
+            <input type="number" class="form-control" id="am" name="am" placeholder="例如: 25">
+        </div>
+        <div class="col-md-3">
+            <label for="am2" class="form-label">听觉记忆 (am2)</label>
+            <input type="number" class="form-control" id="am2" name="am2" placeholder="例如: 2">
+        </div>
+    </div>
+
+    <div class="d-grid gap-2 col-6 mx-auto mb-4">
+        <button type="submit" class="btn btn-tiffany btn-lg"><i class="bi bi-check2-circle me-2"></i>提交测评数据</button>
+    </div>
+</form>
+
+{% endblock %} 

@@ -1,0 +1,618 @@
+{% extends "base.html" %}
+
+{% block title %}管理员面板 - {{ super() }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4" style="background-color: var(--tiffany-blue-xlight, #f0f8ff); padding: 20px; border-radius: var(--border-radius-md, 0.5rem);">
+    <h1 class="mb-4 app-title">管理员面板</h1>
+
+    <!-- 导航选项卡 -->
+    <ul class="nav nav-tabs mb-3" id="adminTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="user-list-tab" data-bs-toggle="tab" data-bs-target="#user-list-pane" type="button" role="tab" aria-controls="user-list-pane" aria-selected="true">用户列表</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="add-user-tab" data-bs-toggle="tab" data-bs-target="#add-user-pane" type="button" role="tab" aria-controls="add-user-pane" aria-selected="false">添加用户</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="permission-logs-tab" data-bs-toggle="tab" data-bs-target="#permission-logs-pane" type="button" role="tab" aria-controls="permission-logs-pane" aria-selected="false">权限日志</button>
+        </li>
+    </ul>
+
+    <!-- 选项卡内容 -->
+    <div class="tab-content" id="adminTabsContent">
+        <!-- 用户列表面板 -->
+        <div class="tab-pane fade show active" id="user-list-pane" role="tabpanel" aria-labelledby="user-list-tab" tabindex="0">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0 text-tiffany">用户列表</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">账号</th>
+                                    <th scope="col">用户名</th>
+                                    <th scope="col">所属门店</th>
+                                    <th scope="col">权限角色</th>
+                                    <th scope="col">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if users %}
+                                    {% for username, user_data in users.items() %}
+                                    <tr>
+                                        <td>{{ username }}</td>
+                                        <td>{{ user_data.name }}</td>
+                                        <td>{{ user_data.get('store', 'N/A') }}</td>
+                                        <td>
+                                            <span class="badge bg-{% if user_data.get('role') == 'admin' %}danger{% elif user_data.get('role') == 'principal' %}warning{% elif user_data.get('role') == 'assessor' %}primary{% else %}secondary{% endif %}">
+                                                {{ user_data.get('role_name', '未知') }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-sm btn-outline-tiffany me-1" data-bs-toggle="modal" data-bs-target="#editUserModal" 
+                                                    data-username="{{ username }}" 
+                                                    data-name="{{ user_data.name }}" 
+                                                    data-store="{{ user_data.get('store', '') }}">
+                                                编辑
+                                            </button>
+                                            {% if username != current_user_id and username != 'admin' %}
+                                            <button type="button" class="btn btn-sm btn-outline-warning me-1" data-bs-toggle="modal" data-bs-target="#roleModal" 
+                                                    data-username="{{ username }}" 
+                                                    data-name="{{ user_data.name }}" 
+                                                    data-current-role="{{ user_data.get('role', 'assessor') }}">
+                                                权限
+                                            </button>
+                                            {% endif %}
+                                            {% if username != 'admin' %}
+                                            <form action="{{ url_for('admin.delete_user') }}" method="POST" style="display: inline-block;">
+                                                <input type="hidden" name="username" value="{{ username }}">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('确定要删除用户 {{ username }} ({{ user_data.name }}) 吗？');">
+                                                    删除
+                                                </button>
+                                            </form>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                {% else %}
+                                <tr>
+                                    <td colspan="5" class="text-center fst-italic py-3">当前没有用户。</td>
+                                </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="mt-3 text-muted small">
+                        <em>请注意：管理员账号 (admin) 不会在此列表中显示，也不能通过此界面修改或删除。</em>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 添加用户面板 -->
+        <div class="tab-pane fade" id="add-user-pane" role="tabpanel" aria-labelledby="add-user-tab" tabindex="0">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0 text-tiffany">添加新用户</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="addUserForm" action="{{ url_for('admin.add_user') }}" method="POST">
+                                <div class="mb-3">
+                                    <label for="newUserName" class="form-label">用户名</label>
+                                    <input type="text" class="form-control" id="newUserName" name="new_name" placeholder="例如：张三">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="newUserStore" class="form-label">所属门店</label>
+                                    <input type="text" class="form-control" id="newUserStore" name="new_store" placeholder="例如：总店">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="newUserUsername" class="form-label">账号</label>
+                                    <input type="text" class="form-control" id="newUserUsername" name="new_username" placeholder="用户登录账号">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="newUserPassword" class="form-label">密码</label>
+                                    <input type="password" class="form-control" id="newUserPassword" name="new_password">
+                                    <div class="form-text">
+                                        密码必须包含至少6个字符，包括字母和数字。
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="newUserRole" class="form-label">权限角色</label>
+                                    <select class="form-select" id="newUserRole" name="new_role">
+                                        {% for role in available_roles %}
+                                        <option value="{{ role.value }}" {% if role.value == 'assessor' %}selected{% endif %}>{{ role.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-tiffany" id="addUserBtn">添加用户</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 权限日志面板 -->
+        <div class="tab-pane fade" id="permission-logs-pane" role="tabpanel" aria-labelledby="permission-logs-tab" tabindex="0">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 text-tiffany">权限变更日志</h5>
+                    <a href="{{ url_for('admin.permission_logs') }}" class="btn btn-sm btn-outline-tiffany">查看完整日志</a>
+                </div>
+                <div class="card-body">
+                    {% if permission_logs %}
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">时间</th>
+                                    <th scope="col">目标用户</th>
+                                    <th scope="col">权限变更</th>
+                                    <th scope="col">操作人</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for log in permission_logs[:10] %}
+                                <tr>
+                                    <td class="text-muted small">{{ log.timestamp[:19].replace('T', ' ') }}</td>
+                                    <td>{{ log.target_user_name }} ({{ log.target_user }})</td>
+                                    <td>
+                                        {% if log.old_role %}
+                                        <span class="badge bg-secondary">{{ log.old_role_name }}</span>
+                                        <i class="bi bi-arrow-right mx-1"></i>
+                                        {% endif %}
+                                        <span class="badge bg-{% if log.new_role == 'admin' %}danger{% elif log.new_role == 'principal' %}warning{% elif log.new_role == 'assessor' %}primary{% else %}secondary{% endif %}">{{ log.new_role_name }}</span>
+                                    </td>
+                                    <td class="text-muted">{{ log.operator_name }} ({{ log.operator_user }})</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <p class="text-center text-muted py-3">暂无权限变更记录</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 编辑用户模态框 -->
+    <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="editUserForm" action="{{ url_for('admin.edit_user') }}" method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editUserModalLabel">编辑用户信息</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="关闭"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="editUsernameHidden" name="username">
+                        <div class="mb-3">
+                            <label for="editFormUsername" class="form-label">账号</label>
+                            <input type="text" class="form-control" id="editFormUsername" name="username_display" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editFormName" class="form-label">用户名 <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="editFormName" name="new_name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editFormStore" class="form-label">所属门店</label>
+                            <input type="text" class="form-control" id="editFormStore" name="new_store">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editFormPassword" class="form-label">新密码 (如不修改请留空)</label>
+                            <input type="password" class="form-control" id="editFormPassword" name="new_password" aria-describedby="passwordHelpBlock">
+                            <div id="passwordHelpBlock" class="form-text">
+                                输入新密码以更新，留空则保持原密码不变。
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-tiffany">保存更改</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 权限管理模态框 -->
+    <div class="modal fade" id="roleModal" tabindex="-1" aria-labelledby="roleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="roleForm" action="{{ url_for('admin.update_role') }}" method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="roleModalLabel">修改用户权限</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="关闭"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="roleUsernameHidden" name="username">
+                        <div class="mb-3">
+                            <label for="roleFormUsername" class="form-label">用户</label>
+                            <input type="text" class="form-control" id="roleFormUsername" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="roleFormRole" class="form-label">权限角色</label>
+                            <select class="form-select" id="roleFormRole" name="new_role" required>
+                                {% for role in available_roles %}
+                                <option value="{{ role.value }}">{{ role.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="form-text">
+                                <strong>权限说明：</strong><br>
+                                • 管理员：可使用所有功能<br>
+                                • 校长：管理同训练中心+创建的账户，最多创建10个账户<br>
+                                • 测评师：可使用目前的所有用户功能<br>
+                                • 老师：只能使用专注力备课、感统备课、同训练中心学生档案查询、修改密码
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-warning">更新权限</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 通知模态框 -->
+    <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="notificationModalLabel">提示</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="notificationMessage"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-tiffany" id="confirmBtn" data-bs-dismiss="modal">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* 统一按钮样式 */
+.btn-tiffany {
+    background-color: var(--tiffany-blue, #0ABAB5);
+    border-color: var(--tiffany-blue, #0ABAB5);
+    color: white;
+    font-weight: 500;
+}
+
+.btn-tiffany:hover {
+    background-color: var(--tiffany-blue-dark, #089A94);
+    border-color: var(--tiffany-blue-dark, #089A94);
+    color: white;
+}
+
+.btn-outline-tiffany {
+    border-color: var(--tiffany-blue, #0ABAB5);
+    color: var(--tiffany-blue, #0ABAB5);
+    background-color: transparent;
+}
+
+.btn-outline-tiffany:hover {
+    background-color: var(--tiffany-blue, #0ABAB5);
+    border-color: var(--tiffany-blue, #0ABAB5);
+    color: white;
+}
+
+.btn-outline-danger {
+    border-color: #dc3545;
+    color: #dc3545;
+}
+
+.btn-outline-danger:hover {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}
+
+.btn-outline-warning {
+    border-color: #ffc107;
+    color: #ffc107;
+}
+
+.btn-outline-warning:hover {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #000;
+}
+
+/* 表单样式 */
+.form-control:focus {
+    border-color: var(--tiffany-blue, #0ABAB5);
+    box-shadow: 0 0 0 0.2rem rgba(10, 186, 181, 0.25);
+}
+
+.form-control[readonly] {
+    background-color: var(--tiffany-blue-xlight, #f8fdff);
+    border-color: var(--tiffany-blue-light, #b3e5fc);
+}
+
+/* 选项卡样式 */
+.nav-tabs .nav-link {
+    color: #6c757d;
+    border: 1px solid transparent;
+    border-bottom: 2px solid transparent;
+    transition: color .15s ease-in-out, border-color .15s ease-in-out;
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--border-radius-sm) var(--border-radius-sm) 0 0;
+}
+
+.nav-tabs .nav-link:hover {
+    border-color: transparent transparent var(--border-color) transparent;
+    color: var(--tiffany-blue, #0ABAB5);
+}
+
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
+    color: var(--tiffany-blue, #0ABAB5);
+    background-color: #f8f9fa;
+    border-color: transparent transparent var(--tiffany-blue, #0ABAB5) transparent;
+    font-weight: 600;
+}
+
+/* 表格样式优化 */
+.table th {
+    color: var(--tiffany-blue, #0ABAB5);
+    font-weight: 600;
+    border-bottom: 2px solid var(--tiffany-blue-light, #b3e5fc);
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(10, 186, 181, 0.05);
+}
+
+/* 响应式优化 */
+@media (max-width: 768px) {
+    .btn-sm {
+        font-size: 0.8rem;
+        padding: 0.25rem 0.5rem;
+        margin: 0.125rem;
+    }
+    
+    .table-responsive {
+        font-size: 0.875rem;
+    }
+}
+
+.text-tiffany {
+    color: var(--tiffany-blue, #0ABAB5);
+}
+
+.app-title {
+    color: var(--tiffany-blue, #0ABAB5);
+}
+</style>
+
+{% block scripts %}
+{{ super() }}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // 编辑用户模态框处理
+    var editUserModal = document.getElementById('editUserModal');
+    if (editUserModal) {
+        editUserModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var username = button.getAttribute('data-username');
+            var name = button.getAttribute('data-name');
+            var store = button.getAttribute('data-store');
+
+            var modalTitle = editUserModal.querySelector('.modal-title');
+            var usernameHiddenInput = editUserModal.querySelector('#editUsernameHidden');
+            var usernameDisplayInput = editUserModal.querySelector('#editFormUsername');
+            var nameInput = editUserModal.querySelector('#editFormName');
+            var storeInput = editUserModal.querySelector('#editFormStore');
+            var passwordInput = editUserModal.querySelector('#editFormPassword');
+
+            modalTitle.textContent = '编辑用户: ' + name + ' (' + username + ')';
+            usernameHiddenInput.value = username;
+            usernameDisplayInput.value = username;
+            nameInput.value = name;
+            storeInput.value = store;
+            passwordInput.value = ''; // 清空密码字段
+        });
+    }
+
+    // 权限管理模态框处理
+    var roleModal = document.getElementById('roleModal');
+    if (roleModal) {
+        roleModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var username = button.getAttribute('data-username');
+            var name = button.getAttribute('data-name');
+            var currentRole = button.getAttribute('data-current-role');
+
+            var modalTitle = roleModal.querySelector('.modal-title');
+            var usernameHiddenInput = roleModal.querySelector('#roleUsernameHidden');
+            var usernameDisplayInput = roleModal.querySelector('#roleFormUsername');
+            var roleSelect = roleModal.querySelector('#roleFormRole');
+
+            modalTitle.textContent = '修改用户权限: ' + name;
+            usernameHiddenInput.value = username;
+            usernameDisplayInput.value = name + ' (' + username + ')';
+            roleSelect.value = currentRole;
+        });
+    }
+    
+    // 获取通知模态框引用
+    const notificationModal = document.getElementById('notificationModal');
+    let notificationModalInstance = null;
+    
+    // 确保模态框关闭后清理遮罩
+    if (notificationModal) {
+        notificationModal.addEventListener('hidden.bs.modal', function () {
+            // 确保所有遮罩都被移除
+            document.body.classList.remove('modal-open');
+            const backdrops = document.querySelectorAll('.modal-backdrop');
+            backdrops.forEach(backdrop => {
+                backdrop.remove();
+            });
+            // 允许页面滚动
+            document.body.style.overflow = '';
+            document.body.style.paddingRight = '';
+        });
+        
+        // 确定按钮点击事件
+        document.getElementById('confirmBtn').addEventListener('click', function() {
+            // 确保模态框关闭
+            if (notificationModalInstance) {
+                notificationModalInstance.hide();
+            }
+        });
+    }
+    
+    // 显示通知模态框
+    function showNotification(message) {
+        const notificationMessage = document.getElementById('notificationMessage');
+        notificationMessage.textContent = message;
+        
+        // 确保之前的模态框已经关闭并清理
+        if (notificationModalInstance) {
+            notificationModalInstance.dispose();
+        }
+        
+        // 创建新的模态框实例
+        notificationModalInstance = new bootstrap.Modal(notificationModal);
+        notificationModalInstance.show();
+    }
+    
+    // 添加用户表单AJAX处理
+    const addUserForm = document.getElementById('addUserForm');
+    if (addUserForm) {
+        addUserForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('addUserBtn');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> 处理中...';
+            }
+            
+            const formData = new FormData(addUserForm);
+            
+            fetch('{{ url_for("admin.add_user") }}', {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(data => {
+                        throw new Error(data.message || '提交请求时出错，请稍后重试');
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // 成功添加用户
+                    addUserForm.reset();
+                    showNotification(data.message);
+                    
+                    // 1秒后刷新页面显示新增的用户
+                    setTimeout(() => {
+                        window.location.href = '{{ url_for("admin.admin") }}';
+                    }, 1000);
+                } else {
+                    // 显示错误信息
+                    showNotification(data.message);
+                    
+                    // 重置按钮状态
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '添加用户';
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('添加用户出错:', error);
+                showNotification(error.message || '提交请求时出错，请稍后重试');
+                
+                // 重置按钮状态
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '添加用户';
+                }
+            });
+        });
+    }
+    
+    // 权限管理表单AJAX处理
+    const roleForm = document.getElementById('roleForm');
+    if (roleForm) {
+        roleForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(roleForm);
+            
+            fetch('{{ url_for("admin.update_role") }}', {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                showNotification(data.message);
+                
+                if (data.success) {
+                    // 关闭模态框
+                    const roleModalInstance = bootstrap.Modal.getInstance(roleModal);
+                    if (roleModalInstance) {
+                        roleModalInstance.hide();
+                    }
+                    
+                    // 1秒后刷新页面
+                    setTimeout(() => {
+                        window.location.href = '{{ url_for("admin.admin") }}';
+                    }, 1000);
+                }
+            })
+            .catch(error => {
+                console.error('更新权限出错:', error);
+                showNotification('更新权限时出错，请稍后重试');
+            });
+        });
+    }
+});
+</script>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            {% for category, message in messages %}
+                setTimeout(() => {
+                    const notificationMessage = document.getElementById('notificationMessage');
+                    if (notificationMessage) {
+                        notificationMessage.textContent = '{{ message|replace("'", "\\'") }}';
+                        const notificationModal = document.getElementById('notificationModal');
+                        if (notificationModal) {
+                            const modalInstance = new bootstrap.Modal(notificationModal);
+                            modalInstance.show();
+                        }
+                    }
+                }, 100);
+            {% endfor %}
+        });
+        </script>
+    {% endif %}
+{% endwith %}
+{% endblock %}
+{% endblock %} 

@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}服务器错误 - {{ super() }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6 text-center">
+            <div class="error-page">
+                <!-- 错误图标 -->
+                <div class="error-icon mb-4">
+                    <i class="fas fa-exclamation-triangle" style="font-size: 6rem; color: #dc3545;"></i>
+                </div>
+                
+                <!-- 错误标题 -->
+                <h1 class="error-title mb-3" style="font-size: 3rem; color: #dc3545;">500</h1>
+                <h2 class="error-subtitle mb-4">服务器内部错误</h2>
+                
+                <!-- 错误描述 -->
+                <div class="error-description mb-4">
+                    <p class="lead">抱歉，服务器遇到了一个内部错误。</p>
+                    <p class="text-muted">我们的技术团队已经收到通知，正在努力解决这个问题。</p>
+                </div>
+                
+                <!-- 操作按钮 -->
+                <div class="error-actions">
+                    <a href="{{ url_for('main.index') }}" class="btn btn-tiffany btn-lg me-3">
+                        <i class="fas fa-home me-2"></i>返回首页
+                    </a>
+                    <button onclick="location.reload()" class="btn btn-outline-tiffany btn-lg">
+                        <i class="fas fa-redo me-2"></i>重新加载
+                    </button>
+                </div>
+                
+                <!-- 帮助信息 -->
+                <div class="error-help mt-5">
+                    <h5>您可以尝试：</h5>
+                    <ul class="list-unstyled text-start">
+                        <li><i class="fas fa-check text-success me-2"></i>刷新页面重试</li>
+                        <li><i class="fas fa-check text-success me-2"></i>稍后再试</li>
+                        <li><i class="fas fa-check text-success me-2"></i>返回首页继续使用其他功能</li>
+                        <li><i class="fas fa-check text-success me-2"></i>如果问题持续存在，请联系技术支持</li>
+                    </ul>
+                </div>
+                
+                <!-- 技术支持信息 -->
+                <div class="support-info mt-4">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>需要帮助？</strong> 
+                        请记录您执行的操作并联系管理员，我们会尽快为您解决问题。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.error-page {
+    padding: 2rem;
+    background: white;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+.error-title {
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.error-subtitle {
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.error-description {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.error-actions .btn {
+    min-width: 140px;
+}
+
+.error-help {
+    background: var(--tiffany-blue-xlight);
+    padding: 1.5rem;
+    border-radius: var(--border-radius-md);
+    border-left: 4px solid var(--tiffany-blue);
+}
+
+.error-help h5 {
+    color: var(--tiffany-blue);
+    margin-bottom: 1rem;
+}
+
+.error-help ul {
+    margin: 0;
+}
+
+.error-help li {
+    padding: 0.25rem 0;
+    color: var(--text-muted);
+}
+
+.support-info .alert {
+    text-align: left;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .error-icon i {
+        font-size: 4rem !important;
+    }
+    
+    .error-title {
+        font-size: 2rem !important;
+    }
+    
+    .error-actions .btn {
+        display: block;
+        width: 100%;
+        margin: 0.5rem 0;
+    }
+    
+    .error-actions .me-3 {
+        margin-right: 0 !important;
+    }
+}
+</style>
+{% endblock %} 

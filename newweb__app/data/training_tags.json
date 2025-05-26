@@ -1,0 +1,112 @@
+{
+  "tags": [
+    {
+      "name": "动态平衡",
+      "visible": true
+    },
+    {
+      "name": "静态平衡",
+      "visible": true
+    },
+    {
+      "name": "视动统合动作",
+      "visible": true
+    },
+    {
+      "name": "视觉屏蔽动作",
+      "visible": true
+    },
+    {
+      "name": "视觉记忆",
+      "visible": true
+    },
+    {
+      "name": "视觉抗干扰",
+      "visible": true
+    },
+    {
+      "name": "空间感知",
+      "visible": true
+    },
+    {
+      "name": "视觉前庭整合训练",
+      "visible": true
+    },
+    {
+      "name": "听动统合动作",
+      "visible": true
+    },
+    {
+      "name": "听觉屏蔽动作",
+      "visible": true
+    },
+    {
+      "name": "听觉记忆",
+      "visible": true
+    },
+    {
+      "name": "听觉抗干扰",
+      "visible": true
+    },
+    {
+      "name": "力量",
+      "visible": true
+    },
+    {
+      "name": "耐力",
+      "visible": true
+    },
+    {
+      "name": "手眼协调",
+      "visible": true
+    },
+    {
+      "name": "手脚协调",
+      "visible": true
+    },
+    {
+      "name": "双侧",
+      "visible": true
+    },
+    {
+      "name": "脚眼",
+      "visible": true
+    },
+    {
+      "name": "核心",
+      "visible": true
+    },
+    {
+      "name": "精细动作",
+      "visible": true
+    },
+    {
+      "name": "触觉精进",
+      "visible": true
+    },
+    {
+      "name": "触觉脱敏",
+      "visible": true
+    },
+    {
+      "name": "复合二",
+      "visible": true
+    },
+    {
+      "name": "复合三",
+      "visible": true
+    },
+    {
+      "name": "复合五",
+      "visible": true
+    },
+    {
+      "name": "动作企划",
+      "visible": true
+    },
+    {
+      "name": "呆瓜",
+      "visible": false
+    }
+  ]
+}

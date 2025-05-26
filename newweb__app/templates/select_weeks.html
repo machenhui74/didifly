@@ -1,0 +1,487 @@
+{% extends "base.html" %}
+
+{% block title %}选择训练周数 - {{ super() }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4" style="background-color: var(--tiffany-blue-xlight, #f0f8ff); padding: 20px; border-radius: var(--border-radius-md, 0.5rem);">
+    <h1 class="mb-4 app-title text-center">选择训练周数</h1>
+    
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0 text-tiffany text-center">
+                        <i class="bi bi-calendar-week me-2"></i>训练方案配置
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form id="selectWeeksForm" action="{{ url_for('student.download_plan') }}" method="post">
+                        <div class="form-section mb-4">
+                            <label for="weeksSelect" class="form-label">
+                                <i class="bi bi-gear me-2"></i>请选择每周上课次数：
+                            </label>
+                            <select class="form-select form-select-lg" id="weeksSelect" name="weeks" required>
+                                <option value="1" selected>每周1次课（12节课训练方案）</option>
+                                <option value="2">每周2次课（24节课训练方案）</option>
+                                <option value="3">每周3次课（36节课训练方案）</option>
+                                <option value="4">每周4次课（48节课训练方案）</option>
+                                <option value="5">每周5次课（60节课训练方案）</option>
+                            </select>
+                            <div class="form-text">
+                                <i class="bi bi-info-circle me-1"></i>
+                                选择合适的训练频率，系统将生成对应的训练方案
+                            </div>
+                        </div>
+
+                        <!-- 方案预览 -->
+                        <div class="plan-preview mb-4">
+                            <h6 class="preview-title">
+                                <i class="bi bi-eye me-2"></i>方案预览
+                            </h6>
+                            <div class="preview-content" id="planPreview">
+                                <div class="preview-item">
+                                    <div class="preview-label">训练周期</div>
+                                    <div class="preview-value" id="previewDuration">12周</div>
+                                </div>
+                                <div class="preview-item">
+                                    <div class="preview-label">总课时</div>
+                                    <div class="preview-value" id="previewTotal">12节课</div>
+                                </div>
+                                <div class="preview-item">
+                                    <div class="preview-label">每周频率</div>
+                                    <div class="preview-value" id="previewFrequency">1次/周</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="action-buttons">
+                            <div class="row g-2">
+                                <div class="col-12 col-md-6">
+                                    <button type="submit" class="btn btn-tiffany w-100" id="generateBtn">
+                                        <i class="bi bi-download me-2"></i>
+                                        <span class="d-none d-sm-inline">生成并下载训练方案</span>
+                                        <span class="d-sm-none">生成方案</span>
+                                    </button>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <a href="{{ url_for('student.results') }}" class="btn btn-outline-secondary w-100">
+                                        <i class="bi bi-arrow-left me-2"></i>
+                                        <span class="d-none d-sm-inline">返回结果页</span>
+                                        <span class="d-sm-none">返回</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* 统一按钮样式 */
+.btn-tiffany {
+    background-color: var(--tiffany-blue, #0ABAB5);
+    border-color: var(--tiffany-blue, #0ABAB5);
+    color: white;
+    font-weight: 500;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.btn-tiffany:hover {
+    background-color: var(--tiffany-blue-dark, #089A94);
+    border-color: var(--tiffany-blue-dark, #089A94);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(10, 186, 181, 0.3);
+}
+
+.btn-tiffany:disabled {
+    background-color: var(--gray-400, #ced4da);
+    border-color: var(--gray-400, #ced4da);
+    color: white;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.btn-outline-secondary {
+    border-color: #6c757d;
+    color: #6c757d;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: white;
+    transform: translateY(-1px);
+}
+
+/* 标题样式 */
+.app-title {
+    color: var(--tiffany-blue, #0ABAB5);
+    font-weight: 600;
+}
+
+.text-tiffany {
+    color: var(--tiffany-blue, #0ABAB5);
+}
+
+
+
+/* 表单样式 */
+.form-section {
+    background-color: white;
+    border: 1px solid var(--tiffany-blue-light, #e0f7fa);
+    border-radius: var(--border-radius-md, 0.5rem);
+    padding: 1.5rem;
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--tiffany-blue, #0ABAB5);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.form-select {
+    border-color: var(--tiffany-blue-light, #b3e5fc);
+    min-height: 48px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-select:focus {
+    border-color: var(--tiffany-blue, #0ABAB5);
+    box-shadow: 0 0 0 0.2rem rgba(10, 186, 181, 0.25);
+}
+
+.form-text {
+    color: #6c757d;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+/* 方案预览样式 */
+.plan-preview {
+    background: linear-gradient(135deg, var(--tiffany-blue-xlight, #f8fdff) 0%, var(--tiffany-blue-light, #e0f7fa) 100%);
+    border: 1px solid var(--tiffany-blue-light, #b3e5fc);
+    border-radius: var(--border-radius-md, 0.5rem);
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.plan-preview:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(10, 186, 181, 0.15);
+}
+
+.preview-title {
+    color: var(--tiffany-blue, #0ABAB5);
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.preview-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+}
+
+.preview-item {
+    background-color: white;
+    border: 1px solid var(--tiffany-blue-light, #e0f7fa);
+    border-radius: var(--border-radius-sm, 0.25rem);
+    padding: 1rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.preview-item:hover {
+    border-color: var(--tiffany-blue, #0ABAB5);
+    transform: translateY(-1px);
+}
+
+.preview-label {
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.preview-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--tiffany-blue, #0ABAB5);
+}
+
+/* 操作按钮区域 */
+.action-buttons {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--tiffany-blue-light, #e0f7fa);
+}
+
+/* 加载状态 */
+.btn-tiffany .spinner-border {
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.5rem;
+}
+
+/* 移动端优化 */
+@media (max-width: 768px) {
+    .container-fluid {
+        padding: 15px !important;
+    }
+    
+    .app-title {
+        font-size: 1.5rem;
+    }
+    
+    .card-body {
+        padding: 1.5rem 1rem;
+    }
+    
+    .form-section {
+        padding: 1rem;
+    }
+    
+    .form-label {
+        font-size: 0.95rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .form-select {
+        font-size: 0.95rem;
+    }
+    
+    .plan-preview {
+        padding: 1rem;
+    }
+    
+    .preview-content {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .preview-item {
+        padding: 0.75rem;
+    }
+    
+    .preview-value {
+        font-size: 1rem;
+    }
+    
+    .action-buttons .btn {
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+    }
+}
+
+/* 超小屏幕优化 */
+@media (max-width: 480px) {
+    .container-fluid {
+        padding: 10px !important;
+    }
+    
+    .card-body {
+        padding: 1rem 0.75rem;
+    }
+    
+    .app-title {
+        font-size: 1.3rem;
+    }
+    
+    .form-section {
+        padding: 0.75rem;
+    }
+    
+    .plan-preview {
+        padding: 0.75rem;
+    }
+    
+    .preview-item {
+        padding: 0.5rem;
+    }
+    
+    .preview-label {
+        font-size: 0.75rem;
+    }
+    
+    .preview-value {
+        font-size: 0.95rem;
+    }
+    
+    .form-text {
+        font-size: 0.8rem;
+    }
+}
+
+/* 触摸设备优化 */
+@media (hover: none) and (pointer: coarse) {
+    .plan-preview:hover,
+    .preview-item:hover,
+    .btn-tiffany:hover,
+    .btn-outline-secondary:hover {
+        transform: none;
+        box-shadow: none;
+    }
+    
+    .plan-preview:active {
+        transform: scale(0.98);
+    }
+    
+    .preview-item:active {
+        transform: scale(0.98);
+    }
+    
+    .btn-tiffany:active {
+        background-color: var(--tiffany-blue-dark, #089A94);
+        transform: scale(0.98);
+    }
+    
+    .btn-outline-secondary:active {
+        background-color: #6c757d;
+        transform: scale(0.98);
+    }
+}
+
+/* 高对比度模式支持 */
+@media (prefers-contrast: high) {
+    .form-section,
+    .plan-preview,
+    .preview-item {
+        border-width: 2px;
+    }
+    
+    .btn-tiffany,
+    .btn-outline-secondary,
+    .form-select {
+        border-width: 2px;
+    }
+}
+
+/* 减少动画效果 */
+@media (prefers-reduced-motion: reduce) {
+    .plan-preview,
+    .preview-item,
+    .btn-tiffany,
+    .btn-outline-secondary,
+    .form-select {
+        transition: none;
+    }
+    
+    .plan-preview:hover,
+    .preview-item:hover,
+    .btn-tiffany:hover,
+    .btn-outline-secondary:hover {
+        transform: none;
+    }
+}
+
+/* 焦点可见性增强 */
+.form-select:focus-visible,
+.btn-tiffany:focus-visible,
+.btn-outline-secondary:focus-visible {
+    outline: 2px solid var(--tiffany-blue, #0ABAB5);
+    outline-offset: 2px;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const weeksSelect = document.getElementById('weeksSelect');
+    const generateBtn = document.getElementById('generateBtn');
+    const selectWeeksForm = document.getElementById('selectWeeksForm');
+    
+    // 预览数据配置
+    const previewData = {
+        1: { duration: '12周', total: '12节课', frequency: '1次/周' },
+        2: { duration: '12周', total: '24节课', frequency: '2次/周' },
+        3: { duration: '12周', total: '36节课', frequency: '3次/周' },
+        4: { duration: '12周', total: '48节课', frequency: '4次/周' },
+        5: { duration: '12周', total: '60节课', frequency: '5次/周' }
+    };
+    
+    // 更新预览内容
+    function updatePreview() {
+        const selectedWeeks = weeksSelect.value;
+        const data = previewData[selectedWeeks];
+        
+        if (data) {
+            document.getElementById('previewDuration').textContent = data.duration;
+            document.getElementById('previewTotal').textContent = data.total;
+            document.getElementById('previewFrequency').textContent = data.frequency;
+        }
+    }
+    
+    // 设置加载状态
+    function setLoadingState(loading) {
+        if (loading) {
+            generateBtn.disabled = true;
+            generateBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>生成中...';
+        } else {
+            generateBtn.disabled = false;
+            generateBtn.innerHTML = '<i class="bi bi-download me-2"></i><span class="d-none d-sm-inline">生成并下载训练方案</span><span class="d-sm-none">生成方案</span>';
+        }
+    }
+    
+    // 监听选择变化
+    weeksSelect.addEventListener('change', function() {
+        updatePreview();
+        
+        // 添加选择动画效果
+        const planPreview = document.querySelector('.plan-preview');
+        planPreview.style.transform = 'scale(1.02)';
+        setTimeout(() => {
+            planPreview.style.transform = '';
+        }, 200);
+    });
+    
+    // 表单提交处理
+    selectWeeksForm.addEventListener('submit', function(e) {
+        if (!weeksSelect.value) {
+            e.preventDefault();
+            alert('请选择每周上课次数');
+            weeksSelect.focus();
+            return;
+        }
+        
+        setLoadingState(true);
+        
+        // 直接提交表单，不使用AJAX检查
+        // 设置延时恢复按钮状态，防止用户重复点击
+        setTimeout(() => {
+            setLoadingState(false);
+        }, 3000);
+    });
+    
+    // 初始化预览
+    updatePreview();
+    
+    // 键盘导航优化
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && e.target === weeksSelect) {
+            e.preventDefault();
+            selectWeeksForm.dispatchEvent(new Event('submit'));
+        }
+    });
+});
+</script>
+{% endblock %} 

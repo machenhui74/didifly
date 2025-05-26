@@ -1,0 +1,286 @@
+{% extends "base.html" %}
+
+{% block title %}视觉训练备课专用 - {{ super() }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4" style="background-color: var(--tiffany-blue-xlight, #f0f8ff); padding: 20px; border-radius: var(--border-radius-md, 0.5rem);">
+    <h1 class="mb-4 app-title">视觉训练备课专用</h1>
+
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0 text-tiffany">创建视觉训练方案</h5>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted mb-4">为4-12周岁小朋友直接选择训练难度生成视觉训练方案，无需进行测评。</p>
+                    
+                    <form id="directPlanForm" action="{{ url_for('student.select_weeks_direct') }}" method="post">
+                        <!-- 基本信息区域 -->
+                        <div class="mb-4">
+                            <h5 class="mb-3">基本信息</h5>
+                            <div class="row g-3">
+                            <div class="col-md-6">
+                                    <label for="childName" class="form-label">姓名 <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="childName" name="child_name" required>
+                            </div>
+                            <div class="col-md-6">
+                                    <label for="childAge" class="form-label">年龄 <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="childAge" name="child_age" required>
+                                        <option value="" selected disabled>请选择年龄</option>
+                                        {% for age in range(4, 13) %}
+                                            <option value="{{ age }}">{{ age }}岁</option>
+                                        {% endfor %}
+                                    </select>
+                                    <small class="form-text text-muted">支持4-12岁的年龄范围</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 训练难度选择区域 -->
+                        <div class="mb-4">
+                            <h5 class="mb-3">训练难度选择 <span class="text-danger">*</span></h5>
+                            
+                            <div class="row g-3">
+                            <!-- 视觉广度 -->
+                                <div class="col-md-6">
+                                    <div class="difficulty-card">
+                                        <div class="d-flex align-items-center mobile-horizontal">
+                                            <label class="form-label fw-bold text-tiffany mobile-label">视觉广度</label>
+                                            <select class="form-select mobile-select" name="visual_breadth" required>
+                                                <option value="" selected disabled>请选择难度</option>
+                                                {% for level in range(1, 10) %}
+                                                    <option value="L{{ level }}">L{{ level }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 视觉分辨 -->
+                                <div class="col-md-6">
+                                    <div class="difficulty-card">
+                                        <div class="d-flex align-items-center mobile-horizontal">
+                                            <label class="form-label fw-bold text-tiffany mobile-label">视觉分辨</label>
+                                            <select class="form-select mobile-select" name="visual_discrimination" required>
+                                                <option value="" selected disabled>请选择难度</option>
+                                                {% for level in range(1, 10) %}
+                                                    <option value="L{{ level }}">L{{ level }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 视动统合 -->
+                                <div class="col-md-6">
+                                    <div class="difficulty-card">
+                                        <div class="d-flex align-items-center mobile-horizontal">
+                                            <label class="form-label fw-bold text-tiffany mobile-label">视动统合</label>
+                                            <select class="form-select mobile-select" name="visuo_motor" required>
+                                                <option value="" selected disabled>请选择难度</option>
+                                                {% for level in range(1, 10) %}
+                                                    <option value="L{{ level }}">L{{ level }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 视觉记忆 -->
+                                <div class="col-md-6">
+                                    <div class="difficulty-card">
+                                        <div class="d-flex align-items-center mobile-horizontal">
+                                            <label class="form-label fw-bold text-tiffany mobile-label">视觉记忆</label>
+                                            <select class="form-select mobile-select" name="visual_memory" required>
+                                                <option value="" selected disabled>请选择难度</option>
+                                                {% for level in range(1, 10) %}
+                                                    <option value="L{{ level }}">L{{ level }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 难度参考提示 -->
+                        <div class="mb-4">
+                            <div class="alert alert-info">
+                                <h6 class="alert-heading">
+                                    <i class="fas fa-info-circle me-2"></i>难度参考
+                                </h6>
+                                <p class="mb-2">一般建议选择与小朋友年龄相符的难度：</p>
+                                <div class="row">
+                                    <div class="col-md-6">
+                            <ul class="mb-0">
+                                <li>4-5岁：L1-L2</li>
+                                <li>6-7岁：L3-L4</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <ul class="mb-0">
+                                <li>8-9岁：L5-L6</li>
+                                <li>10-12岁：L7-L9</li>
+                            </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{{ url_for('main.index') }}" class="btn btn-outline-danger me-md-2">
+                                <i class="fas fa-arrow-left me-2"></i>返回首页
+                            </a>
+                            <button type="submit" class="btn btn-tiffany">
+                                <i class="fas fa-arrow-right me-2"></i>下一步：选择课程数量
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* 难度选择卡片样式 */
+.difficulty-card {
+    background: var(--tiffany-blue-xlight, #f8fdff);
+    border: 1px solid var(--tiffany-blue-light, #b3e5fc);
+    border-radius: var(--border-radius-md, 0.5rem);
+    padding: 1rem;
+    height: 100%;
+    transition: all 0.3s ease;
+}
+
+.difficulty-card:hover {
+    border-color: var(--tiffany-blue, #0ABAB5);
+    box-shadow: 0 2px 8px rgba(10, 186, 181, 0.15);
+}
+
+.difficulty-card .form-label {
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+}
+
+.difficulty-card .form-select {
+    border: 1px solid var(--tiffany-blue-light, #b3e5fc);
+}
+
+.difficulty-card .form-select:focus {
+    border-color: var(--tiffany-blue, #0ABAB5);
+    box-shadow: 0 0 0 0.2rem rgba(10, 186, 181, 0.25);
+}
+
+/* 统一按钮样式 */
+.btn-tiffany {
+    background-color: var(--tiffany-blue, #0ABAB5);
+    border-color: var(--tiffany-blue, #0ABAB5);
+    color: white;
+    font-weight: 500;
+}
+
+.btn-tiffany:hover {
+    background-color: var(--tiffany-blue-dark, #36c7b8);
+    border-color: var(--tiffany-blue-dark, #36c7b8);
+    color: white;
+}
+
+.btn-outline-danger {
+    border-color: #dc3545;
+    color: #dc3545;
+}
+
+.btn-outline-danger:hover {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}
+
+/* 提示框样式优化 */
+.alert-info {
+    background-color: var(--tiffany-blue-xlight, #f0f8ff);
+    border-color: var(--tiffany-blue-light, #b3e5fc);
+    color: var(--text-dark, #333);
+}
+
+.alert-info .alert-heading {
+    color: var(--tiffany-blue, #0ABAB5);
+}
+
+/* 统一水平布局样式 - 所有设备 */
+.mobile-horizontal {
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 1rem;
+}
+
+.mobile-label {
+    margin-bottom: 0;
+    width: auto;
+    min-width: 80px;
+    flex-shrink: 0;
+    white-space: nowrap; /* 防止标签换行 */
+    font-size: 1rem;
+}
+
+.mobile-select {
+    flex: 1;
+    min-width: 0;
+}
+
+/* 响应式优化 */
+@media (max-width: 768px) {
+    .difficulty-card {
+        margin-bottom: 0.75rem; /* 减少卡片间距 */
+        padding: 0.6rem; /* 减少内边距 */
+    }
+    
+    .d-grid .btn {
+        margin: 0.25rem 0;
+    }
+    
+    /* 移动端标签调整 */
+    .mobile-label {
+        font-size: 0.9rem;
+        min-width: 70px; /* 移动端稍微缩小标签宽度 */
+    }
+    
+    .mobile-horizontal {
+        gap: 0.5rem; /* 进一步减少间距 */
+    }
+}
+
+/* 超小屏幕优化 */
+@media (max-width: 576px) {
+    .mobile-label {
+        font-size: 0.85rem;
+        min-width: 65px;
+    }
+    
+    .mobile-horizontal {
+        gap: 0.4rem; /* 超小屏幕更紧凑 */
+    }
+    
+    .difficulty-card {
+        padding: 0.4rem; /* 更小的内边距 */
+        margin-bottom: 0.5rem; /* 更小的卡片间距 */
+    }
+}
+
+.form-control:focus {
+    border-color: var(--tiffany-blue, #0ABAB5);
+    box-shadow: 0 0 0 0.2rem rgba(10, 186, 181, 0.25);
+}
+
+.form-select:focus {
+    border-color: var(--tiffany-blue, #0ABAB5);
+    box-shadow: 0 0 0 0.2rem rgba(10, 186, 181, 0.25);
+}
+
+.text-tiffany {
+    color: var(--tiffany-blue, #0ABAB5);
+}
+</style>
+{% endblock %} 

@@ -1,0 +1,722 @@
+{% extends "base.html" %}
+
+{% block title %}感统备课训练方案生成 - {{ super() }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4" style="background-color: var(--tiffany-blue-xlight, #f0f8ff); padding: 20px; border-radius: var(--border-radius-md, 0.5rem);">
+    <h1 class="mb-4 app-title">感统训练备课专用</h1>
+
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0 text-tiffany">创建训练方案</h5>
+                </div>
+                <div class="card-body">
+                    <form id="trainingPlanForm" method="POST" action="{{ url_for('student.generate_training_plan') }}">
+                        <!-- 基本信息区域 -->
+                        <div class="mb-4">
+                            <h5 class="mb-3">基本信息</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="name" class="form-label">姓名 <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="age" class="form-label">年龄 <span class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" id="age" name="age" min="4" max="12" required>
+                                    <small class="form-text text-muted">支持4-12岁的年龄范围</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 训练标签区域 -->
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="mb-0">训练标签 <span class="text-danger">*</span></h5>
+                                {% if is_admin %}
+                                <button type="button" class="btn btn-sm btn-outline-tiffany" id="toggleTagManagementBtn">
+                                    <i class="bi bi-gear"></i> 管理标签
+                                </button>
+                                {% endif %}
+                            </div>
+                            
+                            <!-- 管理员标签管理面板 -->
+                            {% if is_admin %}
+                            <div id="tagManagementPanel" class="card mb-3 d-none">
+                                <div class="card-body">
+                                    <h6 class="card-title">标签管理面板</h6>
+                                    <div class="mb-3">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="newTagName" placeholder="输入新标签名称">
+                                            <button class="btn btn-outline-primary" type="button" id="addTagBtn">添加标签</button>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-sm table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>标签名称</th>
+                                                    <th>可见性</th>
+                                                    <th>操作</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tagManagementTable">
+                                                <!-- 动态加载标签数据 -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            
+                            <div class="tag-container" id="tagContainer">
+                                <!-- 标签会通过JavaScript动态生成 -->
+                                <div class="spinner-border spinner-border-sm text-primary me-2" role="status">
+                                    <span class="visually-hidden">加载中...</span>
+                                </div>
+                                <span>正在加载训练标签...</span>
+                            </div>
+                            <div class="mt-2">
+                                <span id="selectedTagsDisplay" class="text-primary">已选标签: 无</span>
+                            </div>
+                            
+                            <!-- 只对管理员显示添加自定义标签 -->
+                            {% if is_admin %}
+                            <div class="mt-3">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="customTag" placeholder="添加自定义标签">
+                                    <button class="btn btn-outline-tiffany" type="button" id="addCustomTagBtn">添加</button>
+                                </div>
+                            </div>
+                            {% endif %}
+                            
+                            <input type="hidden" id="selectedTags" name="selected_tags" required>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button type="button" class="btn btn-outline-danger me-md-2" id="resetFormBtn">重置信息</button>
+                            <button type="submit" class="btn btn-tiffany" id="generateBtn">生成训练方案</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 通知消息模态框 -->
+<div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="notificationModalLabel">提示</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="notificationMessage"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 标签重命名模态框 -->
+{% if is_admin %}
+<div class="modal fade" id="renameTagModal" tabindex="-1" aria-labelledby="renameTagModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="renameTagModalLabel">重命名标签</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="oldTagName">
+                <div class="mb-3">
+                    <label for="newTagNameInput" class="form-label">新标签名称</label>
+                    <input type="text" class="form-control" id="newTagNameInput" placeholder="请输入新的标签名称">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="confirmRenameBtn">确认重命名</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tagContainer = document.getElementById('tagContainer');
+    const selectedTagsDisplay = document.getElementById('selectedTagsDisplay');
+    const selectedTagsInput = document.getElementById('selectedTags');
+    const resetFormBtn = document.getElementById('resetFormBtn');
+    const trainingPlanForm = document.getElementById('trainingPlanForm');
+    
+    // 标签管理相关元素
+    {% if is_admin %}
+    const toggleTagManagementBtn = document.getElementById('toggleTagManagementBtn');
+    const tagManagementPanel = document.getElementById('tagManagementPanel');
+    const tagManagementTable = document.getElementById('tagManagementTable');
+    const newTagNameInput = document.getElementById('newTagName');
+    const addTagBtn = document.getElementById('addTagBtn');
+    const customTagInput = document.getElementById('customTag');
+    const addCustomTagBtn = document.getElementById('addCustomTagBtn');
+    
+    // 重命名相关元素
+    const renameTagModal = new bootstrap.Modal(document.getElementById('renameTagModal'));
+    const oldTagNameInput = document.getElementById('oldTagName');
+    const newTagNameInput2 = document.getElementById('newTagNameInput');
+    const confirmRenameBtn = document.getElementById('confirmRenameBtn');
+    {% endif %}
+    
+    // 通知模态框
+    const notificationModal = new bootstrap.Modal(document.getElementById('notificationModal'));
+    const notificationMessage = document.getElementById('notificationMessage');
+
+    // 存储标签数据
+    let allTags = [];
+    let visibleTags = [];
+    let selectedTags = [];
+    let isAdmin = {{ 'true' if is_admin else 'false' }};
+
+    // 从服务器获取标签数据
+    async function fetchTags() {
+        try {
+            const response = await fetch('{{ url_for("api.get_training_tags") }}');
+            const data = await response.json();
+            
+            if (data.is_admin) {
+                // 管理员模式
+                allTags = data.tags;
+                visibleTags = allTags.filter(tag => tag.visible).map(tag => tag.name);
+                initTagManagementTable();
+            } else {
+                // 普通用户模式
+                visibleTags = data.tags;
+            }
+            
+            initTags();
+        } catch (error) {
+            console.error('获取标签数据失败:', error);
+            showNotification('获取标签数据失败，请刷新页面重试');
+        }
+    }
+
+    // 初始化标签显示
+    function initTags() {
+        tagContainer.innerHTML = '';
+        
+        if (visibleTags.length === 0) {
+            tagContainer.innerHTML = '<p class="text-muted">暂无可用标签</p>';
+            return;
+        }
+        
+        visibleTags.forEach(tag => {
+            const tagBtn = document.createElement('button');
+            tagBtn.type = 'button';
+            tagBtn.className = 'btn btn-sm btn-outline-tiffany m-1 tag-btn';
+            tagBtn.innerText = typeof tag === 'object' ? tag.name : tag;
+            tagBtn.dataset.tag = typeof tag === 'object' ? tag.name : tag;
+            tagBtn.addEventListener('click', () => toggleTag(tagBtn.dataset.tag, tagBtn));
+            tagContainer.appendChild(tagBtn);
+        });
+    }
+
+    // 初始化标签管理表格
+    {% if is_admin %}
+    function initTagManagementTable() {
+        tagManagementTable.innerHTML = '';
+        
+        allTags.forEach(tag => {
+            const row = document.createElement('tr');
+            
+            // 标签名称
+            const nameCell = document.createElement('td');
+            nameCell.textContent = tag.name;
+            row.appendChild(nameCell);
+            
+            // 可见性
+            const visibilityCell = document.createElement('td');
+            const visibilityBadge = document.createElement('span');
+            visibilityBadge.className = `badge ${tag.visible ? 'bg-success' : 'bg-secondary'}`;
+            visibilityBadge.textContent = tag.visible ? '可见' : '隐藏';
+            visibilityCell.appendChild(visibilityBadge);
+            row.appendChild(visibilityCell);
+            
+            // 操作按钮
+            const actionCell = document.createElement('td');
+            
+            // 可见性切换按钮
+            const toggleBtn = document.createElement('button');
+            toggleBtn.type = 'button';
+            toggleBtn.className = `btn btn-sm ${tag.visible ? 'btn-outline-secondary' : 'btn-outline-success'} me-1`;
+            toggleBtn.textContent = tag.visible ? '隐藏' : '显示';
+            toggleBtn.addEventListener('click', () => toggleTagVisibility(tag.name, !tag.visible));
+            actionCell.appendChild(toggleBtn);
+            
+            // 重命名按钮
+            const renameBtn = document.createElement('button');
+            renameBtn.type = 'button';
+            renameBtn.className = 'btn btn-sm btn-outline-primary me-1';
+            renameBtn.textContent = '重命名';
+            renameBtn.addEventListener('click', () => showRenameModal(tag.name));
+            actionCell.appendChild(renameBtn);
+            
+            row.appendChild(actionCell);
+            
+            tagManagementTable.appendChild(row);
+        });
+    }
+    
+    // 显示重命名模态框
+    function showRenameModal(tagName) {
+        oldTagNameInput.value = tagName;
+        newTagNameInput2.value = '';
+        renameTagModal.show();
+    }
+    
+    // 重命名标签
+    async function renameTag() {
+        const oldName = oldTagNameInput.value;
+        const newName = newTagNameInput2.value.trim();
+        
+        if (!newName) {
+            showNotification('新标签名称不能为空');
+            return;
+        }
+        
+        try {
+            const response = await fetch('{{ url_for("api.rename_training_tag") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ old_name: oldName, new_name: newName })
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                showNotification(data.message);
+                renameTagModal.hide();
+                fetchTags(); // 重新加载标签数据
+                
+                // 如果重命名的标签在已选中列表中，更新已选中列表
+                const selectedIndex = selectedTags.indexOf(oldName);
+                if (selectedIndex !== -1) {
+                    selectedTags[selectedIndex] = newName;
+                    updateSelectedTagsDisplay();
+                }
+            } else {
+                showNotification(data.message || '重命名标签失败');
+            }
+        } catch (error) {
+            console.error('重命名标签失败:', error);
+            showNotification('重命名标签失败，请稍后重试');
+        }
+    }
+    
+    // 切换标签管理面板显示
+    function toggleTagManagementPanel() {
+        tagManagementPanel.classList.toggle('d-none');
+        toggleTagManagementBtn.innerHTML = tagManagementPanel.classList.contains('d-none') ? 
+            '<i class="bi bi-gear"></i> 管理标签' : 
+            '<i class="bi bi-x-lg"></i> 关闭管理';
+    }
+    
+    // 添加新标签
+    async function addNewTag() {
+        const tagName = newTagNameInput.value.trim();
+        if (!tagName) return;
+        
+        try {
+            const response = await fetch('{{ url_for("api.add_training_tag") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ tag_name: tagName })
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                showNotification(data.message);
+                newTagNameInput.value = '';
+                fetchTags(); // 重新加载标签数据
+            } else {
+                showNotification(data.message || '添加标签失败');
+            }
+        } catch (error) {
+            console.error('添加标签失败:', error);
+            showNotification('添加标签失败，请稍后重试');
+        }
+    }
+    
+    // 切换标签可见性
+    async function toggleTagVisibility(tagName, visible) {
+        try {
+            const response = await fetch('{{ url_for("api.update_training_tag_visibility") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ tag_name: tagName, visible: visible })
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                // 不再显示提示框，只刷新标签数据
+                fetchTags(); // 重新加载标签数据
+            } else {
+                showNotification(data.message || '更新标签可见性失败');
+            }
+        } catch (error) {
+            console.error('更新标签可见性失败:', error);
+            showNotification('更新标签可见性失败，请稍后重试');
+        }
+    }
+    {% endif %}
+    
+    // 显示通知消息
+    function showNotification(message) {
+        notificationMessage.textContent = message;
+        notificationModal.show();
+    }
+
+    // 切换标签选中状态
+    function toggleTag(tag, tagBtn) {
+        const tagIndex = selectedTags.indexOf(tag);
+        if (tagIndex === -1) {
+            // 选中标签
+            selectedTags.push(tag);
+            tagBtn.classList.remove('btn-outline-tiffany');
+            tagBtn.classList.add('btn-tiffany');
+            tagBtn.classList.add('text-white');
+        } else {
+            // 取消选中
+            selectedTags.splice(tagIndex, 1);
+            tagBtn.classList.add('btn-outline-tiffany');
+            tagBtn.classList.remove('btn-tiffany');
+            tagBtn.classList.remove('text-white');
+        }
+        updateSelectedTagsDisplay();
+    }
+
+    // 添加自定义标签
+    {% if is_admin %}
+    function addCustomTag() {
+        const customTag = customTagInput.value.trim();
+        if (!customTag) return;
+        
+        // 检查是否已经存在此标签
+        const existingTag = visibleTags.find(tag => 
+            (typeof tag === 'object' ? tag.name : tag).toLowerCase() === customTag.toLowerCase()
+        );
+        
+        if (!existingTag) {
+            // 直接将自定义标签添加到API
+            newTagNameInput.value = customTag;
+            addNewTag();
+        } else {
+            // 找到已存在的标签按钮并选中
+            const existingTagStr = typeof existingTag === 'object' ? existingTag.name : existingTag;
+            const existingTagBtn = Array.from(document.querySelectorAll('.tag-btn')).find(btn => 
+                btn.dataset.tag.toLowerCase() === existingTagStr.toLowerCase()
+            );
+            
+            if (existingTagBtn && !selectedTags.includes(existingTagStr)) {
+                toggleTag(existingTagStr, existingTagBtn);
+            }
+        }
+        
+        // 清空输入框
+        customTagInput.value = '';
+    }
+    {% endif %}
+
+    // 更新已选标签显示
+    function updateSelectedTagsDisplay() {
+        selectedTagsDisplay.innerText = `已选标签: ${selectedTags.length > 0 ? selectedTags.join(', ') : '无'}`;
+        selectedTagsInput.value = JSON.stringify(selectedTags);
+        
+        // 启用/禁用生成按钮
+        const generateBtn = document.getElementById('generateBtn');
+        if (generateBtn) {
+            generateBtn.disabled = selectedTags.length === 0;
+        }
+    }
+
+    // 重置表单
+    function resetForm() {
+        trainingPlanForm.reset();
+        selectedTags = [];
+        
+        // 重置所有标签按钮样式
+        document.querySelectorAll('.tag-btn').forEach(btn => {
+            btn.classList.add('btn-outline-tiffany');
+            btn.classList.remove('btn-tiffany');
+            btn.classList.remove('text-white');
+        });
+        
+        updateSelectedTagsDisplay();
+    }
+
+    // 初始化页面
+    fetchTags();
+    updateSelectedTagsDisplay();
+
+    // 绑定事件
+    resetFormBtn.addEventListener('click', resetForm);
+
+    // 管理员特有事件绑定
+    {% if is_admin %}
+    toggleTagManagementBtn.addEventListener('click', toggleTagManagementPanel);
+    addTagBtn.addEventListener('click', addNewTag);
+    confirmRenameBtn.addEventListener('click', renameTag);
+    addCustomTagBtn.addEventListener('click', addCustomTag);
+    
+    newTagNameInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            addNewTag();
+        }
+    });
+    
+    customTagInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            addCustomTag();
+        }
+    });
+    
+    newTagNameInput2.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            renameTag();
+        }
+    });
+    {% endif %}
+
+    // 表单提交前验证
+    trainingPlanForm.addEventListener('submit', function(e) {
+        e.preventDefault(); // 阻止默认表单提交
+        
+        if (selectedTags.length === 0) {
+            showNotification('请至少选择一个训练标签');
+            return;
+        }
+        
+        // 获取表单数据
+        const studentName = document.getElementById('name').value.trim();
+        const studentAge = document.getElementById('age').value.trim();
+        
+        if (!studentName) {
+            showNotification('请输入学员姓名');
+            return;
+        }
+        
+        if (!studentAge) {
+            showNotification('请输入学员年龄');
+            return;
+        }
+        
+        // 禁用提交按钮，显示加载状态
+        const generateBtn = document.getElementById('generateBtn');
+        const originalText = generateBtn.innerHTML;
+        generateBtn.disabled = true;
+        generateBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> 生成中...';
+        
+        // 发送AJAX请求
+        fetch('{{ url_for("student.generate_training_plan") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                studentName: studentName,
+                studentAge: parseInt(studentAge),
+                selectedTags: selectedTags
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // 直接触发下载，不显示提示框
+                window.location.href = '{{ url_for("student.download_training_plan") }}';
+                
+                // 可选：重置表单
+                resetForm();
+            } else {
+                showNotification(data.message || '生成训练计划失败');
+            }
+        })
+        .catch(error => {
+            console.error('生成训练计划失败:', error);
+            showNotification('生成训练计划失败，请稍后重试');
+        })
+        .finally(() => {
+            // 恢复按钮状态
+            generateBtn.disabled = false;
+            generateBtn.innerHTML = originalText;
+        });
+    });
+});
+</script>
+
+<style>
+/* 标签容器样式 */
+.tag-container {
+    background: var(--tiffany-blue-xlight, #f8fdff);
+    border: 1px solid var(--tiffany-blue-light, #b3e5fc);
+    border-radius: var(--border-radius-md, 0.5rem);
+    padding: 1rem;
+    min-height: 80px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: flex-start;
+    gap: 0.5rem;
+}
+
+/* 标签按钮样式 */
+.tag-btn {
+    border: 1px solid var(--tiffany-blue, #0ABAB5);
+    color: var(--tiffany-blue, #0ABAB5);
+    background-color: white;
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.375rem 0.75rem;
+    border-radius: var(--border-radius-sm, 0.25rem);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.tag-btn:hover {
+    background-color: var(--tiffany-blue-light, #b3e5fc);
+    border-color: var(--tiffany-blue-dark, #36c7b8);
+    color: var(--tiffany-blue-dark, #36c7b8);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(10, 186, 181, 0.2);
+}
+
+/* 选中状态的标签按钮 */
+.tag-btn.btn-tiffany {
+    background-color: var(--tiffany-blue, #0ABAB5);
+    border-color: var(--tiffany-blue, #0ABAB5);
+    color: white;
+}
+
+.tag-btn.btn-tiffany:hover {
+    background-color: var(--tiffany-blue-dark, #36c7b8);
+    border-color: var(--tiffany-blue-dark, #36c7b8);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(10, 186, 181, 0.3);
+}
+
+/* 统一按钮样式 */
+.btn-tiffany {
+    background-color: var(--tiffany-blue, #0ABAB5);
+    border-color: var(--tiffany-blue, #0ABAB5);
+    color: white;
+    font-weight: 500;
+}
+
+.btn-tiffany:hover {
+    background-color: var(--tiffany-blue-dark, #36c7b8);
+    border-color: var(--tiffany-blue-dark, #36c7b8);
+    color: white;
+}
+
+.btn-outline-tiffany {
+    border: 1px solid var(--tiffany-blue, #0ABAB5);
+    color: var(--tiffany-blue, #0ABAB5);
+    background-color: transparent;
+}
+
+.btn-outline-tiffany:hover {
+    background-color: var(--tiffany-blue, #0ABAB5);
+    border-color: var(--tiffany-blue, #0ABAB5);
+    color: white;
+}
+
+.btn-outline-danger {
+    border-color: #dc3545;
+    color: #dc3545;
+}
+
+.btn-outline-danger:hover {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}
+
+/* 已选标签显示样式 */
+#selectedTagsDisplay {
+    font-weight: 500;
+    color: var(--tiffany-blue, #0ABAB5);
+    background: var(--tiffany-blue-xlight, #f0f8ff);
+    padding: 0.5rem;
+    border-radius: var(--border-radius-sm, 0.25rem);
+    border: 1px solid var(--tiffany-blue-light, #b3e5fc);
+}
+
+/* 管理员标签管理面板样式 */
+#tagManagementPanel {
+    background: var(--tiffany-blue-xlight, #f8fdff);
+    border: 1px solid var(--tiffany-blue-light, #b3e5fc);
+}
+
+#tagManagementPanel .card-title {
+    color: var(--tiffany-blue, #0ABAB5);
+    font-weight: 600;
+}
+
+/* 响应式优化 */
+@media (max-width: 768px) {
+    .tag-container {
+        padding: 0.75rem;
+        min-height: 60px;
+    }
+    
+    .tag-btn {
+        font-size: 0.8rem;
+        padding: 0.25rem 0.5rem;
+        margin: 0.125rem;
+    }
+    
+    .d-grid .btn {
+        margin: 0.25rem 0;
+    }
+    
+    #selectedTagsDisplay {
+        font-size: 0.875rem;
+        padding: 0.375rem;
+    }
+}
+
+/* 加载状态样式 */
+.tag-container .spinner-border {
+    color: var(--tiffany-blue, #0ABAB5);
+}
+
+/* 表单验证样式 */
+.form-control:focus {
+    border-color: var(--tiffany-blue, #0ABAB5);
+    box-shadow: 0 0 0 0.2rem rgba(10, 186, 181, 0.25);
+}
+
+.form-select:focus {
+    border-color: var(--tiffany-blue, #0ABAB5);
+    box-shadow: 0 0 0 0.2rem rgba(10, 186, 181, 0.25);
+}
+</style>
+{% endblock %} 

@@ -1,0 +1,192 @@
+/* 全局CSS变量 */
+:root {
+    --tiffany-blue: #0ABAB5;
+    --tiffany-blue-dark: #089A94;
+    --tiffany-blue-light: #E0F7FA;
+    --tiffany-blue-xlight: #F0FDFF;
+    --text-color-dark: #333;
+    --text-color-light: #f8f9fa;
+    --bg-light: #f8f9fa;
+    --border-color: #dee2e6;
+    --border-radius-sm: 0.25rem;
+    --border-radius-md: 0.5rem;
+    --border-radius-lg: 0.75rem;
+    --border-radius-xl: 1rem;
+    --box-shadow-sm: 0 .125rem .25rem rgba(0,0,0,.075);
+    --box-shadow-md: 0 .5rem 1rem rgba(0,0,0,.15);
+}
+
+body {
+    /* 参考 Tailwind 的 bg-background, 可以选择一个非常浅的灰色或保持白色 */
+    background-color: var(--bg-light); /* 使用变量替代硬编码值 */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* 修复模态框遮罩问题 */
+body.modal-open {
+    overflow: auto !important;
+    padding-right: 0 !important;
+}
+
+.modal-backdrop.show {
+    opacity: 0.5;
+}
+
+.modal-backdrop.fade {
+    transition: opacity 0.15s linear;
+}
+
+/* 主要内容区域 */
+main.container {
+    /* padding-top 和 padding-bottom 已在 base.html 中通过 style 属性设置 */
+}
+
+/* 页脚样式 */
+.footer {
+    background-color: #ffffff !important; /* 白色背景 */
+    font-size: 0.875em;
+    border-top: 1px solid var(--border-color) !important;
+}
+
+.footer .custom-link-color {
+    color: #495057;
+}
+
+.footer .custom-link-color:hover {
+    color: #0ABAB5;
+}
+
+/* Flash 消息的自定义样式 */
+.alert {
+    border-radius: var(--border-radius-md); /* 统一圆角 */
+}
+
+/* 按钮全局样式 */
+.btn {
+    border-radius: var(--border-radius-md); /* 统一所有按钮的圆角 */
+    transition: all 0.2s ease-in-out;
+}
+
+/* 蒂芙尼蓝主按钮 */
+.btn-tiffany {
+    background-color: var(--tiffany-blue);
+    border-color: var(--tiffany-blue);
+    color: #fff;
+}
+
+.btn-tiffany:hover, .btn-tiffany:focus, .btn-tiffany:active {
+    background-color: var(--tiffany-blue-dark);
+    border-color: var(--tiffany-blue-dark);
+    color: #fff;
+}
+
+/* 蒂芙尼蓝描边按钮 */
+.btn-outline-tiffany {
+    color: var(--tiffany-blue);
+    border-color: var(--tiffany-blue);
+}
+
+.btn-outline-tiffany:hover,
+.btn-outline-tiffany:focus,
+.btn-outline-tiffany:active {
+    color: #fff;
+    background-color: var(--tiffany-blue);
+    border-color: var(--tiffany-blue);
+}
+
+/* 统一所有按钮悬停效果 */
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 文本颜色辅助类 */
+.text-tiffany {
+    color: var(--tiffany-blue) !important;
+}
+
+/* 自定义 Bootstrap 选项卡样式 */
+.nav-tabs .nav-link {
+    border: 1px solid transparent; /* 移除默认边框 */
+    border-bottom: 2px solid transparent; /* 为激活状态预留空间 */
+    color: #6c757d; /* 中性色文字 */
+    transition: color .15s ease-in-out, border-color .15s ease-in-out;
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--border-radius-sm) var(--border-radius-sm) 0 0; /* 仅顶部圆角 */
+}
+
+.nav-tabs .nav-link:hover {
+    border-color: transparent transparent var(--border-color) transparent; /* 底部悬停效果 */
+    color: var(--tiffany-blue);
+}
+
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
+    color: var(--tiffany-blue); /* 蒂芙尼蓝文字 */
+    background-color: #f8f9fa; /* 非常浅的背景，或 #fff */
+    border-color: transparent transparent var(--tiffany-blue) transparent; /* 蒂芙尼蓝底部高亮 */
+    font-weight: 600;
+}
+
+/* 移除选项卡内容的边框（如果 admin.html 中 tab-content 有边框的话） */
+.tab-content {
+    /* border: none; */ /* 如果需要可以取消注释 */
+}
+
+/* 训练标签容器样式 */
+.tag-container {
+    background-color: #f8f9fa;
+    border-radius: var(--border-radius-md); /* 统一圆角 */
+    padding: 1rem;
+    min-height: 200px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+/* 训练标签按钮样式 */
+.tag-btn {
+    margin: 0.25rem;
+    transition: all 0.2s ease-in-out;
+    font-size: 0.875rem;
+    border-radius: var(--border-radius-md); /* 统一圆角 */
+}
+
+/* 卡片背景样式 */
+.card {
+    border: none;
+    border-radius: var(--border-radius-lg); /* 统一使用大圆角 */
+    transition: box-shadow 0.3s ease;
+    overflow: hidden; /* 确保内容不超出圆角 */
+}
+
+/* 卡片阴影效果 */
+.card:hover {
+    box-shadow: var(--box-shadow-md) !important;
+}
+
+/* 表单元素统一样式 */
+.form-control, .form-select {
+    border-radius: var(--border-radius-md);
+    border-color: var(--border-color);
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--tiffany-blue);
+    box-shadow: 0 0 0 0.25rem rgba(10, 186, 181, 0.25);
+}
+
+/* 模态框统一样式 */
+.modal-content {
+    border-radius: var(--border-radius-lg);
+    border: none;
+    overflow: hidden;
+}
+
+.modal-header {
+    border-bottom-color: var(--border-color);
+}
+
+.modal-footer {
+    border-top-color: var(--border-color);
+} 

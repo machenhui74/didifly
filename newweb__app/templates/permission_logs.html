@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} - {{ super() }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4" style="background-color: var(--tiffany-blue-xlight, #f0f8ff); padding: 20px; border-radius: var(--border-radius-md, 0.5rem);">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="app-title">{{ title }}</h1>
+        <a href="{{ url_for('admin.admin') }}" class="btn btn-outline-tiffany">
+            <i class="bi bi-arrow-left me-1"></i>返回管理面板
+        </a>
+    </div>
+
+    <!-- 筛选器 -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <form method="GET" class="row g-3">
+                <div class="col-md-6">
+                    <label for="userFilter" class="form-label">筛选用户</label>
+                    <input type="text" class="form-control" id="userFilter" name="user" 
+                           value="{{ user_filter }}" placeholder="输入用户账号或姓名">
+                </div>
+                <div class="col-md-3">
+                    <label for="limitFilter" class="form-label">显示数量</label>
+                    <select class="form-select" id="limitFilter" name="limit">
+                        <option value="20" {% if request.args.get('limit', '50') == '20' %}selected{% endif %}>20条</option>
+                        <option value="50" {% if request.args.get('limit', '50') == '50' %}selected{% endif %}>50条</option>
+                        <option value="100" {% if request.args.get('limit', '50') == '100' %}selected{% endif %}>100条</option>
+                    </select>
+                </div>
+                <div class="col-md-3 d-flex align-items-end">
+                    <button type="submit" class="btn btn-tiffany me-2">筛选</button>
+                    <a href="{{ url_for('admin.permission_logs') }}" class="btn btn-outline-secondary">重置</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 权限变更日志表格 -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-white">
+            <h5 class="mb-0 text-tiffany">权限变更记录</h5>
+        </div>
+        <div class="card-body">
+            {% if logs %}
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">时间</th>
+                            <th scope="col">目标用户</th>
+                            <th scope="col">权限变更</th>
+                            <th scope="col">操作人</th>
+                            <th scope="col">操作类型</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for log in logs %}
+                        <tr>
+                            <td class="text-muted">
+                                <small>{{ log.timestamp[:19].replace('T', ' ') }}</small>
+                            </td>
+                            <td>
+                                <strong>{{ log.target_user_name }}</strong>
+                                <br><small class="text-muted">{{ log.target_user }}</small>
+                            </td>
+                            <td>
+                                {% if log.old_role %}
+                                <span class="badge bg-secondary me-1">{{ log.old_role_name }}</span>
+                                <i class="bi bi-arrow-right mx-1"></i>
+                                {% endif %}
+                                <span class="badge bg-{% if log.new_role == 'admin' %}danger{% elif log.new_role == 'principal' %}warning{% elif log.new_role == 'assessor' %}primary{% else %}secondary{% endif %}">
+                                    {{ log.new_role_name }}
+                                </span>
+                            </td>
+                            <td>
+                                <strong>{{ log.operator_name }}</strong>
+                                <br><small class="text-muted">{{ log.operator_user }}</small>
+                            </td>
+                            <td>
+                                <span class="badge bg-info">
+                                    {% if log.old_role %}权限变更{% else %}新用户{% endif %}
+                                </span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 分页导航 -->
+            {% if has_prev or has_next %}
+            <nav aria-label="权限日志分页" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    {% if has_prev %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('admin.permission_logs', page=page-1, limit=request.args.get('limit', 50), user=user_filter) }}">
+                            <i class="bi bi-chevron-left"></i> 上一页
+                        </a>
+                    </li>
+                    {% endif %}
+                    
+                    <li class="page-item active">
+                        <span class="page-link">第 {{ page }} 页</span>
+                    </li>
+                    
+                    {% if has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('admin.permission_logs', page=page+1, limit=request.args.get('limit', 50), user=user_filter) }}">
+                            下一页 <i class="bi bi-chevron-right"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+
+            {% else %}
+            <div class="text-center py-5">
+                <i class="bi bi-journal-x text-muted" style="font-size: 3rem;"></i>
+                <h5 class="text-muted mt-3">暂无权限变更记录</h5>
+                <p class="text-muted">当管理员修改用户权限时，相关记录会显示在这里。</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+/* 统一按钮样式 */
+.btn-tiffany {
+    background-color: var(--tiffany-blue, #0ABAB5);
+    border-color: var(--tiffany-blue, #0ABAB5);
+    color: white;
+    font-weight: 500;
+}
+
+.btn-tiffany:hover {
+    background-color: var(--tiffany-blue-dark, #089A94);
+    border-color: var(--tiffany-blue-dark, #089A94);
+    color: white;
+}
+
+.btn-outline-tiffany {
+    border-color: var(--tiffany-blue, #0ABAB5);
+    color: var(--tiffany-blue, #0ABAB5);
+    background-color: transparent;
+}
+
+.btn-outline-tiffany:hover {
+    background-color: var(--tiffany-blue, #0ABAB5);
+    border-color: var(--tiffany-blue, #0ABAB5);
+    color: white;
+}
+
+/* 表单样式 */
+.form-control:focus {
+    border-color: var(--tiffany-blue, #0ABAB5);
+    box-shadow: 0 0 0 0.2rem rgba(10, 186, 181, 0.25);
+}
+
+/* 表格样式优化 */
+.table th {
+    color: var(--tiffany-blue, #0ABAB5);
+    font-weight: 600;
+    border-bottom: 2px solid var(--tiffany-blue-light, #b3e5fc);
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(10, 186, 181, 0.05);
+}
+
+/* 分页样式 */
+.pagination .page-link {
+    color: var(--tiffany-blue, #0ABAB5);
+    border-color: #dee2e6;
+}
+
+.pagination .page-link:hover {
+    color: var(--tiffany-blue-dark, #089A94);
+    background-color: rgba(10, 186, 181, 0.1);
+    border-color: var(--tiffany-blue, #0ABAB5);
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--tiffany-blue, #0ABAB5);
+    border-color: var(--tiffany-blue, #0ABAB5);
+}
+
+.text-tiffany {
+    color: var(--tiffany-blue, #0ABAB5);
+}
+
+.app-title {
+    color: var(--tiffany-blue, #0ABAB5);
+}
+
+/* 响应式优化 */
+@media (max-width: 768px) {
+    .table-responsive {
+        font-size: 0.875rem;
+    }
+    
+    .badge {
+        font-size: 0.7rem;
+    }
+}
+</style>
+{% endblock %} 

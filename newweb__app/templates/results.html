@@ -1,0 +1,593 @@
+{% extends "base.html" %}
+
+{% block title %}测评结果 - {{ super() }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4" style="background-color: var(--tiffany-blue-xlight, #f0f8ff); padding: 20px; border-radius: var(--border-radius-md, 0.5rem);">
+    <h1 class="mb-4 app-title">测评结果</h1>
+    
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0 text-tiffany">学生测评报告</h5>
+        </div>
+        <div class="card-body">
+            {% if results_data %}
+            <!-- 基本信息 -->
+            <div class="mb-4">
+                        <h5 class="mb-3">学生基本信息</h5>
+                        <div class="info-card">
+                            <div class="student-name-highlight">
+                                <i class="bi bi-person-circle me-2"></i>
+                                <span class="fw-bold">{{ results_data.name }}</span>
+                            </div>
+                            <div class="row g-3 mt-2">
+                                <div class="col-6 col-md-3">
+                                    <div class="info-item">
+                                        <small class="text-muted">年龄</small>
+                                        <div class="fw-semibold">{{ results_data.age }} 岁</div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="info-item">
+                                        <small class="text-muted">测评日期</small>
+                                        <div class="fw-semibold">{{ results_data.test_date }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="info-item">
+                                        <small class="text-muted">训练中心</small>
+                                        <div class="fw-semibold">{{ results_data.training_center }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="info-item">
+                                        <small class="text-muted">测评师</small>
+                                        <div class="fw-semibold">{{ results_data.assessor }}</div>
+                                    </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 视觉能力测评结果 -->
+            <div class="mb-4">
+                        <h5 class="mb-3">视觉能力测评结果</h5>
+                        
+                        <!-- 移动端卡片式布局 -->
+                        <div class="d-md-none">
+                            <div class="row g-3">
+                                <div class="col-6">
+                                    <div class="result-card">
+                                        <div class="result-header">视觉广度</div>
+                                        <div class="result-score">{{ results_data.vb }} 秒</div>
+                                        <div class="result-level current">{{ results_data.vb_current }}</div>
+                                        <div class="result-target">
+                                            <small>目标: {{ results_data.vb_target }} 秒</small>
+                                            <div class="target-level">{{ results_data.vb_target_eval }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="result-card">
+                                        <div class="result-header">视觉辨别</div>
+                                        <div class="result-score">{{ results_data.vd }} 个</div>
+                                        <div class="result-level current">{{ results_data.vd_current }}</div>
+                                        <div class="result-target">
+                                            <small>目标: {{ results_data.vd_target }} 个</small>
+                                            <div class="target-level">{{ results_data.vd_target_eval }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="result-card">
+                                        <div class="result-header">视动统合</div>
+                                        <div class="result-score">{{ results_data.vm }} 分</div>
+                                        <div class="result-level current">{{ results_data.vm_current }}</div>
+                                        <div class="result-target">
+                                            <small>目标: {{ results_data.vm_target }} 分</small>
+                                            <div class="target-level">{{ results_data.vm_target_eval }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="result-card">
+                                        <div class="result-header">视觉记忆</div>
+                                        <div class="result-score">{{ results_data.vm2 }} 分</div>
+                                        <div class="result-level current">{{ results_data.vm2_current }}</div>
+                                        <div class="result-target">
+                                            <small>目标: {{ results_data.vm2_target }} 分</small>
+                                            <div class="target-level">{{ results_data.vm2_target_eval }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 桌面端表格布局 -->
+                        <div class="d-none d-md-block">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>测评项目</th>
+                                <th>测评分数</th>
+                                <th>当前评级</th>
+                                <th>目标分数</th>
+                                <th>目标评级</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>视觉广度</td>
+                                <td>{{ results_data.vb }} 秒</td>
+                                            <td><span class="badge bg-primary">{{ results_data.vb_current }}</span></td>
+                                <td>{{ results_data.vb_target }} 秒</td>
+                                            <td><span class="badge bg-success">{{ results_data.vb_target_eval }}</span></td>
+                            </tr>
+                            <tr>
+                                <td>视觉辨别</td>
+                                <td>{{ results_data.vd }} 个</td>
+                                            <td><span class="badge bg-primary">{{ results_data.vd_current }}</span></td>
+                                <td>{{ results_data.vd_target }} 个</td>
+                                            <td><span class="badge bg-success">{{ results_data.vd_target_eval }}</span></td>
+                            </tr>
+                            <tr>
+                                <td>视动统合</td>
+                                <td>{{ results_data.vm }} 分</td>
+                                            <td><span class="badge bg-primary">{{ results_data.vm_current }}</span></td>
+                                <td>{{ results_data.vm_target }} 分</td>
+                                            <td><span class="badge bg-success">{{ results_data.vm_target_eval }}</span></td>
+                            </tr>
+                            <tr>
+                                <td>视觉记忆</td>
+                                <td>{{ results_data.vm2 }} 分</td>
+                                            <td><span class="badge bg-primary">{{ results_data.vm2_current }}</span></td>
+                                <td>{{ results_data.vm2_target }} 分</td>
+                                            <td><span class="badge bg-success">{{ results_data.vm2_target_eval }}</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                            </div>
+                </div>
+            </div>
+
+            <!-- 听觉能力测评结果 (可选) -->
+            {% if results_data.ab is defined and results_data.ab is not none %}
+            <div class="mb-4">
+                        <h5 class="mb-3">听觉能力测评结果</h5>
+                        
+                        <!-- 移动端卡片式布局 -->
+                        <div class="d-md-none">
+                            <div class="row g-3">
+                                <div class="col-6">
+                                    <div class="result-card">
+                                        <div class="result-header">听觉广度</div>
+                                        <div class="result-score">{{ results_data.ab }} 分</div>
+                                        <div class="result-level current">{{ results_data.ab_current }}</div>
+                                        <div class="result-target">
+                                            <small>目标: {{ results_data.ab_target }} 分</small>
+                                            <div class="target-level">{{ results_data.ab_target_eval }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="result-card">
+                                        <div class="result-header">听觉分辨</div>
+                                        <div class="result-score">{{ results_data.ad }} 个</div>
+                                        <div class="result-level current">{{ results_data.ad_current }}</div>
+                                        <div class="result-target">
+                                            <small>目标: {{ results_data.ad_target }} 个</small>
+                                            <div class="target-level">{{ results_data.ad_target_eval }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="result-card">
+                                        <div class="result-header">听动统合</div>
+                                        <div class="result-score">{{ results_data.am }} 分</div>
+                                        <div class="result-level current">{{ results_data.am_current }}</div>
+                                        <div class="result-target">
+                                            <small>目标: {{ results_data.am_target }} 分</small>
+                                            <div class="target-level">{{ results_data.am_target_eval }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="result-card">
+                                        <div class="result-header">听觉记忆</div>
+                                        <div class="result-score">{{ results_data.am2 }} 分</div>
+                                        <div class="result-level current">{{ results_data.am2_current }}</div>
+                                        <div class="result-target">
+                                            <small>目标: {{ results_data.am2_target }} 分</small>
+                                            <div class="target-level">{{ results_data.am2_target_eval }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 桌面端表格布局 -->
+                        <div class="d-none d-md-block">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>测评项目</th>
+                                <th>测评分数</th>
+                                <th>当前评级</th>
+                                <th>目标分数</th>
+                                <th>目标评级</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>听觉广度</td>
+                                <td>{{ results_data.ab }} 分</td>
+                                            <td><span class="badge bg-primary">{{ results_data.ab_current }}</span></td>
+                                <td>{{ results_data.ab_target }} 分</td>
+                                            <td><span class="badge bg-success">{{ results_data.ab_target_eval }}</span></td>
+                            </tr>
+                            <tr>
+                                <td>听觉分辨</td>
+                                <td>{{ results_data.ad }} 个</td>
+                                            <td><span class="badge bg-primary">{{ results_data.ad_current }}</span></td>
+                                <td>{{ results_data.ad_target }} 个</td>
+                                            <td><span class="badge bg-success">{{ results_data.ad_target_eval }}</span></td>
+                            </tr>
+                            <tr>
+                                <td>听动统合</td>
+                                <td>{{ results_data.am }} 分</td>
+                                            <td><span class="badge bg-primary">{{ results_data.am_current }}</span></td>
+                                <td>{{ results_data.am_target }} 分</td>
+                                            <td><span class="badge bg-success">{{ results_data.am_target_eval }}</span></td>
+                            </tr>
+                            <tr>
+                                <td>听觉记忆</td>
+                                <td>{{ results_data.am2 }} 分</td>
+                                            <td><span class="badge bg-primary">{{ results_data.am2_current }}</span></td>
+                                <td>{{ results_data.am2_target }} 分</td>
+                                            <td><span class="badge bg-success">{{ results_data.am2_target_eval }}</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                            </div>
+                </div>
+            </div>
+            {% endif %}
+
+                    <!-- 操作按钮 -->
+                    <div class="action-buttons">
+                        <div class="row g-2">
+                            <div class="col-12 col-md-6">
+                                <a href="{{ url_for('student.download_report') }}" class="btn btn-tiffany w-100">
+                                    <i class="bi bi-download me-2"></i>下载测评报告
+                </a>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <a href="{{ url_for('student.select_weeks') }}" class="btn btn-tiffany w-100">
+                                    <i class="bi bi-archive me-2"></i>下载训练方案
+                </a>
+                            </div>
+                            <div class="col-12">
+                                <a href="{{ url_for('main.index') }}" class="btn btn-outline-secondary w-100">
+                                    <i class="bi bi-house-door me-2"></i>返回首页
+                                </a>
+                            </div>
+                        </div>
+            </div>
+            {% else %}
+            <div class="alert alert-warning" role="alert">
+                        <h6 class="alert-heading">
+                            <i class="bi bi-exclamation-triangle me-2"></i>未找到测评结果
+                        </h6>
+                        <p class="mb-2">未找到测评结果数据。</p>
+                        <hr>
+                        <p class="mb-0">
+                            请先 <a href="{{ url_for('main.index') }}" class="alert-link">提交学生测评数据</a>。
+                        </p>
+            </div>
+            {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* 统一按钮样式 */
+.btn-tiffany {
+    background-color: var(--tiffany-blue, #0ABAB5);
+    border-color: var(--tiffany-blue, #0ABAB5);
+    color: white;
+    font-weight: 500;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.btn-tiffany:hover {
+    background-color: var(--tiffany-blue-dark, #089A94);
+    border-color: var(--tiffany-blue-dark, #089A94);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(10, 186, 181, 0.3);
+}
+
+.btn-outline-secondary {
+    border-color: #6c757d;
+    color: #6c757d;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: white;
+    transform: translateY(-1px);
+}
+
+/* 信息卡片样式 */
+.info-card {
+    background-color: var(--tiffany-blue-xlight, #f8fdff);
+    border: 1px solid var(--tiffany-blue-light, #b3e5fc);
+    border-radius: var(--border-radius-md, 0.5rem);
+    padding: 1.5rem;
+}
+
+.student-name-highlight {
+    display: flex;
+    align-items: center;
+    font-size: 1.25rem;
+    color: var(--tiffany-blue, #0ABAB5);
+    margin-bottom: 0.5rem;
+}
+
+.info-item {
+    text-align: center;
+    padding: 0.75rem;
+    background-color: white;
+    border-radius: var(--border-radius-sm, 0.25rem);
+    border: 1px solid var(--tiffany-blue-light, #e0f7fa);
+}
+
+/* 结果卡片样式（移动端） */
+.result-card {
+    background: linear-gradient(135deg, var(--tiffany-blue-xlight, #f8fdff) 0%, white 100%);
+    border: 1px solid var(--tiffany-blue-light, #b3e5fc);
+    border-radius: var(--border-radius-md, 0.5rem);
+    padding: 1rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.result-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(10, 186, 181, 0.15);
+    border-color: var(--tiffany-blue, #0ABAB5);
+}
+
+.result-header {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--tiffany-blue, #0ABAB5);
+    margin-bottom: 0.5rem;
+}
+
+.result-score {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.result-level.current {
+    background-color: var(--tiffany-blue, #0ABAB5);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--border-radius-sm, 0.25rem);
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    display: inline-block;
+}
+
+.result-target {
+    margin-top: auto;
+}
+
+.result-target small {
+    color: #6c757d;
+    font-size: 0.75rem;
+}
+
+.target-level {
+    background-color: #28a745;
+    color: white;
+    padding: 0.2rem 0.4rem;
+    border-radius: var(--border-radius-sm, 0.25rem);
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-top: 0.25rem;
+    display: inline-block;
+}
+
+/* 表格样式优化 */
+.table th {
+    color: var(--tiffany-blue, #0ABAB5);
+    font-weight: 600;
+    border-bottom: 2px solid var(--tiffany-blue-light, #b3e5fc);
+    background-color: var(--tiffany-blue-xlight, #f8fdff) !important;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(10, 186, 181, 0.05);
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+/* 操作按钮区域 */
+.action-buttons {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--tiffany-blue-light, #e0f7fa);
+}
+
+/* 区域标题样式 */
+h5 {
+    color: var(--tiffany-blue, #0ABAB5);
+    font-weight: 600;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--tiffany-blue-light, #b3e5fc);
+}
+
+.text-tiffany {
+    color: var(--tiffany-blue, #0ABAB5);
+}
+
+.app-title {
+    color: var(--tiffany-blue, #0ABAB5);
+}
+
+/* 移动端优化 */
+@media (max-width: 768px) {
+    .container-fluid {
+        padding: 15px !important;
+    }
+    
+    .info-card {
+        padding: 1rem;
+    }
+    
+    .student-name-highlight {
+        font-size: 1.1rem;
+        justify-content: center;
+        text-align: center;
+    }
+    
+    .info-item {
+        padding: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .result-card {
+        padding: 0.75rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .result-score {
+        font-size: 1.25rem;
+    }
+    
+    .result-header {
+        font-size: 0.8rem;
+    }
+    
+    .action-buttons .btn {
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+        padding: 0.75rem 1rem;
+    }
+    
+    h5 {
+        font-size: 1.1rem;
+    }
+    
+    .app-title {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+}
+
+/* 超小屏幕优化 */
+@media (max-width: 480px) {
+    .container-fluid {
+        padding: 10px !important;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .result-card {
+        padding: 0.5rem;
+    }
+    
+    .result-score {
+        font-size: 1.1rem;
+    }
+    
+    .info-item {
+        padding: 0.4rem;
+    }
+    
+    .student-name-highlight {
+        font-size: 1rem;
+    }
+}
+
+/* 触摸设备优化 */
+@media (hover: none) and (pointer: coarse) {
+    .result-card:hover {
+        transform: none;
+        box-shadow: none;
+    }
+    
+    .btn-tiffany:hover,
+    .btn-outline-secondary:hover {
+        transform: none;
+    }
+    
+    .btn-tiffany:active {
+        background-color: var(--tiffany-blue-dark, #089A94);
+        transform: scale(0.98);
+    }
+    
+    .btn-outline-secondary:active {
+        background-color: #6c757d;
+        transform: scale(0.98);
+    }
+}
+
+/* 高对比度模式支持 */
+@media (prefers-contrast: high) {
+    .result-card,
+    .info-card {
+        border-width: 2px;
+    }
+    
+    .btn-tiffany,
+    .btn-outline-secondary {
+        border-width: 2px;
+    }
+}
+
+/* 减少动画效果 */
+@media (prefers-reduced-motion: reduce) {
+    .result-card,
+    .btn-tiffany,
+    .btn-outline-secondary {
+        transition: none;
+    }
+    
+    .result-card:hover,
+    .btn-tiffany:hover,
+    .btn-outline-secondary:hover {
+        transform: none;
+    }
+}
+</style>
+{% endblock %} 
