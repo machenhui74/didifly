@@ -5,23 +5,5 @@
         "store": "总部",
         "role": "admin",
         "is_encrypted": true
-    },
-    "18899889778": {
-        "password": "ae269367566919118a553b627cfc852c950c8f423d9f251e31fe8307b684cdec",
-        "name": "大傻逼",
-        "store": "北京朝阳店",
-        "role": "principal",
-        "is_encrypted": true,
-        "created_users_count": 1,
-        "created_users_list": [
-            "17681603753"
-        ]
-    },
-    "17681603753": {
-        "password": "ae269367566919118a553b627cfc852c950c8f423d9f251e31fe8307b684cdec",
-        "name": "shabi",
-        "store": "",
-        "role": "teacher",
-        "is_encrypted": true
     }
 }
