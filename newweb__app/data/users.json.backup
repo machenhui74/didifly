@@ -1,0 +1,92 @@
+{
+    "admin1": {
+        "password": "scrypt:32768:8:1$13l1n1lezWVb2RKA$9d20fc3a643a4fb39fd3e25f26cddeec83c2ffb8ced9ca12e3241572f137d7fc4d09c1b3b8a920454f5815b00905e018a8f6e07395e7c747072b9f3b551c1878",
+        "name": "系统管理员1",
+        "store": "总部",
+        "role": "admin",
+        "is_encrypted": true
+    },
+    "admin2": {
+        "password": "scrypt:32768:8:1$5Rk621t1QR2DpiHB$1e9eae115953ea7a99fe739a3dbfa4a8594e1a5724753bb8f3f1fdbe5e7e99df69a15ac2a96e339b2ec3dc862a59365556a4139d9b35150f8a03219fdc456c05",
+        "name": "系统管理员2",
+        "store": "总部",
+        "role": "admin",
+        "is_encrypted": true
+    },
+    "admin3": {
+        "password": "scrypt:32768:8:1$VoYeNu6k3Rkbhv8R$a51bd34180ab3a5f863fb3e17fb937d8b34de3726cd6254d56dcdbbdc353cc3c180e83126db282ed5a861b7ae6befd9cbcb0593dd1889eff52bff43fbb022c78",
+        "name": "系统管理员3",
+        "store": "总部",
+        "role": "admin",
+        "is_encrypted": true
+    },
+    "principal1": {
+        "password": "scrypt:32768:8:1$rPr7dowjHX64Wv0Q$b28226acebd458457b39d9626fc0e6b67e56ce86229bba89a171db4aa6e1acbc61b95eac7faeff9d552582f656d93a4618734a5860ce1f7ee449982dbfe4e397",
+        "name": "校长张三",
+        "store": "北京训练中心",
+        "role": "principal",
+        "is_encrypted": true,
+        "created_users_count": 0,
+        "created_users_list": []
+    },
+    "principal2": {
+        "password": "scrypt:32768:8:1$k0ZC3a9UD31uyNA4$68e71232588dbf0c25bd332f4c60e18ab6bfb55832464fb990c9eaf152201a869e0dcfc42652de29dc34fbd2fe56625e387cb45ed293cb2f99fb10bcbf8ace1c",
+        "name": "校长李四",
+        "store": "上海训练中心",
+        "role": "principal",
+        "is_encrypted": true,
+        "created_users_count": 0,
+        "created_users_list": []
+    },
+    "principal3": {
+        "password": "scrypt:32768:8:1$8vuc5kll7SduWRXn$3744d4ea9e359df1af326707639ef34e37599cf9a0df8a0de9590002d815b7e6a8f1ec3786a9a243c34500ff6873cb738d50dd1a5ad467338dbb62a41f7231c6",
+        "name": "校长王五",
+        "store": "广州训练中心",
+        "role": "principal",
+        "is_encrypted": true,
+        "created_users_count": 0,
+        "created_users_list": []
+    },
+    "assessor1": {
+        "password": "scrypt:32768:8:1$1YAI94xH771bb7kJ$07a0c020686b0ea2a309387a7c089a4315bfb5abaccac229587e85bcf70f0e4a95c684446281fea625a55d4fb48e5dab35d1935d8a989d8de638a44ef8f9b017",
+        "name": "测评师赵六",
+        "store": "北京训练中心",
+        "role": "assessor",
+        "is_encrypted": true
+    },
+    "assessor2": {
+        "password": "scrypt:32768:8:1$64sgWkrLFnHRtuLK$cd642d0a43352dcdfff10ea007b73ea4da9326a34043f1b95a822fa9878bd8a32b4d3a0fb757440592b6f7e2f63780f1528eb67eae4fff8f42772d454313cb76",
+        "name": "测评师孙七",
+        "store": "上海训练中心",
+        "role": "assessor",
+        "is_encrypted": true
+    },
+    "assessor3": {
+        "password": "scrypt:32768:8:1$gG5C9BvN5rOP3rF8$b33e1b994d429fd360988ef9ead17e5816f8875932ba55c66d2cb74016167b7ce4df98b30fc8a0e9bd6054cc33b6f23a304fbeedaa02f974a5389e3dbee4408e",
+        "name": "测评师周八",
+        "store": "广州训练中心",
+        "role": "assessor",
+        "is_encrypted": true
+    },
+    "teacher1": {
+        "password": "scrypt:32768:8:1$ygDoStjtyMFuv6bE$03bb7515e10dd29076fba301761241bed51ebbb13e2d6ce03316aa1a6e5f63ce2c16bdc8f21b6548c51f7f145183c0e3719c10238808c2c75c4a85d379aabb12",
+        "name": "老师吴九",
+        "store": "北京训练中心",
+        "role": "teacher",
+        "is_encrypted": true
+    },
+    "teacher2": {
+        "password": "scrypt:32768:8:1$BeiJhQmGofWcLmmB$e205e62b7abcf7d6ff11600716842a9f5737722ab18ec55f7ca2ab5f411bb08ae9a4ffa8aafa76abf4c0dabc65bc67e2447300ab97b9362a3f1a1e4a8f869249",
+        "name": "老师郑十",
+        "store": "上海训练中心",
+        "role": "teacher",
+        "is_encrypted": true
+    },
+    "teacher3": {
+        "password": "scrypt:32768:8:1$QET5jX7wjdbpLUp3$bd0bb60764e9d13c08b3adfd084e70729a314a2af6277376de2bc9ca05d03e6fcc0c32be249e5f156c7bc5b926df02f7c4abd2311efb307ba15d2f77dcb0eaae",
+        "name": "老师钱一",
+        "store": "广州训练中心",
+        "role": "teacher",
+        "is_encrypted": true
+    }
+}

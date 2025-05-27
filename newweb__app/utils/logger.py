@@ -149,8 +149,11 @@ class WinstonLogger:
             if log_dir:
                 os.makedirs(log_dir, exist_ok=True)
                 
+            # 确保使用绝对路径，避免轮转时路径错误
+            abs_log_file = os.path.abspath(log_file)
+            
             file_handler = logging.handlers.RotatingFileHandler(
-                log_file,
+                abs_log_file,
                 maxBytes=max_bytes,
                 backupCount=backup_count,
                 encoding='utf-8'

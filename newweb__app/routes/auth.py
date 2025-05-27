@@ -6,6 +6,7 @@
 
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from datetime import datetime
+from flask_wtf import FlaskForm
 
 from ..logic.auth import login_user as auth_login_user, UserRole
 
@@ -33,6 +34,7 @@ def login():
     GET: 显示登录表单
     POST: 处理登录请求
     """
+    form = LoginForm()
     if 'user_id' in session:
         user_role = session.get('user_role', 'assessor')
         if user_role == UserRole.TEACHER:
@@ -63,7 +65,7 @@ def login():
         
         flash('账号或密码错误！', 'error')
     
-    return render_template('login.html')
+    return render_template('login.html', form=form)
 
 @auth_bp.route('/logout')
 def logout():
@@ -74,3 +76,7 @@ def logout():
     session.clear()
     flash(f'再见，{user_name}！', 'info')
     return redirect(url_for('auth.login')) 
+
+# 定义一个简单的登录表单类
+class LoginForm(FlaskForm):
+    pass 

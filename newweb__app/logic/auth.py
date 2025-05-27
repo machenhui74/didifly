@@ -57,11 +57,14 @@ def encrypt_password(password):
     return hashlib.sha256(password.encode('utf-8')).hexdigest()
 
 def verify_password(stored_password, provided_password):
-    """验证密码"""
-    # 对提供的密码进行加密，然后与存储的密码比较
-    provided_hash = encrypt_password(provided_password)
-    return provided_hash == stored_password
-
+    """验证密码 - 增强版本，支持错误恢复"""
+    try:
+        # 对提供的密码进行加密，然后与存储的密码比较
+        provided_hash = encrypt_password(provided_password)
+        return provided_hash == stored_password
+    except Exception as e:
+        logger.error(f"密码验证失败: {e}")
+        return False
 # -----------------------------
 # 权限变更日志管理
 # -----------------------------

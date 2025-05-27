@@ -1,0 +1,104 @@
+{
+    "admin1": {
+        "password": "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9",
+        "name": "系统管理员1",
+        "store": "总部",
+        "role": "admin",
+        "is_encrypted": true,
+        "password_reset_required": true
+    },
+    "admin2": {
+        "password": "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9",
+        "name": "系统管理员2",
+        "store": "总部",
+        "role": "admin",
+        "is_encrypted": true,
+        "password_reset_required": true
+    },
+    "admin3": {
+        "password": "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9",
+        "name": "系统管理员3",
+        "store": "总部",
+        "role": "admin",
+        "is_encrypted": true,
+        "password_reset_required": true
+    },
+    "principal1": {
+        "password": "3549f22fb8622a6d216ef2dcd592e04ed1f1e604cef032d7e5c425e8e72a878e",
+        "name": "校长张三",
+        "store": "北京训练中心",
+        "role": "principal",
+        "is_encrypted": true,
+        "created_users_count": 0,
+        "created_users_list": [],
+        "password_reset_required": true
+    },
+    "principal2": {
+        "password": "3549f22fb8622a6d216ef2dcd592e04ed1f1e604cef032d7e5c425e8e72a878e",
+        "name": "校长李四",
+        "store": "上海训练中心",
+        "role": "principal",
+        "is_encrypted": true,
+        "created_users_count": 0,
+        "created_users_list": [],
+        "password_reset_required": true
+    },
+    "principal3": {
+        "password": "3549f22fb8622a6d216ef2dcd592e04ed1f1e604cef032d7e5c425e8e72a878e",
+        "name": "校长王五",
+        "store": "广州训练中心",
+        "role": "principal",
+        "is_encrypted": true,
+        "created_users_count": 0,
+        "created_users_list": [],
+        "password_reset_required": true
+    },
+    "assessor1": {
+        "password": "a54dc8e10a38847ecc5a90753f23b80285a534c90cf5edb8f3a08d86ea93aa1e",
+        "name": "测评师赵六",
+        "store": "北京训练中心",
+        "role": "assessor",
+        "is_encrypted": true,
+        "password_reset_required": true
+    },
+    "assessor2": {
+        "password": "a54dc8e10a38847ecc5a90753f23b80285a534c90cf5edb8f3a08d86ea93aa1e",
+        "name": "测评师孙七",
+        "store": "上海训练中心",
+        "role": "assessor",
+        "is_encrypted": true,
+        "password_reset_required": true
+    },
+    "assessor3": {
+        "password": "a54dc8e10a38847ecc5a90753f23b80285a534c90cf5edb8f3a08d86ea93aa1e",
+        "name": "测评师周八",
+        "store": "广州训练中心",
+        "role": "assessor",
+        "is_encrypted": true,
+        "password_reset_required": true
+    },
+    "teacher1": {
+        "password": "cde383eee8ee7a4400adf7a15f716f179a2eb97646b37e089eb8d6d04e663416",
+        "name": "老师吴九",
+        "store": "北京训练中心",
+        "role": "teacher",
+        "is_encrypted": true,
+        "password_reset_required": true
+    },
+    "teacher2": {
+        "password": "cde383eee8ee7a4400adf7a15f716f179a2eb97646b37e089eb8d6d04e663416",
+        "name": "老师郑十",
+        "store": "上海训练中心",
+        "role": "teacher",
+        "is_encrypted": true,
+        "password_reset_required": true
+    },
+    "teacher3": {
+        "password": "cde383eee8ee7a4400adf7a15f716f179a2eb97646b37e089eb8d6d04e663416",
+        "name": "老师钱一",
+        "store": "广州训练中心",
+        "role": "teacher",
+        "is_encrypted": true,
+        "password_reset_required": true
+    }
+}

@@ -351,6 +351,7 @@
             {% endwith %}
 
             <form method="POST" action="{{ url_for('auth.login') }}" style="width: 100%;">
+                {{ form.hidden_tag() }}
                 <div class="form-floating">
                     <input type="text" class="form-control-new" id="username" name="username" placeholder="账号" required>
                     <label for="username">账号</label>

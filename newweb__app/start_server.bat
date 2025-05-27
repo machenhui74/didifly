@@ -35,7 +35,9 @@ if %errorlevel% neq 0 (
 
 REM Install dependencies
 echo Installing dependencies...
-pip install -r requirements.txt
+set PYTHONIOENCODING=utf-8
+set PIP_PYTHON_UTF8=1
+pip install --no-cache-dir -r requirements.txt
 if %errorlevel% neq 0 (
     echo Warning: Some dependencies may not have been installed correctly
 )

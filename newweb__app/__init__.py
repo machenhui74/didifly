@@ -91,6 +91,17 @@ def create_app(config_object=None):
     # 注册错误处理器
     register_error_handlers(app)
 
+    # 🔥 添加 CSRF 保护 - 新增
+    try:
+        from flask_wtf.csrf import CSRFProtect
+        csrf = CSRFProtect()
+        csrf.init_app(app)
+        app.logger.info("🛡️ CSRF保护已启用")
+    except ImportError:
+        app.logger.warning("⚠️ Flask-WTF 未安装，CSRF保护未启用。请运行 'pip install Flask-WTF'")
+    except Exception as e:
+        app.logger.error(f"❌ CSRF保护启用失败: {e}")
+
     app.logger.info('🚀 Flask 应用创建成功')
     return app
 
